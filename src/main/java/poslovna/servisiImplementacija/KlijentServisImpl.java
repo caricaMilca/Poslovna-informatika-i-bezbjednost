@@ -1,6 +1,5 @@
 package poslovna.servisiImplementacija;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import poslovna.model.Klijent;
-import poslovna.model.Role;
 import poslovna.model.UlogaKlijenta;
 import poslovna.model.UlogaKorisnika;
 import poslovna.repozitorijumi.DjelatnostRepozitorijum;
@@ -37,8 +35,8 @@ public class KlijentServisImpl implements KlijentServis {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		k.ulogaK = UlogaKlijenta.POSLOVNO;
 		k.uloga = UlogaKorisnika.Klijent;
-		k.roles = new ArrayList<Role>();
 		k.roles.add(roleServis.findOne(Long.valueOf(1)));
+		k.roles.add(roleServis.findOne(Long.valueOf(6)));
 		return new ResponseEntity<Klijent>(klijentRepozitorijum.save(k), HttpStatus.CREATED);
 	}
 
@@ -48,8 +46,8 @@ public class KlijentServisImpl implements KlijentServis {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		k.ulogaK = UlogaKlijenta.FIZICKO;
 		k.uloga = UlogaKorisnika.Klijent;
-		k.roles = new ArrayList<Role>();
 		k.roles.add(roleServis.findOne(Long.valueOf(1)));
+		k.roles.add(roleServis.findOne(Long.valueOf(6)));
 		return new ResponseEntity<Klijent>(klijentRepozitorijum.save(k), HttpStatus.CREATED);
 	}
 

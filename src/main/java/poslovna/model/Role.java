@@ -1,5 +1,6 @@
 package poslovna.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.CascadeType;
@@ -27,7 +28,7 @@ public class Role {
     public String name;
     @ManyToMany(mappedBy = "roles", cascade = { CascadeType.REMOVE, CascadeType.MERGE })
     @JsonIgnore
-    private Collection<Korisnik> users;
+    private Collection<Korisnik> users = new ArrayList<Korisnik>();
  
     @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.REMOVE, CascadeType.MERGE })
     @JoinTable(
@@ -37,7 +38,7 @@ public class Role {
         inverseJoinColumns = @JoinColumn(
           name = "privilege_id", referencedColumnName = "id"))
     @JsonIgnore
-    public Collection<Privilege> privileges;
+    public Collection<Privilege> privileges = new ArrayList<Privilege>();
 
 	public Role(String name) {
 		super();

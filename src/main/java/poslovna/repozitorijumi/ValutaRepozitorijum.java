@@ -9,10 +9,19 @@ import poslovna.model.Valuta;
 
 public interface ValutaRepozitorijum extends JpaRepository<Valuta, Long> {
 
-	Valuta findByZvanicnaSifra(String zvanicnaSifra);
+	Valuta findByZvanicnaSifra(Integer zvanicnaSifra);
 
-	@Query("select v from Valuta v where lower(v.zvanicnaSifra) like ?1 or lower(v.naziv) like ?2 or v.domicilna = ?3")
-	List<Valuta> findByZvanicnaSifraLikeOrNazivLikeOrDomicilna(String zvanicnaSifra, String naziv,
-			boolean domicilna);
+	@Query("select v from Valuta v where v.zvanicnaSifra = ?1 or lower(v.naziv) like ?2 or v.domicilna = ?3")
+	List<Valuta> findByZvanicnaSifraOrNazivLikeOrDomicilna(Integer zvanicnaSifra, String naziv,
+			Boolean domicilna);
+
+	@Query("select v from Valuta v where lower(v.naziv) like ?1 or v.domicilna = ?2")
+	List<Valuta> findByNazivLikeOrDomicilna(String naziv, Boolean domicilna);
+
+	@Query("select v from Valuta v where v.zvanicnaSifra = ?1 or lower(v.naziv) like ?2")
+	List<Valuta> findByZvanicnaSifraOrNazivLike(Integer zvanicnaSifra, String naziv);
+
+	@Query("select v from Valuta v where lower(v.naziv) like ?1")
+	List<Valuta> findByNazivLike(String naziv);
 
 }

@@ -24,9 +24,10 @@ public class DrzavaServisImpl implements DrzavaServis {
 	ValutaRepozitorijum valutaRepozitorijum;
 
 	@Override
-	public ResponseEntity<Drzava> registracijaDrzave(Drzava drzava) {
+	public ResponseEntity<Drzava> registracijaDrzave(Drzava drzava, Long idValute) {
 		if (drzavaRepozitorijum.findBySifra(drzava.sifra) != null)
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		drzava.valuta = valutaRepozitorijum.findOne(idValute);
 		return new ResponseEntity<Drzava>(drzavaRepozitorijum.save(drzava), HttpStatus.CREATED);
 	}
 

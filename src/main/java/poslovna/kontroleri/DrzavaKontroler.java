@@ -1,13 +1,11 @@
 package poslovna.kontroleri;
 
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,12 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import poslovna.autorizacija.AutorizacijaAnnotation;
 import poslovna.model.Drzava;
-import poslovna.model.Korisnik;
-import poslovna.model.Privilege;
-import poslovna.model.Role;
 import poslovna.servisi.DrzavaServis;
-import poslovna.servisi.ValutaServis;
 
 @RestController
 @RequestMapping("/drzava")
@@ -33,54 +28,32 @@ public class DrzavaKontroler {
 
 	@Autowired
 	DrzavaServis drzavaServis;
-	
-	@Autowired
-	ValutaServis valutaServis;
-	
+
+	@AutorizacijaAnnotation(imeMetode = "registracijaDrzave")
 	@PostMapping(path = "/registracijaDrzave/{idValute}")
-	public ResponseEntity<Drzava> registracijaDrzave(@Valid @RequestBody Drzava drzava, @PathVariable("idValute") Long idValute) {
-		if (authorize("registracijaDrzave") == "Ne")
-			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-		drzava.valuta = valutaServis.preuzmiValutu(idValute);
-		return drzavaServis.registracijaDrzave(drzava);
+	public ResponseEntity<Drzava> registracijaDrzave(@Valid @RequestBody Drzava drzava,
+			@PathVariable("idValute") Long idValute) {
+		return drzavaServis.registracijaDrzave(drzava, idValute);
 
 	}
 
+	@AutorizacijaAnnotation(imeMetode = "sveDrzave")
 	@GetMapping(path = "/sveDrzave")
 	public ResponseEntity<List<Drzava>> sveDrzave() {
-		if (authorize("sveDrzave") == "Ne")
-			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		return drzavaServis.sveDrzave();
 	}
-	
+
+	@AutorizacijaAnnotation(imeMetode = "sveDrzaveValute")
 	@GetMapping(path = "/sveDrzaveValute/{idValute}")
-	public ResponseEntity<List<Drzava>> sveDrzaveValute( @PathVariable("idValute") Long idValute) {
-		if (authorize("sveDrzaveValute") == "Ne")
-			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+	public ResponseEntity<List<Drzava>> sveDrzaveValute(@PathVariable("idValute") Long idValute) {
 		return drzavaServis.sveDrzaveValute(idValute);
 	}
-	
+
+	@AutorizacijaAnnotation(imeMetode = "pretraziDrzave")
 	@PutMapping(path = "/pretraziDrzave/{idValute}")
-	public ResponseEntity<List<Drzava>> pretraziDrzave(@RequestBody (required=false) Drzava drzava, @PathVariable("idValute") Long idValute) {
-		if (authorize("pretraziDrzave") == "Ne")
-			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+	public ResponseEntity<List<Drzava>> pretraziDrzave(@RequestBody(required = false) Drzava drzava,
+			@PathVariable("idValute") Long idValute) {
 		return drzavaServis.pretraziDrzave(drzava, idValute);
-	}
-	
-	public String authorize(String imeOperacije) {
-
-		if ((Korisnik) sesija.getAttribute("korisnik") == null)
-			return "Ne";
-		Korisnik k = (Korisnik) sesija.getAttribute("korisnik");
-		Iterator<Role> iterator = k.roles.iterator();
-
-		while (iterator.hasNext()) {
-			Iterator<Privilege> it = iterator.next().privileges.iterator();
-			while (it.hasNext())
-				if (it.next().name.equals(imeOperacije))
-					return "Da";
-		}
-		return "Ne";
 	}
 
 }

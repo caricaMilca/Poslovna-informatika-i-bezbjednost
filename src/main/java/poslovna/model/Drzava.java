@@ -1,5 +1,6 @@
 package poslovna.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.CascadeType;
@@ -28,7 +29,7 @@ public class Drzava {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "drzava", cascade = CascadeType.ALL)
 	@JsonIgnore
-	public Collection<NaseljenoMjesto> naseljenaMjesta;
+	public Collection<NaseljenoMjesto> naseljenaMjesta  = new ArrayList<NaseljenoMjesto>();;
 
 	@ManyToOne
 	public Valuta valuta;

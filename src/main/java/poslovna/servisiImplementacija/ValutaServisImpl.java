@@ -38,15 +38,20 @@ public class ValutaServisImpl implements ValutaServis {
 
 	@Override
 	public ResponseEntity<List<Valuta>> pretraziValute(Valuta valuta) {
-		if(valuta.zvanicnaSifra == null)
-			valuta.zvanicnaSifra = "%";
-		else 
- 			valuta.zvanicnaSifra = "%" + valuta.zvanicnaSifra + "%";
 		if(valuta.naziv == null)
 			valuta.naziv = "%";
 		else 
 			valuta.naziv = "%" + valuta.naziv + "%";
-		return new ResponseEntity<List<Valuta>>(valutaRepozitorijum.findByZvanicnaSifraLikeOrNazivLikeOrDomicilna(valuta.zvanicnaSifra, valuta.naziv, valuta.domicilna), HttpStatus.OK);
+		if(valuta.zvanicnaSifra != null && valuta.domicilna != null)
+			return new ResponseEntity<List<Valuta>>(valutaRepozitorijum.findByZvanicnaSifraOrNazivLikeOrDomicilna(valuta.zvanicnaSifra, valuta.naziv, valuta.domicilna), HttpStatus.OK);
+		else if(valuta.zvanicnaSifra == null && valuta.domicilna != null) 
+			return new ResponseEntity<List<Valuta>>(valutaRepozitorijum.findByNazivLikeOrDomicilna(valuta.naziv, valuta.domicilna), HttpStatus.OK);
+		else if(valuta.zvanicnaSifra != null && valuta.domicilna == null)
+			return new ResponseEntity<List<Valuta>>(valutaRepozitorijum.findByZvanicnaSifraOrNazivLike(valuta.zvanicnaSifra, valuta.naziv), HttpStatus.OK);
+		else 
+			return new ResponseEntity<List<Valuta>>(valutaRepozitorijum.findByNazivLike(valuta.naziv), HttpStatus.OK);
+
+
 	}
 
 }

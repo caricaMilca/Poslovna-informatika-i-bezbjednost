@@ -14,28 +14,36 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Djelatnost {
+public class Banka {
 
 	@Id
 	@GeneratedValue
 	public Long id;
 
+	public Integer sifra;
+
+	public Integer pib;
+
+	public String adresa;
+
 	public String naziv;
 
-	@Column(unique=true,nullable=false)
-	public String sifra;
+	public String email;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "djelatnost", cascade = CascadeType.ALL)
+	public String web;
+
+	public String telefon;
+
+	public String fax;
+
+	@Column(columnDefinition = "boolean default true", insertable = true)
+	public Boolean banka = true;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "banka", cascade = CascadeType.ALL)
 	@JsonIgnore
-	public Collection<Klijent> klijenti  = new ArrayList<Klijent>();;
+	public Collection<KursnaLista> kursneListe = new ArrayList<KursnaLista>();
 
-	public Djelatnost(String naziv, String sifra) {
-		super();
-		this.naziv = naziv;
-		this.sifra = sifra;
-	}
-
-	public Djelatnost() {
+	public Banka() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
