@@ -24,28 +24,28 @@ public class DnevnoStanjeRacuna {
 	@Id
 	@GeneratedValue
 	public Long id;
-	
+
 	public Double prethodnoStanje;
-	
+
 	public Double prometNaTeret;
-	
-	public Double prometNaKoris;
-	
+
+	public Double prometNaKorist;
+
 	public Double novoStanje;
-	
+
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "mm.dd.yyyy")
 	public Date datumPrometa;
-	
+
 	@ManyToOne
 	public Racun racun;
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "dnevnoStanjeRacuna", cascade = CascadeType.ALL)
 	@JsonIgnore
 	public Set<AnalitikaIzvoda> izvodi = new HashSet<AnalitikaIzvoda>();
+
 	public DnevnoStanjeRacuna() {
 		super();
 	}
-	
-	
+
 }

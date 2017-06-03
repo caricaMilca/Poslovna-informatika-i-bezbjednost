@@ -39,7 +39,7 @@ public class Racun {
 	@Column(columnDefinition = "boolean default true", insertable = true)
 	public Boolean vazeci = true;
 	
-	public String racunPrenosa;
+	public String racunPrenosa; //razmisliti o realizaciji posebno za racunNasljednik iz iste banke 
 	
 	@ManyToOne
 	public Klijent klijent;
