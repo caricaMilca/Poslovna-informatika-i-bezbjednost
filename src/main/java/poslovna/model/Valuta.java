@@ -1,7 +1,7 @@
 package poslovna.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -31,15 +31,19 @@ public class Valuta {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "valuta", cascade = CascadeType.ALL)
 	@JsonIgnore
-	public Collection<Drzava> drzave = new ArrayList<Drzava>();
+	public Set<Drzava> drzave = new HashSet<Drzava>();
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "osnovnaValuta", cascade = CascadeType.ALL)
 	@JsonIgnore
-	public Collection<KursUValuti> osnovniKurs = new ArrayList<KursUValuti>();
+	public Set<KursUValuti> osnovniKurs = new HashSet<KursUValuti>();
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "premaValuti", cascade = CascadeType.ALL)
 	@JsonIgnore
-	public Collection<KursUValuti> premaKurs = new ArrayList<KursUValuti>();
+	public Set<KursUValuti> premaKurs = new HashSet<KursUValuti>();
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "valuta", cascade = CascadeType.ALL)
+	@JsonIgnore
+	public Set<AnalitikaIzvoda> analitike = new HashSet<AnalitikaIzvoda>();
 
 	// kad se bude radila analitika izvoda dodat je :D 
 	public Valuta() {

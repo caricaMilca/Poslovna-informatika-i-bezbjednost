@@ -1,7 +1,9 @@
 package poslovna.servisiImplementacija;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,8 +39,7 @@ public class KursnaListaServisImpl implements KursnaListaServis {
 
 	@Override
 	public ResponseEntity<List<KursnaLista>> sveKursneListeBanke(Long idBanke) {
-		return new ResponseEntity<List<KursnaLista>>(
-				kursnaListaRepozitorijum.findByBanka(bankaRepozitorijum.findOne(idBanke)), HttpStatus.OK);
+		return new ResponseEntity<List<KursnaLista>>(kursnaListaRepozitorijum.findByBanka(bankaRepozitorijum.findOne(idBanke)),HttpStatus.OK);
 	}
 
 	@Override
@@ -50,8 +51,12 @@ public class KursnaListaServisImpl implements KursnaListaServis {
 			lista.addAll(kursnaListaRepozitorijum.findByDatum(kursnaLista.datum));
 		if (kursnaLista.primjenjujeSeOd != null)
 			lista.addAll(kursnaListaRepozitorijum.findByPrimjenjujeSeOd(kursnaLista.primjenjujeSeOd));
-		if (idBanke != -1)
+		if(idBanke != -1)
 			lista.addAll(kursnaListaRepozitorijum.findByBanka(bankaRepozitorijum.findOne(idBanke)));
+		Set<KursnaLista> set= new HashSet<KursnaLista>();
+		set.addAll(lista);
+		lista.clear();
+		lista.addAll(set);
 		return new ResponseEntity<List<KursnaLista>>(lista, HttpStatus.OK);
 	}
 

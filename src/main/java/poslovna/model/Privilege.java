@@ -1,7 +1,7 @@
 package poslovna.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -23,7 +23,7 @@ public class Privilege {
  
     @ManyToMany(mappedBy = "privileges",cascade = { CascadeType.REMOVE, CascadeType.MERGE })
     @JsonIgnore
-    private Collection<Role> roles = new ArrayList<Role>();
+    private Set<Role> roles = new HashSet<Role>();
 
 	public Privilege(String name) {
 		super();

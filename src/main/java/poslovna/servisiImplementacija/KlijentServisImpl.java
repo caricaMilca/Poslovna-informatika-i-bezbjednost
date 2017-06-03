@@ -1,6 +1,11 @@
 package poslovna.servisiImplementacija;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import poslovna.model.Klijent;
 import poslovna.model.UlogaKlijenta;
 import poslovna.model.UlogaKorisnika;
+import poslovna.model.Zaposleni;
+import poslovna.repozitorijumi.BankaRepozitorijum;
 import poslovna.repozitorijumi.DjelatnostRepozitorijum;
 import poslovna.repozitorijumi.KlijentRepozitorijum;
 import poslovna.servisi.KlijentServis;
@@ -25,18 +32,25 @@ public class KlijentServisImpl implements KlijentServis {
 
 	@Autowired
 	DjelatnostRepozitorijum djelatnostRepozitorijum;
+	
+	@Autowired
+	BankaRepozitorijum bankaRepozitorijum;
 
 	@Autowired
 	RoleServis roleServis;
+	
+	@Autowired 
+	HttpSession sesija;
 
 	@Override
-	public ResponseEntity<Klijent> registracijaKlijenta(Klijent k) {
+	public ResponseEntity<Klijent> registracijaKlijenta(Klijent k, Long idDjelatnosti) {
 		if (klijentRepozitorijum.findByKorisnickoIme(k.korisnickoIme) != null)
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		k.ulogaK = UlogaKlijenta.POSLOVNO;
 		k.uloga = UlogaKorisnika.Klijent;
 		k.roles.add(roleServis.findOne(Long.valueOf(1)));
 		k.roles.add(roleServis.findOne(Long.valueOf(6)));
+		k.djelatnost = djelatnostRepozitorijum.findOne(idDjelatnosti);
 		return new ResponseEntity<Klijent>(klijentRepozitorijum.save(k), HttpStatus.CREATED);
 	}
 
@@ -58,7 +72,8 @@ public class KlijentServisImpl implements KlijentServis {
 
 	@Override
 	public ResponseEntity<List<Klijent>> sviKlijenti() {
-		return new ResponseEntity<List<Klijent>>(klijentRepozitorijum.findAll(), HttpStatus.OK);
+		Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
+		return new ResponseEntity<List<Klijent>>(klijentRepozitorijum.hasRacunInBanka(zaposleni.banka), HttpStatus.OK);
 	}
 
 	@Override
@@ -69,6 +84,7 @@ public class KlijentServisImpl implements KlijentServis {
 
 	@Override
 	public ResponseEntity<List<Klijent>> pretraziKlijente(Klijent klijent, Long idDjelatnosti) {
+		List<Klijent> lista = new ArrayList<Klijent>();
 		if (klijent == null) {
 			return new ResponseEntity<List<Klijent>>(
 					klijentRepozitorijum.findByDjelatnost(djelatnostRepozitorijum.findOne(idDjelatnosti)),
@@ -86,17 +102,18 @@ public class KlijentServisImpl implements KlijentServis {
 				klijent.korisnickoIme = "%";
 			else
 				klijent.korisnickoIme = "%" + klijent.korisnickoIme + "%";
-			if (idDjelatnosti == -1)
-				return new ResponseEntity<List<Klijent>>(
-						klijentRepozitorijum.findByImeLikeOrPrezimeLikeOrKorisnickoImeLikeOrUlogaK(klijent.ime,
-								klijent.prezime, klijent.korisnickoIme, klijent.ulogaK),
-						HttpStatus.OK);
-			else
-				return new ResponseEntity<List<Klijent>>(klijentRepozitorijum
-						.findByImeLikeOrPrezimeLikeOrKorisnickoImeLikeOrUlogaKOrDjelatnost(klijent.ime, klijent.prezime,
-								klijent.korisnickoIme, klijent.ulogaK, djelatnostRepozitorijum.findOne(idDjelatnosti)),
-						HttpStatus.OK);
+			if (idDjelatnosti != -1)
+				lista.addAll(klijentRepozitorijum.findByDjelatnost(djelatnostRepozitorijum.findOne(idDjelatnosti)));
+			lista.addAll(klijentRepozitorijum.findByImeLikeOrPrezimeLikeOrKorisnickoImeLikeOrUlogaK(klijent.ime,
+					klijent.prezime, klijent.korisnickoIme, klijent.ulogaK));
+			Set<Klijent> set = new HashSet<Klijent>();
+			set.addAll(lista);
+			lista.clear();
+			lista.addAll(set);
+			return new ResponseEntity<List<Klijent>>(lista, HttpStatus.OK);
 		}
 	}
+
+
 
 }

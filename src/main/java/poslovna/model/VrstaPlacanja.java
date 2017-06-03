@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,30 +13,21 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Djelatnost {
+public class VrstaPlacanja {
 
 	@Id
 	@GeneratedValue
 	public Long id;
-
+	
 	public String naziv;
-
-	@Column(unique=true,nullable=false)
-	public String sifra;
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "djelatnost", cascade = CascadeType.ALL)
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "vrstaPlacanja", cascade = CascadeType.ALL)
 	@JsonIgnore
-	public Set<Klijent> klijenti  = new HashSet<Klijent>();;
+	public Set<AnalitikaIzvoda> izvodi = new HashSet<AnalitikaIzvoda>();
 
-	public Djelatnost(String naziv, String sifra) {
+	public VrstaPlacanja() {
 		super();
-		this.naziv = naziv;
-		this.sifra = sifra;
 	}
-
-	public Djelatnost() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
+	
+	
 }

@@ -12,8 +12,8 @@ public interface KursnaListaServis {
 
 	ResponseEntity<List<KursnaLista>> sveKursneListe();
 
-	ResponseEntity<List<KursnaLista>> sveKursneListeBanke(Long idBanke);
-
 	ResponseEntity<List<KursnaLista>> pretraziKursneListe(KursnaLista kursnaLista, Long idBanke);
+
+	ResponseEntity<List<KursnaLista>> sveKursneListeBanke(Long idBanke);
 
 }

@@ -1,7 +1,7 @@
 package poslovna.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -56,7 +56,7 @@ public class Korisnik {
 	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.REMOVE, CascadeType.MERGE })
 	@JoinTable(name = "Korisnicke_roles", joinColumns = @JoinColumn(name = "korisnik_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
 	@JsonIgnore
-	public Collection<Role> roles  = new ArrayList<Role>();
+	public Set<Role> roles  = new HashSet<Role>();
 
 	public Korisnik(String ime, String prezime, String korisnickoIme, String lozinka) {
 		super();

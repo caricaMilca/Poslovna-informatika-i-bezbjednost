@@ -19,31 +19,33 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class KursnaLista {
+public class DnevnoStanjeRacuna {
 
 	@Id
 	@GeneratedValue
 	public Long id;
-
+	
+	public Double prethodnoStanje;
+	
+	public Double prometNaTeret;
+	
+	public Double prometNaKoris;
+	
+	public Double novoStanje;
+	
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "mm.dd.yyyy")
-	public Date datum;
-
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "mm.dd.yyyy")
-	public Date primjenjujeSeOd;
-
-	public Integer broj;
-
+	public Date datumPrometa;
+	
 	@ManyToOne
-	public Banka banka;
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "kursnaLista", cascade = CascadeType.ALL)
+	public Racun racun;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "dnevnoStanjeRacuna", cascade = CascadeType.ALL)
 	@JsonIgnore
-	public Set<KursUValuti> kursUValutama  = new HashSet<KursUValuti>();
-
-	public KursnaLista() {
+	public Set<AnalitikaIzvoda> izvodi = new HashSet<AnalitikaIzvoda>();
+	public DnevnoStanjeRacuna() {
 		super();
 	}
-
+	
+	
 }

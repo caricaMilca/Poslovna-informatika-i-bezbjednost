@@ -59,7 +59,7 @@ public class KursUValutiKontroler {
 
 	@AutorizacijaAnnotation(imeMetode = "pretraziKursUValuti")
 	@PutMapping(path = "/pretraziKursUValuti/{idValuteOsnovni}/{idValutePrema}/{idKursneListe}")
-	public ResponseEntity<List<KursUValuti>> pretraziKursUValuti(@RequestBody KursUValuti kursUValuti,
+	public ResponseEntity<List<KursUValuti>> pretraziKursUValuti(@RequestBody(required = false) KursUValuti kursUValuti,
 			@PathVariable("idValuteOsnovni") Long idValuteOsnovni, @PathVariable("idValutePrema") Long idValutePrema,
 			@PathVariable("idKursneListe") Long idKursneListe) {
 		return kursUValutiServis.pretraziKursUValuti(kursUValuti, idValuteOsnovni, idValutePrema, idKursneListe);

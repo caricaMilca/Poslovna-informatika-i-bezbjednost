@@ -9,7 +9,7 @@ import poslovna.model.Klijent;
 
 public interface KlijentServis {
 
-	ResponseEntity<Klijent> registracijaKlijenta(Klijent k);
+	ResponseEntity<Klijent> registracijaKlijenta(Klijent k, Long idDjelantsti);
 	
 	ResponseEntity<Klijent> registracijaKlijentaF(Klijent k);
 

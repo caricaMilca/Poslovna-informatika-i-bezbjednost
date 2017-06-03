@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -19,31 +20,43 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class KursnaLista {
+public class Racun {
 
 	@Id
 	@GeneratedValue
 	public Long id;
-
+	
+	public String brojRacuna;
+	
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "mm.dd.yyyy")
-	public Date datum;
-
+	public Date datumOtvaranja;
+	
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "mm.dd.yyyy")
-	public Date primjenjujeSeOd;
-
-	public Integer broj;
-
+	public Date datumZatvaranja;
+	
+	@Column(columnDefinition = "boolean default true", insertable = true)
+	public Boolean vazeci = true;
+	
+	public String racunPrenosa;
+	
+	@ManyToOne
+	public Klijent klijent;
+	
 	@ManyToOne
 	public Banka banka;
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "kursnaLista", cascade = CascadeType.ALL)
+	
+	@ManyToOne
+	public Valuta valuta;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "racun", cascade = CascadeType.ALL)
 	@JsonIgnore
-	public Set<KursUValuti> kursUValutama  = new HashSet<KursUValuti>();
-
-	public KursnaLista() {
+	public Set<DnevnoStanjeRacuna> dnevnaStanja = new HashSet<DnevnoStanjeRacuna>();
+	
+	public Racun() {
 		super();
 	}
-
+	
+	
 }

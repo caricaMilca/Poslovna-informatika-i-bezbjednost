@@ -1,7 +1,7 @@
 package poslovna.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -29,7 +29,7 @@ public class Drzava {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "drzava", cascade = CascadeType.ALL)
 	@JsonIgnore
-	public Collection<NaseljenoMjesto> naseljenaMjesta  = new ArrayList<NaseljenoMjesto>();;
+	public Set<NaseljenoMjesto> naseljenaMjesta  = new HashSet<NaseljenoMjesto>();;
 
 	@ManyToOne
 	public Valuta valuta;

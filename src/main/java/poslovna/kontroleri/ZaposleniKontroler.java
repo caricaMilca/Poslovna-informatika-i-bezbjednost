@@ -17,7 +17,6 @@ import poslovna.autorizacija.AutorizacijaAnnotation;
 import poslovna.model.Klijent;
 import poslovna.model.Korisnik;
 import poslovna.model.Zaposleni;
-import poslovna.servisi.DjelatnostServis;
 import poslovna.servisi.KlijentServis;
 import poslovna.servisi.KorisnikServis;
 import poslovna.servisi.ZaposleniServis;
@@ -33,23 +32,20 @@ public class ZaposleniKontroler {
 	@Autowired
 	KorisnikServis korisnikServis;
 	@Autowired
-	DjelatnostServis djelatnostServis;
-	@Autowired
 	HttpSession sesija;
 
 	@AutorizacijaAnnotation(imeMetode = "registracijaKlijentaPravno")
-	@PostMapping(path = "/registracijaKlijentaPravno/{idDjelatnosti}")
+	@PostMapping(path = "/registracijaKlijentaPravno/{idDjelatnosti}/{idBanke}")
 	public ResponseEntity<Klijent> registracijaKlijentaPravno(@Valid @RequestBody Klijent klijent,
 			@PathVariable("idDjelatnosti") Long idDjelatnosti) {
-		klijent.djelatnost = djelatnostServis.preuzmiDjelatnost(idDjelatnosti);
-		return klijentServis.registracijaKlijenta(klijent);
+		return klijentServis.registracijaKlijenta(klijent, idDjelatnosti);
 
 	}
 
 	@AutorizacijaAnnotation(imeMetode = "registracijaKlijentaFizicko")
-	@PostMapping(path = "/registracijaKlijentaFizicko")
-	public ResponseEntity<Klijent> registracijaKlijentaFizicko(@Valid @RequestBody Klijent klijent) {
-		return klijentServis.registracijaKlijenta(klijent);
+	@PostMapping(path = "/registracijaKlijentaFizickos")
+	public ResponseEntity<Klijent> registracijaKlijentaFizicko(@Valid @RequestBody Klijent klijent ) {
+		return klijentServis.registracijaKlijentaF(klijent);
 
 	}
 

@@ -4,6 +4,18 @@ insert into Korisnik(korisnicko_ime, lozinka, uloga) values ('ceks2', 'ceks', 'Z
 insert into Korisnik(korisnicko_ime, lozinka, uloga) values ('ceks3', 'ceks', 'Klijent');
 insert into Korisnik(korisnicko_ime, lozinka, uloga) values ('ceks4', 'ceks', 'Klijent');
 
+insert into Banka(sifra, pib, adresa, naziv, email, web, telefon, fax, banka) values (21, 213,'bankaAdresa', 'BankaA', 'banka@gmail.com','banka.com', '0650650650', 'banka.fax', true);
+
+insert into Kursna_lista(datum, primjenjuje_se_od, broj, banka_id) values ('11-11-11', '11-11-09', 98, 1);
+insert into Kursna_lista(datum, primjenjuje_se_od, broj, banka_id) values ('11-01-11', '01-11-09', 58, 1);
+
+insert into Valuta(naziv, zvanicna_sifra, domicilna) values ('euro', 1, true);
+insert into Valuta(naziv, zvanicna_sifra, domicilna) values ('dinar', 2, true);
+insert into Valuta(naziv, zvanicna_sifra, domicilna) values ('marka', 3, true);
+
+insert into KursUValuti(kupovni, prodajni, srednji, osnovna_valuta_id, prema_valuti_id, kursna_lista_id) values (6, 5, 3, 1, 2, 1);
+insert into KursUValuti(kupovni, prodajni, srednji, osnovna_valuta_id, prema_valuti_id, kursna_lista_id) values (6, 7, 4, 3, 2, 2);
+
 insert into Djelatnost(naziv, sifra) values ('vodoinstalater', 'vi');
 insert into Djelatnost(naziv, sifra) values ('elektricar', 'e');
 
@@ -12,10 +24,6 @@ insert into Zaposleni(id, ulogaZ) values (2, 'Super_salterusa');
 insert into Zaposleni(id, ulogaZ) values (3, 'Administrator');
 insert into Klijent(id, ulogaK) values (4, 'FIZICKO');
 insert into Klijent(id, ulogaK, djelatnost_id) values (5, 'POSLOVNO', 1);
-
-insert into Valuta(naziv, zvanicna_sifra, domicilna) values ('euro', 'e', true);
-insert into Valuta(naziv, zvanicna_sifra, domicilna) values ('dinar', 'rsd', true);
-insert into Valuta(naziv, zvanicna_sifra, domicilna) values ('marka', 'km', true);
 
 insert into Drzava(naziv, sifra, valuta_id) values ('Bosna i hercegovina', 'BiH', 3);
 insert into Drzava(naziv, sifra, valuta_id) values ('Srbija', 'RS', 2);
@@ -49,6 +57,16 @@ insert into Privilege(name) values ('svaNaseljenaMjestaDrzave');--22
 insert into Privilege(name) values ('pretraziNaseljenaMjesta');--23
 insert into Privilege(name) values ('logovanje');--24
 insert into Privilege(name) values ('logout');--25
+insert into Privilege(name) values ('registracijaKursaUValuti');--26
+insert into Privilege(name) values ('sviKurseviUValuti');--27
+insert into Privilege(name) values ('sviKurseviUValutiValute');--28
+insert into Privilege(name) values ('sviKurseviUValutiKursneListe');--29
+insert into Privilege(name) values ('pretraziKursUValuti');--30
+insert into Privilege(name) values ('registracijaKursneListe');--31
+insert into Privilege(name) values ('sveKursneListe');--32
+insert into Privilege(name) values ('sveKursneListeBanke');--33
+insert into Privilege(name) values ('pretraziKursneListe');--34
+insert into Privilege(name) values ('preuzmiBanku');--35
 
 insert into Role(name) values ('klijentRole');--1
 insert into Role(name) values ('adminRole');--2
@@ -69,6 +87,11 @@ insert into Roles_privileges(role_id, privilege_id) values (2, 12);
 insert into Roles_privileges(role_id, privilege_id) values (2, 13);
 insert into Roles_privileges(role_id, privilege_id) values (2, 20);
 insert into Roles_privileges(role_id, privilege_id) values (2, 21);
+insert into Roles_privileges(role_id, privilege_id) values (2, 26);
+insert into Roles_privileges(role_id, privilege_id) values (2, 27);
+insert into Roles_privileges(role_id, privilege_id) values (2, 31);
+insert into Roles_privileges(role_id, privilege_id) values (2, 32);
+insert into Roles_privileges(role_id, privilege_id) values (2, 34);
 
 insert into Roles_privileges(role_id, privilege_id) values (3, 3);
 insert into Roles_privileges(role_id, privilege_id) values (3, 5);
@@ -90,10 +113,19 @@ insert into Roles_privileges(role_id, privilege_id) values (5, 19);
 insert into Roles_privileges(role_id, privilege_id) values (5, 21);
 insert into Roles_privileges(role_id, privilege_id) values (5, 22);
 insert into Roles_privileges(role_id, privilege_id) values (5, 23);
+insert into Roles_privileges(role_id, privilege_id) values (5, 27);
+insert into Roles_privileges(role_id, privilege_id) values (5, 28);
+insert into Roles_privileges(role_id, privilege_id) values (5, 29);
+insert into Roles_privileges(role_id, privilege_id) values (5, 30);
+insert into Roles_privileges(role_id, privilege_id) values (5, 32);
+insert into Roles_privileges(role_id, privilege_id) values (5, 33);
+insert into Roles_privileges(role_id, privilege_id) values (5, 34);
+insert into Roles_privileges(role_id, privilege_id) values (5, 35);
 
 insert into Roles_privileges(role_id, privilege_id) values (6, 1);
 insert into Roles_privileges(role_id, privilege_id) values (6, 24);
 insert into Roles_privileges(role_id, privilege_id) values (6, 25);
+
 
 insert into Korisnicke_roles(korisnik_id, role_id) values (1, 3);
 insert into Korisnicke_roles(korisnik_id, role_id) values (1, 5);

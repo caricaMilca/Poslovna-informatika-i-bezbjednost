@@ -37,6 +37,8 @@ public class ZaposleniServisImpl implements ZaposleniServis {
 			z.roles.add(roleServis.findOne(Long.valueOf(3)));
 		else
 			z.roles.add(roleServis.findOne(Long.valueOf(4)));
+		Zaposleni zap = (Zaposleni) sesija.getAttribute("korisnik");
+		z.banka = zap.banka;
 		return new ResponseEntity<Zaposleni>(zaposleniRepozitorijum.save(z), HttpStatus.CREATED);
 	}
 

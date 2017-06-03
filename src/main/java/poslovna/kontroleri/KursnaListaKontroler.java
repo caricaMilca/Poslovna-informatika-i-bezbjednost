@@ -35,8 +35,7 @@ public class KursnaListaKontroler {
 
 	@AutorizacijaAnnotation(imeMetode = "registracijaKursneListe")
 	@PostMapping(path = "/registracijaKursneListe/{idBanke}")
-	public ResponseEntity<KursnaLista> registracijaKursneListe(@Valid @RequestBody KursnaLista kursnaLista,
-			@PathVariable("idBanke") Long idBanke) {
+	public ResponseEntity<KursnaLista> registracijaKursneListe(@Valid @RequestBody KursnaLista kursnaLista,  @PathVariable("idBanke") Long idBanke) {
 		return kursnaListaServis.registracijaKursneListe(kursnaLista, idBanke);
 
 	}
@@ -46,8 +45,8 @@ public class KursnaListaKontroler {
 	public ResponseEntity<List<KursnaLista>> sveKursneListe() {
 		return kursnaListaServis.sveKursneListe();
 	}
-
-	@AutorizacijaAnnotation(imeMetode = "sveKursneListeBanke")
+	
+	@AutorizacijaAnnotation(imeMetode = "sveKursneListe")
 	@GetMapping(path = "/sveKursneListeBanke/{idBanke}")
 	public ResponseEntity<List<KursnaLista>> sveKursneListeBanke(@PathVariable("idBanke") Long idBanke) {
 		return kursnaListaServis.sveKursneListeBanke(idBanke);
@@ -55,8 +54,7 @@ public class KursnaListaKontroler {
 
 	@AutorizacijaAnnotation(imeMetode = "pretraziKursneListe")
 	@PutMapping(path = "/pretraziKursneListe/{idBanke}")
-	public ResponseEntity<List<KursnaLista>> pretraziKursneListe(@RequestBody KursnaLista kursnaLista,
-			@PathVariable("idBanke") Long idBanke) {
+	public ResponseEntity<List<KursnaLista>> pretraziKursneListe(@RequestBody(required = false) KursnaLista kursnaLista, @PathVariable("idBanke") Long idBanke) {
 		return kursnaListaServis.pretraziKursneListe(kursnaLista, idBanke);
 
 	}
