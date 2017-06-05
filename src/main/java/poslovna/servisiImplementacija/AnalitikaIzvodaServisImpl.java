@@ -10,6 +10,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import poslovna.model.AnalitikaIzvoda;
 import poslovna.model.Banka;
@@ -20,6 +22,8 @@ import poslovna.repozitorijumi.ValutaRepozitorijum;
 import poslovna.repozitorijumi.VrstaPlacanjaRepozitorijum;
 import poslovna.servisi.AnalitikaIzvodaServis;
 
+@Service
+@Transactional
 public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 
 	@Autowired
@@ -37,12 +41,10 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 	@Autowired
 	DnevnoStanjeRacunaRepozitorijum dnevnoStanjeRacunaRepozitorijum;
 
-	Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
-	Banka b = z.banka;
-
 	@Override
 	public ResponseEntity<AnalitikaIzvoda> registracijaAnalitikeIzvoda(AnalitikaIzvoda analitikaIzvoda,
 			Long idDnevnogStanjaRacuna, Long idValute, Long idTipaPlacanja) {
+
 		analitikaIzvoda.valuta = valutaRepozitorijum.findOne(idValute);
 		analitikaIzvoda.vrstaPlacanja = vrstaPlacanjaRepozitorijum.findOne(idTipaPlacanja);
 		analitikaIzvoda.dnevnoStanjeRacuna = dnevnoStanjeRacunaRepozitorijum.findOne(idDnevnogStanjaRacuna);
@@ -52,23 +54,31 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 
 	@Override
 	public ResponseEntity<List<AnalitikaIzvoda>> sveAnalitikeIzvoda() {
+		Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
+		Banka b = z.banka;
 		return new ResponseEntity<List<AnalitikaIzvoda>>(analitikaIzvodaRepozitorijum.izvodiBanke(b), HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<List<AnalitikaIzvoda>> sveAnalitikeIzvodaDnevnog(Long idDnevnogStanjaRacuna) {
+		Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
+		Banka b = z.banka;
 		return new ResponseEntity<List<AnalitikaIzvoda>>(
 				analitikaIzvodaRepozitorijum.findByDnevnoStanjeRacuna(idDnevnogStanjaRacuna, b), HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<List<AnalitikaIzvoda>> sveAnalitikeIzvodaValute(Long idValute) {
+		Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
+		Banka b = z.banka;
 		return new ResponseEntity<List<AnalitikaIzvoda>>(analitikaIzvodaRepozitorijum.findByValuta(idValute, b),
 				HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<List<AnalitikaIzvoda>> sveAnalitikeIzvodaTipaPlacanja(Long idTipaPlacanja) {
+		Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
+		Banka b = z.banka;
 		return new ResponseEntity<List<AnalitikaIzvoda>>(
 				analitikaIzvodaRepozitorijum.findByVrstaPlacanja(idTipaPlacanja, b), HttpStatus.OK);
 
@@ -77,6 +87,8 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 	@Override
 	public ResponseEntity<List<AnalitikaIzvoda>> pretraziAnalitikeIzvoda(AnalitikaIzvoda analitikaIzvoda,
 			Long idDnevnogStanjaRacuna, Long idValute, Long idTipaPlacanja) {
+		Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
+		Banka b = z.banka;
 		List<AnalitikaIzvoda> lista = new ArrayList<AnalitikaIzvoda>();
 		if (analitikaIzvoda != null) {
 			if (analitikaIzvoda.hitno != null)

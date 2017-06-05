@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -52,6 +54,7 @@ public class AnalitikaIzvoda {
 	
 	public Integer status;
 	
+	@Enumerated(EnumType.STRING)
 	public TipGreske tipGreske;
 	
 	@ManyToOne

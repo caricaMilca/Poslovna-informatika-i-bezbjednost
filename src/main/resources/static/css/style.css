@@ -214,3 +214,38 @@ div.authTabs:hover {
 	background-color: green;
 }
 
+
+.modal-dialog{
+	color:black;
+	position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    overflow: auto; /* Enable scroll if needed */
+}
+
+.modal-content {
+	background-color: #b34e5b;
+	margin: 10% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 2px solid #040000;
+}
+
+.modal-body .form-control {
+	width : 100%;
+}
+/* The Close Button */
+.close {
+    color: #0039f1;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

@@ -35,7 +35,7 @@ public class ZaposleniKontroler {
 	HttpSession sesija;
 
 	@AutorizacijaAnnotation(imeMetode = "registracijaKlijentaPravno")
-	@PostMapping(path = "/registracijaKlijentaPravno/{idDjelatnosti}/{idBanke}")
+	@PostMapping(path = "/registracijaKlijentaPravno/{idDjelatnosti}")
 	public ResponseEntity<Klijent> registracijaKlijentaPravno(@Valid @RequestBody Klijent klijent,
 			@PathVariable("idDjelatnosti") Long idDjelatnosti) {
 		return klijentServis.registracijaKlijenta(klijent, idDjelatnosti);
@@ -43,7 +43,7 @@ public class ZaposleniKontroler {
 	}
 
 	@AutorizacijaAnnotation(imeMetode = "registracijaKlijentaFizicko")
-	@PostMapping(path = "/registracijaKlijentaFizickos")
+	@PostMapping(path = "/registracijaKlijentaFizicko")
 	public ResponseEntity<Klijent> registracijaKlijentaFizicko(@Valid @RequestBody Klijent klijent ) {
 		return klijentServis.registracijaKlijentaF(klijent);
 
@@ -60,6 +60,8 @@ public class ZaposleniKontroler {
 	@GetMapping(path = "/preuzmiZaposlenog")
 	public ResponseEntity<Zaposleni> preuzmiZaposlenog() {
 		Korisnik k = (Korisnik) sesija.getAttribute("korisnik");
+		if(k == null)
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		return new ResponseEntity<Zaposleni>(zaposleniServis.preuzmiZaposlenog(k.id), HttpStatus.OK);
 	}
 }

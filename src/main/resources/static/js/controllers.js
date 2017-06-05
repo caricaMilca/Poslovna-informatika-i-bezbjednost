@@ -23,11 +23,47 @@ app
 						'$location','ngNotify', 
 						'SessionService',
 						function($rootScope, $scope, $location,ngNotify, sessionService) {
-
-							$scope.changePassword = function() {
+							sessionService
+									.preuzmiKlijenta()
+									.then(
+											function(
+													response) {
+												if (response.status == 200) {
+													$rootScope.korisnik = response.data;
+												}
+											});
+							sessionService
+							.preuzmiZaposlenog()
+							.then(
+									function(
+											response) {
+										if (response.status == 200) {
+											$rootScope.korisnik = response.data;
+											$location.path('/univerzalno/registracijaKorisnika');
+											if(response.data.ulogaZ === 'Super_salterusa')
+												sessionService
+												.sveDjelatnosti()
+												.then(
+														function(response) {
+															if (response.status == 200) {
+																$scope.djelatnosti = response.data;
+																  $scope.djelatnostKlijenta = $scope.djelatnosti[0]; s
+															}
+												
+											});
+										}
+									});
+							
+							if($rootScope.korisnik == undefined)
+								$location.path('/index');
+							
+								$scope.changePassword = function() {
 								if($scope.lozinka.stara == $rootScope.korisnik.lozinka){
 									sessionService.changePassword($scope.lozinka.nova).then(function(response){
 										$location.path('/index');
+										ngNotify.set('Uspjesno promjenjena lozinka' , {
+											type : 'success'
+										});
 									});
 								} else {
 									lozinka.nova = '';
@@ -40,24 +76,37 @@ app
 								sessionService.logout().then(function(response){
 									$rootScope.korisnik = '';
 									$location.path('/login');
+									$scope.logovanje = null;
 								});
 							}
 							
 							$scope.regSalterusu = function(){
-								sessionService.regSalterusu($scope.salterusa).then(function(response){
-									$location.path('/Admin/novaSalterusa');
+								sessionService.regSalterusu($scope.novi).then(function(response){
+									$location.path('/univerzalno/registracijaKorisnika');
+									ngNotify.set('Uspjesna registracija' , {
+										type : 'success'
+									});
+									$scope.novi = null;
 								});
 							}
 							
 							$scope.regKlijentaP = function(){
-								sessionService.regKlijentaP($scope.klijent).then(function(response){
-									$location.path('/salterusa/registracijaKlijenta');
+								sessionService.regKlijentaP($scope.novi, $scope.djelatnostKlijenta.id).then(function(response){
+									$location.path('/univerzalno/registracijaKorisnika');
+									ngNotify.set('Uspjesna registracija' , {
+										type : 'success'
+									});
+									$scope.novi = null;
 								});
 							}
 							
 							$scope.regKlijentaF = function(){
-								sessionService.regKlijentaF($scope.klijent).then(function(response){
-									$location.path('/obicnaSalterusa/registracijaKlijenataObicna');
+								sessionService.regKlijentaF($scope.novi).then(function(response){
+									$location.path('/univerzalno/registracijaKorisnika');
+									ngNotify.set('Uspjesna registracija' , {
+										type : 'success'
+									});
+									$scope.novi = null;
 								});
 							}
 							
@@ -78,8 +127,6 @@ app
 																						type : 'success'
 																					});
 																					$rootScope.korisnik = response.data;
-																					$location
-																							.path('/Klijent/klijent');
 																				}
 																			});
 														else
@@ -95,30 +142,27 @@ app
 																					$rootScope.korisnik = response.data;
 																					if (response.data.ulogaZ === "Salterusa")
 																						$location
-																								.path('/obicnaSalterusa/registracijaKlijenataObicna');
-																					else if (response.data.ulogaZ === "Super_salterusa")
+																								.path('/univerzalno/registracijaKorisnika');
+																					else if (response.data.ulogaZ === "Super_salterusa") {
 																						$location
-																								.path('/salterusa/registracijaKlijenta');
+																								.path('/univerzalno/registracijaKorisnika');
+																						sessionService
+																						.sveDjelatnosti()
+																						.then(
+																								function(response) {
+																									if (response.status == 200) {
+																										$scope.djelatnosti = response.data;
+																										  $scope.djelatnostKlijenta = $scope.djelatnosti[0]; 
+																									}
+																						
+																					});
+																						}
 																					else
 																						$location
-																								.path('/Admin/novaSalterusa');
+																								.path('/univerzalno/registracijaKorisnika');
 																					
 																				}
 																			});
-													/*
-													 * if (response.data ===
-													 * "Klijent")
-													 * $location.path('/Klijent/klijent');
-													 * else if (response.data
-													 * === "Salterusa")
-													 * $location.path('/menadzerRestorana/restorani');
-													 * else if (response.data
-													 * === "Administrator")
-													 * $location.path('/gost/profil');
-													 * else (response.data ===
-													 * "Super_salterusa")
-													 * $location.path('/ponudjac/profili');
-													 */
 
 												}).catch(function(response) {
 													ngNotify.set('Korisnik ne postoji' , {
@@ -128,5 +172,11 @@ app
 													console.error('Gists error', response.status, response.data)
 												  });
 							}
+							
+							$scope.setSelectedDjelatnost = function(
+									selected) {
+								$scope.djelatnostKlijenta = selected;
+							}
 
+							
 						} ]);

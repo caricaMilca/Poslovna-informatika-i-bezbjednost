@@ -13,12 +13,16 @@ app.factory('SessionService', function sessionService($http) {
 		return $http.get("/korisnik/logout");
 	}
 	
+	sessionService.sveDjelatnosti = function(){
+		return $http.get("/djelatnost/sveDjelatnosti");
+	}
+	
 	sessionService.regSalterusu = function(salterusa){
 		return $http.post("/zaposleni/registracijaSalteruse", salterusa);
 	}
 	
-	sessionService.regKlijentaP = function(klijent){
-		return $http.post("/zaposleni/registracijaKlijentaPravno", klijent);
+	sessionService.regKlijentaP = function(klijent, id){
+		return $http.post("/zaposleni/registracijaKlijentaPravno/"+id, klijent);
 	}
 	
 	sessionService.regKlijentaF = function(klijent){

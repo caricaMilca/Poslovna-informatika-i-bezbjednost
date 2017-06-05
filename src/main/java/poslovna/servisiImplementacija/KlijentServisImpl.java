@@ -84,6 +84,7 @@ public class KlijentServisImpl implements KlijentServis {
 
 	@Override
 	public ResponseEntity<List<Klijent>> pretraziKlijente(Klijent klijent, Long idDjelatnosti) {
+		//razgovarati da li salteruse mogu da vidi klijente koje ne registruju
 		List<Klijent> lista = new ArrayList<Klijent>();
 		if (klijent == null) {
 			return new ResponseEntity<List<Klijent>>(

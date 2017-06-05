@@ -37,11 +37,11 @@ public class RacunServisImpl implements RacunServis {
 	@Autowired
 	RacunRepozitorijum racunRepozitorijum;
 
-	Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
-	Banka b = z.banka;
-
 	@Override
 	public ResponseEntity<Racun> registracijaRacuna(Racun racun, Long idKlijenta, Long idValute) {
+
+		Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
+		Banka b = z.banka;
 		racun.banka = b;
 		racun.klijent = klijentRepozitorijum.findOne(idKlijenta);
 		racun.valuta = valutaRepozitorijum.findOne(idValute);
@@ -50,23 +50,35 @@ public class RacunServisImpl implements RacunServis {
 
 	@Override
 	public ResponseEntity<List<Racun>> sviRacuni() {
+
+		Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
+		Banka b = z.banka;
 		return new ResponseEntity<List<Racun>>(racunRepozitorijum.findByBanka(b), HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<List<Racun>> sviRacuniValute(Long idValute) {
+
+		Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
+		Banka b = z.banka;
 		return new ResponseEntity<List<Racun>>(
 				racunRepozitorijum.findByBankaAndValuta(b, valutaRepozitorijum.findOne(idValute)), HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<List<Racun>> sviRacuniKlijenta(Long idKlijenta) {
+
+		Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
+		Banka b = z.banka;
 		return new ResponseEntity<List<Racun>>(
 				racunRepozitorijum.findByBankaAndKlijent(b, klijentRepozitorijum.findOne(idKlijenta)), HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<List<Racun>> pretraziRacune(Racun racun, Long idKlijenta, Long idValute) {
+
+		Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
+		Banka b = z.banka;
 		List<Racun> lista = new ArrayList<Racun>();
 		if (racun != null) {
 			if (racun.vazeci != null)

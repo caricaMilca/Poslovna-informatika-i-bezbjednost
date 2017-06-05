@@ -33,6 +33,8 @@ public class KlijentKontroler {
 	@GetMapping(path = "/preuzmiKlijenta")
 	public ResponseEntity<Klijent> preuzmiKlijenta() {
 		Korisnik k = (Korisnik) sesija.getAttribute("korisnik");
+		if(k == null)
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		return new ResponseEntity<Klijent>(klijentServis.preuzmiKlijenta(k.id), HttpStatus.OK);
 	}
 
