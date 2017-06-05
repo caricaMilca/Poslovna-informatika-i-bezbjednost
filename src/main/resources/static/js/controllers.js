@@ -39,7 +39,6 @@ app
 											response) {
 										if (response.status == 200) {
 											$rootScope.korisnik = response.data;
-											$location.path('/univerzalno/registracijaKorisnika');
 											if(response.data.ulogaZ === 'Super_salterusa')
 												sessionService
 												.sveDjelatnosti()
@@ -47,7 +46,7 @@ app
 														function(response) {
 															if (response.status == 200) {
 																$scope.djelatnosti = response.data;
-																  $scope.djelatnostKlijenta = $scope.djelatnosti[0]; s
+																  $scope.djelatnostKlijenta = $scope.djelatnosti[0];
 															}
 												
 											});
@@ -91,23 +90,25 @@ app
 							}
 							
 							$scope.regKlijentaP = function(){
-								sessionService.regKlijentaP($scope.novi, $scope.djelatnostKlijenta.id).then(function(response){
-									$location.path('/univerzalno/registracijaKorisnika');
-									ngNotify.set('Uspjesna registracija' , {
-										type : 'success'
+								if($scope.mode == 'add')
+									sessionService.regKlijentaP($scope.novi, $scope.djelatnostKlijenta.id).then(function(response){
+										$location.path('/univerzalno/registracijaKorisnika');
+										ngNotify.set('Uspjesna registracija' , {
+											type : 'success'
+										});
+										$scope.novi = null;
 									});
-									$scope.novi = null;
-								});
 							}
 							
 							$scope.regKlijentaF = function(){
-								sessionService.regKlijentaF($scope.novi).then(function(response){
-									$location.path('/univerzalno/registracijaKorisnika');
-									ngNotify.set('Uspjesna registracija' , {
-										type : 'success'
+								if($scope.mode == 'add')
+									sessionService.regKlijentaF($scope.novi).then(function(response){
+										$location.path('/univerzalno/registracijaKorisnika');
+										ngNotify.set('Uspjesna registracija' , {
+											type : 'success'
+										});
+										$scope.novi = null;
 									});
-									$scope.novi = null;
-								});
 							}
 							
 							$scope.submitLogin = function() {
@@ -140,26 +141,6 @@ app
 																						type : 'success'
 																					});
 																					$rootScope.korisnik = response.data;
-																					if (response.data.ulogaZ === "Salterusa")
-																						$location
-																								.path('/univerzalno/registracijaKorisnika');
-																					else if (response.data.ulogaZ === "Super_salterusa") {
-																						$location
-																								.path('/univerzalno/registracijaKorisnika');
-																						sessionService
-																						.sveDjelatnosti()
-																						.then(
-																								function(response) {
-																									if (response.status == 200) {
-																										$scope.djelatnosti = response.data;
-																										  $scope.djelatnostKlijenta = $scope.djelatnosti[0]; 
-																									}
-																						
-																					});
-																						}
-																					else
-																						$location
-																								.path('/univerzalno/registracijaKorisnika');
 																					
 																				}
 																			});
@@ -177,6 +158,28 @@ app
 									selected) {
 								$scope.djelatnostKlijenta = selected;
 							}
-
 							
+							$scope.setSelectedKlijent = function(selected) {
+								$scope.selectedKlijent = selected;
+								$scope.show = 10;
+								$scope.novi = angular.copy(selected);
+								
+							}
+							
+							$scope.display = function(tab) {
+								$scope.show = tab;
+								if(tab == 10)
+									$scope.mode = 'add';
+								else 
+									$scope.mode = 'edit';
+							}
+
+							$scope.preuzmiKlijente = function() {
+								sessionService.preuzmiKlijente().then(function(response) {
+									if (response.data) {
+										$location.path('/Klijent/klijenti');
+										$scope.sviKlijenti = response.data;
+									}
+								});
+							}
 						} ]);

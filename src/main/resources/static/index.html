@@ -49,6 +49,9 @@
 					</ul>
 					<ul class="nav navbar-nav navbar-right" ng-show="korisnik">
 						<form id="signin" class="navbar-form navbar-right" role="form">
+						<div ng-show="korisnik.uloga != 'Admin'">
+							<button type="button" class="btn btn-primary" ng-click="preuzmiKlijente()">Klijenti</button>
+						</div>
 							<a href="#!/changePassword" >Settings</a>
 							<button type="submit" class="btn btn-primary" ng-click="logout()">Logout</button>
 						</form>

@@ -22,9 +22,9 @@ insert into KursUValuti(kupovni, prodajni, srednji, osnovna_valuta_id, prema_val
 insert into Djelatnost(naziv, sifra) values ('vodoinstalater', 'vi');
 insert into Djelatnost(naziv, sifra) values ('elektricar', 'e');
 
-insert into Zaposleni(id, ulogaZ) values (1, 'Salterusa');
-insert into Zaposleni(id, ulogaZ) values (2, 'Super_salterusa');
-insert into Zaposleni(id, ulogaZ) values (3, 'Administrator');
+insert into Zaposleni(id, ulogaZ, banka_id) values (1, 'Salterusa', 1);
+insert into Zaposleni(id, ulogaZ, banka_id) values (2, 'Super_salterusa', 1);
+insert into Zaposleni(id, ulogaZ, banka_id) values (3, 'Administrator', 1);
 insert into Klijent(id, ulogaK) values (4, 'FIZICKO');
 insert into Klijent(id, ulogaK, djelatnost_id) values (5, 'POSLOVNO', 1);
 

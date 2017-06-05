@@ -9,6 +9,9 @@ app.config(function($routeProvider, $locationProvider) {
 	}).when('/univerzalno/registracijaKorisnika', {
 		templateUrl: '/univerzalno/registracijaKorisnika.html',
 		controller: 'appController'
+	}).when('/Klijent/klijenti', {
+		templateUrl: '/Klijent/klijenti.html',
+		controller: 'appController'
 	}).when('/changePassword', {
 		templateUrl: '/univerzalno/changePassword.html',
 		controller: 'appController'

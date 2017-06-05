@@ -36,6 +36,11 @@ app.factory('SessionService', function sessionService($http) {
 	sessionService.preuzmiZaposlenog = function() {
 		return $http.get("/zaposleni/preuzmiZaposlenog/");
 	}
+	
+	sessionService.preuzmiKlijente = function(){
+		return $http.get("/klijent/sviKlijenti");
+	}
+	
 	return sessionService;
 	
 });

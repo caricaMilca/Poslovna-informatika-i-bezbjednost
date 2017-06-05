@@ -1,0 +1,83 @@
+<h1 class="page-header">Svi klijenti banke {{korisnik.banka.naziv}}</h1>
+<p>
+<div class="container">
+	<div class="btn-group">
+		<button type="button" class="btn btn-default" ng-click="display(1)">
+			<img src="images/search.gif" width="30" />
+		</button>
+		<button type="button" class="btn btn-default" ng-click="display(2)">
+			<img src="images/refresh.gif" width="30" />
+		</button>
+		<button type="button" class="btn btn-default" ng-click="display(3)">
+			<img src="images/zoom-pickup.gif" width="30" />
+		</button>
+		<button type="button" class="btn btn-default" ng-click="display(4)">
+			<img src="images/help.gif" width="30" />
+		</button>
+		<button type="button" class="btn btn-default" ng-click="display(5)">
+			<img src="images/zoom-pickup.gif" width="30" />
+		</button>
+	</div>
+	<div class="btn-group">
+		<button type="button" class="btn btn-default" ng-click="display(6)">
+			<img src="images/first.gif" width="30" />
+		</button>
+		<button type="button" class="btn btn-default" ng-click="display(7)">
+			<img src="images/prev.gif" width="30" />
+		</button>
+		<button type="button" class="btn btn-default" ng-click="display(8)">
+			<img src="images/next.gif" width="30" />
+		</button>
+		<button type="button" class="btn btn-default" ng-click="display(9)">
+			<img src="images/last.gif" width="30" />
+		</button>
+	</div>
+	<div class="btn-group">
+		<button type="button" class="btn btn-default" ng-click="display(10)">
+			<img src="images/add.gif" width="30" />
+		</button>
+		<button type="button" class="btn btn-default" ng-click="display(11)">
+			<img src="images/edit.gif" width="30" />
+		</button>
+		<button type="button" class="btn btn-default" ng-click="display(12)">
+			<img src="images/remove.gif" width="30" />
+		</button>
+	</div>
+	<div class="btn-group">
+		<button type="button" class="btn btn-default" ng-click="display(13)">
+			<img src="images/nextform.gif" width="30" />
+		</button>
+		</p>
+	</div>
+</div>
+<br />
+<div class="container">
+	<div class="table-responsive">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Ime</th>
+					<th>Prezime</th>
+					<th>Korisnicko ime</th>
+					<th>Lice</th>
+					<th>Djelatnost</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="k in sviKlijenti" ng-click="setSelectedKlijent(k)"
+					ng-class="{'info' : selectedKlijent===k}">
+					<td>{{k.ime}}</td>
+					<td>{{k.prezime}}</td>
+					<td>{{k.korisnickoIme}}</td>
+					<td>{{k.ulogaK}}</td>
+					<td>{{k.djelatnost.sifra}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<br />
+
+	<div ng-show="show==10" ng-include
+		src="'univerzalno/registracijaKorisnika.html'"></div>
+</div>
+</div>
