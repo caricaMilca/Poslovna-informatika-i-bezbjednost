@@ -10,7 +10,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,9 +33,9 @@ public class KursnaListaKontroler {
 	KursnaListaServis kursnaListaServis;
 
 	@AutorizacijaAnnotation(imeMetode = "registracijaKursneListe")
-	@PostMapping(path = "/registracijaKursneListe/{idBanke}")
-	public ResponseEntity<KursnaLista> registracijaKursneListe(@Valid @RequestBody KursnaLista kursnaLista,  @PathVariable("idBanke") Long idBanke) {
-		return kursnaListaServis.registracijaKursneListe(kursnaLista, idBanke);
+	@PostMapping(path = "/registracijaKursneListe")
+	public ResponseEntity<KursnaLista> registracijaKursneListe(@Valid @RequestBody KursnaLista kursnaLista) {
+		return kursnaListaServis.registracijaKursneListe(kursnaLista);
 
 	}
 
@@ -45,17 +44,11 @@ public class KursnaListaKontroler {
 	public ResponseEntity<List<KursnaLista>> sveKursneListe() {
 		return kursnaListaServis.sveKursneListe();
 	}
-	
-	@AutorizacijaAnnotation(imeMetode = "sveKursneListe")
-	@GetMapping(path = "/sveKursneListeBanke/{idBanke}")
-	public ResponseEntity<List<KursnaLista>> sveKursneListeBanke(@PathVariable("idBanke") Long idBanke) {
-		return kursnaListaServis.sveKursneListeBanke(idBanke);
-	}
 
 	@AutorizacijaAnnotation(imeMetode = "pretraziKursneListe")
-	@PutMapping(path = "/pretraziKursneListe/{idBanke}")
-	public ResponseEntity<List<KursnaLista>> pretraziKursneListe(@RequestBody(required = false) KursnaLista kursnaLista, @PathVariable("idBanke") Long idBanke) {
-		return kursnaListaServis.pretraziKursneListe(kursnaLista, idBanke);
+	@PutMapping(path = "/pretraziKursneListe")
+	public ResponseEntity<List<KursnaLista>> pretraziKursneListe(@RequestBody(required = false) KursnaLista kursnaLista) {
+		return kursnaListaServis.pretraziKursneListe(kursnaLista);
 
 	}
 

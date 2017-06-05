@@ -16,16 +16,14 @@ public interface KlijentRepozitorijum extends JpaRepository<Klijent, Long> {
 
 	List<Klijent> findByDjelatnost(Djelatnost findOne);
 
-	@Query("select k from Klijent k where lower(k.ime) like ?1 or lower(k.prezime) like ?2 or lower(k.korisnickoIme) like ?3 or k.ulogaK = ?4")
-	List<Klijent> findByImeLikeOrPrezimeLikeOrKorisnickoImeLikeOrUlogaK(String ime, String prezime,
-			String korisnickoIme, UlogaKlijenta ulogaK);
-	
-	@Query("select k from Klijent k where lower(k.ime) like ?1 or lower(k.prezime) like ?2 or lower(k.korisnickoIme) like ?3 or k.ulogaK = ?4 or k.djelatnost = ?5")
-	List<Klijent> findByImeLikeOrPrezimeLikeOrKorisnickoImeLikeOrUlogaKOrDjelatnost(String ime, String prezime,
-			String korisnickoIme, UlogaKlijenta ulogaK, Djelatnost findOne);
+	@Query("select k from Klijent k where lower(k.ime) like ?1 or lower(k.prezime) like ?2 or lower(k.korisnickoIme) like ?3")
+	List<Klijent> findByImeLikeOrPrezimeLikeOrKorisnickoImeLike(String ime, String prezime,
+			String korisnickoIme);
 
 	@Query("select k from Klijent k inner join k.racuni as r where r.banka=?1")
 	List<Klijent> hasRacunInBanka(Banka banka);
+
+	List<Klijent> findByUlogaK(UlogaKlijenta ulogaK);
 
 	
 }

@@ -51,7 +51,14 @@ public class DnevnoStanjeRacunaServisImpl implements DnevnoStanjeRacunaServis {
 	public ResponseEntity<List<DnevnoStanjeRacuna>> svaDnevnaStanjeRacunaDatog(Long idRacuna) {
 		Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
 		Banka b = z.banka;
-		return new ResponseEntity<List<DnevnoStanjeRacuna>>(dnevnoStanjeRacunaRepozitorijum.findByRacun(racunRepozitorijum.findOne(idRacuna), b), HttpStatus.OK);
+		List<DnevnoStanjeRacuna> d = dnevnoStanjeRacunaRepozitorijum.dnevnaStanjaUBanci(b);
+		List<DnevnoStanjeRacuna> lista = dnevnoStanjeRacunaRepozitorijum.findByRacun(racunRepozitorijum.findOne(idRacuna));
+		lista.retainAll(d);
+		Set<DnevnoStanjeRacuna> set = new HashSet<DnevnoStanjeRacuna>();
+		set.addAll(lista);
+		lista.clear();
+		lista.addAll(set);
+		return new ResponseEntity<List<DnevnoStanjeRacuna>>(lista, HttpStatus.OK);
 	}
 
 	@Override
@@ -59,21 +66,23 @@ public class DnevnoStanjeRacunaServisImpl implements DnevnoStanjeRacunaServis {
 			Long idRacuna) {
 		Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
 		Banka b = z.banka;
+		List<DnevnoStanjeRacuna> d = dnevnoStanjeRacunaRepozitorijum.dnevnaStanjaUBanci(b);
 		List<DnevnoStanjeRacuna> lista = new ArrayList<DnevnoStanjeRacuna>();
 		if(dnevnoStanjeRacuna != null){
 			if(dnevnoStanjeRacuna.datumPrometa != null)
-				lista.addAll(dnevnoStanjeRacunaRepozitorijum.findByDatumPrometa(dnevnoStanjeRacuna.datumPrometa, b));
+				lista.addAll(dnevnoStanjeRacunaRepozitorijum.findByDatumPrometa(dnevnoStanjeRacuna.datumPrometa));
 			if(dnevnoStanjeRacuna.novoStanje != null)
-				lista.addAll(dnevnoStanjeRacunaRepozitorijum.findByNovoStanje(dnevnoStanjeRacuna.novoStanje, b));
+				lista.addAll(dnevnoStanjeRacunaRepozitorijum.findByNovoStanje(dnevnoStanjeRacuna.novoStanje));
 			if(dnevnoStanjeRacuna.prethodnoStanje != null)
-				lista.addAll(dnevnoStanjeRacunaRepozitorijum.findByPrethodnoStanje(dnevnoStanjeRacuna.prethodnoStanje, b));
+				lista.addAll(dnevnoStanjeRacunaRepozitorijum.findByPrethodnoStanje(dnevnoStanjeRacuna.prethodnoStanje));
 			if(dnevnoStanjeRacuna.prometNaKorist != null)
-				lista.addAll(dnevnoStanjeRacunaRepozitorijum.findByPrometNaKorist(dnevnoStanjeRacuna.prometNaKorist, b));
+				lista.addAll(dnevnoStanjeRacunaRepozitorijum.findByPrometNaKorist(dnevnoStanjeRacuna.prometNaKorist));
 			if(dnevnoStanjeRacuna.prometNaTeret != null)
-				lista.addAll(dnevnoStanjeRacunaRepozitorijum.findByPrometNaTeret(dnevnoStanjeRacuna.prometNaTeret,b));
+				lista.addAll(dnevnoStanjeRacunaRepozitorijum.findByPrometNaTeret(dnevnoStanjeRacuna.prometNaTeret));
 		}
 		if(idRacuna != -1)
-			lista.addAll(dnevnoStanjeRacunaRepozitorijum.findByRacun(racunRepozitorijum.findOne(idRacuna), b));
+			lista.addAll(dnevnoStanjeRacunaRepozitorijum.findByRacun(racunRepozitorijum.findOne(idRacuna)));
+		lista.retainAll(d);
 		Set<DnevnoStanjeRacuna> set = new HashSet<DnevnoStanjeRacuna>();
 		set.addAll(lista);
 		lista.clear();

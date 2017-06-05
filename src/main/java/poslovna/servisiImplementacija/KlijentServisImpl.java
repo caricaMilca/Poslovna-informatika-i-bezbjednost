@@ -32,14 +32,14 @@ public class KlijentServisImpl implements KlijentServis {
 
 	@Autowired
 	DjelatnostRepozitorijum djelatnostRepozitorijum;
-	
+
 	@Autowired
 	BankaRepozitorijum bankaRepozitorijum;
 
 	@Autowired
 	RoleServis roleServis;
-	
-	@Autowired 
+
+	@Autowired
 	HttpSession sesija;
 
 	@Override
@@ -78,18 +78,24 @@ public class KlijentServisImpl implements KlijentServis {
 
 	@Override
 	public ResponseEntity<List<Klijent>> sviKlijentiDjelatnosti(Long idDjelatnosti) {
-		return new ResponseEntity<List<Klijent>>(
-				klijentRepozitorijum.findByDjelatnost(djelatnostRepozitorijum.findOne(idDjelatnosti)), HttpStatus.OK);
+		Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
+		List<Klijent> lista = klijentRepozitorijum.hasRacunInBanka(zaposleni.banka);
+		List<Klijent> b = klijentRepozitorijum.findByDjelatnost(djelatnostRepozitorijum.findOne(idDjelatnosti));
+		lista.retainAll(b);
+		Set<Klijent> set = new HashSet<Klijent>();
+		set.addAll(lista);
+		lista.clear();
+		lista.addAll(set);
+		return new ResponseEntity<List<Klijent>>(lista, HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<List<Klijent>> pretraziKlijente(Klijent klijent, Long idDjelatnosti) {
-		//razgovarati da li salteruse mogu da vidi klijente koje ne registruju
+		Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
+		List<Klijent> k = klijentRepozitorijum.hasRacunInBanka(zaposleni.banka);
 		List<Klijent> lista = new ArrayList<Klijent>();
-		if (klijent == null) {
-			return new ResponseEntity<List<Klijent>>(
-					klijentRepozitorijum.findByDjelatnost(djelatnostRepozitorijum.findOne(idDjelatnosti)),
-					HttpStatus.OK);
+		if (klijent == null && idDjelatnosti != -1) {
+			lista.addAll(klijentRepozitorijum.findByDjelatnost(djelatnostRepozitorijum.findOne(idDjelatnosti)));
 		} else {
 			if (klijent.ime == null)
 				klijent.ime = "%";
@@ -105,16 +111,17 @@ public class KlijentServisImpl implements KlijentServis {
 				klijent.korisnickoIme = "%" + klijent.korisnickoIme + "%";
 			if (idDjelatnosti != -1)
 				lista.addAll(klijentRepozitorijum.findByDjelatnost(djelatnostRepozitorijum.findOne(idDjelatnosti)));
-			lista.addAll(klijentRepozitorijum.findByImeLikeOrPrezimeLikeOrKorisnickoImeLikeOrUlogaK(klijent.ime,
-					klijent.prezime, klijent.korisnickoIme, klijent.ulogaK));
-			Set<Klijent> set = new HashSet<Klijent>();
-			set.addAll(lista);
-			lista.clear();
-			lista.addAll(set);
-			return new ResponseEntity<List<Klijent>>(lista, HttpStatus.OK);
+			lista.addAll(klijentRepozitorijum.findByImeLikeOrPrezimeLikeOrKorisnickoImeLike(klijent.ime,
+					klijent.prezime, klijent.korisnickoIme));
+			if (klijent.ulogaK != null)
+				lista.addAll(klijentRepozitorijum.findByUlogaK(klijent.ulogaK));
+
 		}
+		lista.retainAll(k);
+		Set<Klijent> set = new HashSet<Klijent>();
+		set.addAll(lista);
+		lista.clear();
+		lista.addAll(set);
+		return new ResponseEntity<List<Klijent>>(lista, HttpStatus.OK);
 	}
-
-
-
 }

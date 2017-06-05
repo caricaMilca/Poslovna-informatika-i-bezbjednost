@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import poslovna.model.KursnaLista;
+import poslovna.model.Zaposleni;
 import poslovna.repozitorijumi.BankaRepozitorijum;
 import poslovna.repozitorijumi.KursnaListaRepozitorijum;
 import poslovna.servisi.KursnaListaServis;
@@ -26,38 +29,41 @@ public class KursnaListaServisImpl implements KursnaListaServis {
 	@Autowired
 	BankaRepozitorijum bankaRepozitorijum;
 
+	@Autowired
+	HttpSession sesija;
+	
 	@Override
-	public ResponseEntity<KursnaLista> registracijaKursneListe(KursnaLista kursnaLista, Long idBanke) {
-		kursnaLista.banka = bankaRepozitorijum.findOne(idBanke);
+	public ResponseEntity<KursnaLista> registracijaKursneListe(KursnaLista kursnaLista) {
+		Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
+		kursnaLista.banka = zaposleni.banka;
 		return new ResponseEntity<KursnaLista>(kursnaListaRepozitorijum.save(kursnaLista), HttpStatus.CREATED);
 	}
 
 	@Override
 	public ResponseEntity<List<KursnaLista>> sveKursneListe() {
-		return new ResponseEntity<List<KursnaLista>>(kursnaListaRepozitorijum.findAll(), HttpStatus.OK);
+		Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
+		return new ResponseEntity<List<KursnaLista>>(kursnaListaRepozitorijum.findByBanka(zaposleni.banka), HttpStatus.OK);
 	}
-
 	@Override
-	public ResponseEntity<List<KursnaLista>> sveKursneListeBanke(Long idBanke) {
-		return new ResponseEntity<List<KursnaLista>>(kursnaListaRepozitorijum.findByBanka(bankaRepozitorijum.findOne(idBanke)),HttpStatus.OK);
-	}
-
-	@Override
-	public ResponseEntity<List<KursnaLista>> pretraziKursneListe(KursnaLista kursnaLista, Long idBanke) {
+	public ResponseEntity<List<KursnaLista>> pretraziKursneListe(KursnaLista kursnaLista) {
 		List<KursnaLista> lista = new ArrayList<KursnaLista>();
+		Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
+		List<KursnaLista> b = kursnaListaRepozitorijum.findByBanka(zaposleni.banka);
 		if (kursnaLista.broj != null)
 			lista.addAll(kursnaListaRepozitorijum.findByBroj(kursnaLista.broj));
 		if (kursnaLista.datum != null)
 			lista.addAll(kursnaListaRepozitorijum.findByDatum(kursnaLista.datum));
 		if (kursnaLista.primjenjujeSeOd != null)
 			lista.addAll(kursnaListaRepozitorijum.findByPrimjenjujeSeOd(kursnaLista.primjenjujeSeOd));
-		if(idBanke != -1)
-			lista.addAll(kursnaListaRepozitorijum.findByBanka(bankaRepozitorijum.findOne(idBanke)));
+		lista.retainAll(b);
 		Set<KursnaLista> set= new HashSet<KursnaLista>();
 		set.addAll(lista);
 		lista.clear();
 		lista.addAll(set);
 		return new ResponseEntity<List<KursnaLista>>(lista, HttpStatus.OK);
 	}
+
+	Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
+	
 
 }
