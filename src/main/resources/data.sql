@@ -1,10 +1,10 @@
-insert into Korisnik(korisnicko_ime, lozinka, uloga) values ('ceks', 'ceks', 'Zaposleni');
-insert into Korisnik(korisnicko_ime, lozinka, uloga) values ('ceks1', 'ceks', 'Zaposleni');
-insert into Korisnik(korisnicko_ime, lozinka, uloga) values ('ceks2', 'ceks', 'Zaposleni');
-insert into Korisnik(korisnicko_ime, lozinka, uloga) values ('ceks3', 'ceks', 'Klijent');
-insert into Korisnik(korisnicko_ime, lozinka, uloga) values ('ceks4', 'ceks', 'Klijent');
-
 insert into Banka(sifra, pib, adresa, naziv, email, web, telefon, fax, banka) values (21, 213,'bankaAdresa', 'BankaA', 'banka@gmail.com','banka.com', '0650650650', 'banka.fax', true);
+
+insert into Korisnik(korisnicko_ime, lozinka, uloga, banka_id) values ('ceks', 'ceks', 'Zaposleni', 1);
+insert into Korisnik(korisnicko_ime, lozinka, uloga, banka_id) values ('ceks1', 'ceks', 'Zaposleni', 1);
+insert into Korisnik(korisnicko_ime, lozinka, uloga, banka_id) values ('ceks2', 'ceks', 'Zaposleni', 1);
+insert into Korisnik(korisnicko_ime, lozinka, uloga, banka_id) values ('ceks3', 'ceks', 'Klijent', 1);
+insert into Korisnik(korisnicko_ime, lozinka, uloga, banka_id) values ('ceks4', 'ceks', 'Klijent', 1);
 
 insert into Vrsta_placanja(naziv) values ('karticom');
 insert into Vrsta_placanja(naziv) values ('kes');
@@ -22,9 +22,9 @@ insert into KursUValuti(kupovni, prodajni, srednji, osnovna_valuta_id, prema_val
 insert into Djelatnost(naziv, sifra) values ('vodoinstalater', 'vi');
 insert into Djelatnost(naziv, sifra) values ('elektricar', 'e');
 
-insert into Zaposleni(id, ulogaZ, banka_id) values (1, 'Salterusa', 1);
-insert into Zaposleni(id, ulogaZ, banka_id) values (2, 'Super_salterusa', 1);
-insert into Zaposleni(id, ulogaZ, banka_id) values (3, 'Administrator', 1);
+insert into Zaposleni(id, ulogaZ) values (1, 'Salterusa');
+insert into Zaposleni(id, ulogaZ) values (2, 'Super_salterusa');
+insert into Zaposleni(id, ulogaZ) values (3, 'Administrator');
 insert into Klijent(id, ulogaK) values (4, 'FIZICKO');
 insert into Klijent(id, ulogaK, djelatnost_id) values (5, 'POSLOVNO', 1);
 

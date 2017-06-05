@@ -39,17 +39,8 @@ app
 											response) {
 										if (response.status == 200) {
 											$rootScope.korisnik = response.data;
-											if(response.data.ulogaZ === 'Super_salterusa')
-												sessionService
-												.sveDjelatnosti()
-												.then(
-														function(response) {
-															if (response.status == 200) {
-																$scope.djelatnosti = response.data;
-																  $scope.djelatnostKlijenta = $scope.djelatnosti[0];
-															}
-												
-											});
+											if(response.data.ulogaZ == 'Administrator')
+												$location.path('/Admin/registracijaSalteruse');
 										}
 									});
 							
@@ -71,44 +62,29 @@ app
 								}
 							}
 							
+								$scope.regSalterusu = function() {
+									sessionService
+											.regSalterusu($scope.novi)
+											.then(
+													function(response) {
+														$location
+																.path('/Admin/registracijaSalteruse');
+														ngNotify
+																.set(
+																		'Uspjesna registracija',
+																		{
+																			type : 'success'
+																		});
+														$scope.novi = null;
+													});
+								}
+								
 							$scope.logout = function(){
 								sessionService.logout().then(function(response){
 									$rootScope.korisnik = '';
 									$location.path('/login');
 									$scope.logovanje = null;
 								});
-							}
-							
-							$scope.regSalterusu = function(){
-								sessionService.regSalterusu($scope.novi).then(function(response){
-									$location.path('/univerzalno/registracijaKorisnika');
-									ngNotify.set('Uspjesna registracija' , {
-										type : 'success'
-									});
-									$scope.novi = null;
-								});
-							}
-							
-							$scope.regKlijentaP = function(){
-								if($scope.mode == 'add')
-									sessionService.regKlijentaP($scope.novi, $scope.djelatnostKlijenta.id).then(function(response){
-										$location.path('/univerzalno/registracijaKorisnika');
-										ngNotify.set('Uspjesna registracija' , {
-											type : 'success'
-										});
-										$scope.novi = null;
-									});
-							}
-							
-							$scope.regKlijentaF = function(){
-								if($scope.mode == 'add')
-									sessionService.regKlijentaF($scope.novi).then(function(response){
-										$location.path('/univerzalno/registracijaKorisnika');
-										ngNotify.set('Uspjesna registracija' , {
-											type : 'success'
-										});
-										$scope.novi = null;
-									});
 							}
 							
 							$scope.submitLogin = function() {
@@ -141,6 +117,8 @@ app
 																						type : 'success'
 																					});
 																					$rootScope.korisnik = response.data;
+																					if(response.data.ulogaZ == 'Administrator')
+																						$location.path('/Admin/registracijaSalteruse');
 																					
 																				}
 																			});
@@ -154,32 +132,8 @@ app
 												  });
 							}
 							
-							$scope.setSelectedDjelatnost = function(
-									selected) {
-								$scope.djelatnostKlijenta = selected;
-							}
 							
-							$scope.setSelectedKlijent = function(selected) {
-								$scope.selectedKlijent = selected;
-								$scope.show = 10;
-								$scope.novi = angular.copy(selected);
-								
-							}
-							
-							$scope.display = function(tab) {
-								$scope.show = tab;
-								if(tab == 10)
-									$scope.mode = 'add';
-								else 
-									$scope.mode = 'edit';
-							}
-
 							$scope.preuzmiKlijente = function() {
-								sessionService.preuzmiKlijente().then(function(response) {
-									if (response.data) {
-										$location.path('/Klijent/klijenti');
-										$scope.sviKlijenti = response.data;
-									}
-								});
+								$location.path('/Klijent/klijenti');
 							}
 						} ]);

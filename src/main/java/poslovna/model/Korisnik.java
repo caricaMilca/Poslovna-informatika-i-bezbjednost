@@ -16,6 +16,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -53,6 +54,9 @@ public class Korisnik {
 	// @Column(nullable=false)
 	public String lozinka;
 
+	@ManyToOne
+	public Banka banka;
+	
 	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.REMOVE, CascadeType.MERGE })
 	@JoinTable(name = "Korisnicke_roles", joinColumns = @JoinColumn(name = "korisnik_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
 	@JsonIgnore

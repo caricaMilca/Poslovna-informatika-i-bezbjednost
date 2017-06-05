@@ -44,6 +44,8 @@ public class KlijentServisImpl implements KlijentServis {
 
 	@Override
 	public ResponseEntity<Klijent> registracijaKlijenta(Klijent k, Long idDjelatnosti) {
+		Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
+		k.banka = zaposleni.banka;
 		if (klijentRepozitorijum.findByKorisnickoIme(k.korisnickoIme) != null)
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		k.ulogaK = UlogaKlijenta.POSLOVNO;
@@ -56,6 +58,8 @@ public class KlijentServisImpl implements KlijentServis {
 
 	@Override
 	public ResponseEntity<Klijent> registracijaKlijentaF(Klijent k) {
+		Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
+		k.banka = zaposleni.banka;
 		if (klijentRepozitorijum.findByKorisnickoIme(k.korisnickoIme) != null)
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		k.ulogaK = UlogaKlijenta.FIZICKO;
@@ -73,13 +77,13 @@ public class KlijentServisImpl implements KlijentServis {
 	@Override
 	public ResponseEntity<List<Klijent>> sviKlijenti() {
 		Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
-		return new ResponseEntity<List<Klijent>>(klijentRepozitorijum.hasRacunInBanka(zaposleni.banka), HttpStatus.OK);
+		return new ResponseEntity<List<Klijent>>(klijentRepozitorijum.findByBanka(zaposleni.banka), HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<List<Klijent>> sviKlijentiDjelatnosti(Long idDjelatnosti) {
 		Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
-		List<Klijent> lista = klijentRepozitorijum.hasRacunInBanka(zaposleni.banka);
+		List<Klijent> lista = klijentRepozitorijum.findByBanka(zaposleni.banka);
 		List<Klijent> b = klijentRepozitorijum.findByDjelatnost(djelatnostRepozitorijum.findOne(idDjelatnosti));
 		lista.retainAll(b);
 		Set<Klijent> set = new HashSet<Klijent>();
@@ -92,7 +96,7 @@ public class KlijentServisImpl implements KlijentServis {
 	@Override
 	public ResponseEntity<List<Klijent>> pretraziKlijente(Klijent klijent, Long idDjelatnosti) {
 		Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
-		List<Klijent> k = klijentRepozitorijum.hasRacunInBanka(zaposleni.banka);
+		List<Klijent> k = klijentRepozitorijum.findByBanka(zaposleni.banka);
 		List<Klijent> lista = new ArrayList<Klijent>();
 		if (klijent == null && idDjelatnosti != -1) {
 			lista.addAll(klijentRepozitorijum.findByDjelatnost(djelatnostRepozitorijum.findOne(idDjelatnosti)));

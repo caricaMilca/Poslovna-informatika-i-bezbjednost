@@ -1,10 +1,5 @@
 <h2 class="page-header">
-	Registracija
-	<div ng-switch="korisnik.ulogaZ">
-		<div ng-switch-when="Administrator">salterusa</div>
-		<div ng-switch-default>klijenta</div>
-	</div>
-	(crvena polja se moraju popuniti)
+	Forma :
 </h2>
 <form name="myForm" novalidate>
 	<div class="form-group">
@@ -28,50 +23,42 @@
 	<div class="form-group">
 		<label>Korisnicko ime:</label> <input type="text" name="korisnickoIme"
 			ng-Model="novi.korisnickoIme" class="form-control"
-			placeholder="Unesi korisnickoIme" required  />
+			placeholder="Unesi korisnickoIme" ng-required="mode=='add'" />
 	</div>
 	<div role="alert" style="color: red">
 		<span class="error" ng-show="myForm.korisnickoIme.$error.pattern">
 			Primjer sa svim dozvoljenim slovima : "Sasa_da nekaNsda" !</span>
 	</div>
 	<div ng-if="mode=='add'">
-			<div class="form-group">
-				<label>Lozinka:</label> <input type="password" name="lozinka"
-					ng-Model="novi.lozinka" class="form-control"
-					placeholder="Unesi lozinku" required />
-			</div>
+		<div class="form-group">
+			<label>Lozinka:</label> <input type="password" name="lozinka"
+				ng-Model="novi.lozinka" class="form-control"
+				placeholder="Unesi lozinku" required />
+		</div>
 	</div>
-
-	<div ng-switch="korisnik.ulogaZ">
-		<div ng-switch-when="Administrator">
-			<div class="form-group">
-				<label class="control-label col-sm-3">Tip salteruse :</label>
-				<div class="col-sm-6">
-					<div class="row">
-						<div class="col-sm-4">
-							<label class="radio-inline"> <input type="radio"
-								id="femaleRadio" value="Salterusa" ng-model="novi.ulogaZ"
-								required>Registruje fizicka lica
-							</label>
-						</div>
-						<div class="col-sm-4">
-							<label class="radio-inline"> <input type="radio"
-								id="maleRadio" value="Super_salterusa" ng-model="novi.ulogaZ"
-								required>Registruje pravna lica
-							</label>
-						</div>
-
+	<div ng-if="mode=='filter'">
+		<div class="form-group">
+			<label class="control-label col-sm-3">Tip klijenta :</label>
+			<div class="col-sm-6">
+				<div class="row">
+					<div class="col-sm-4">
+						<label class="radio-inline"> <input type="radio"
+							id="femaleRadio" value="FIZICKO" ng-model="novi.ulogaK">Fizicko
+							lice
+						</label>
 					</div>
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-9 col-sm-offset-3">
-					<button type="submit" class="btn btn-primary btn-block"
-						ng-disabled="myForm.$invalid" ng-click="regSalterusu()">Registeruj
-						salterusu</button>
+					<div class="col-sm-4">
+						<label class="radio-inline"> <input type="radio"
+							id="maleRadio" value="POSLOVNO" ng-model="novi.ulogaK">Pravno
+							lice
+						</label>
+					</div>
+
 				</div>
 			</div>
 		</div>
+	</div>
+	<div ng-switch="korisnik.ulogaZ">
 		<div ng-switch-when="Salterusa">
 			<div class="form-group">
 				<button type="submit" class="btn btn-success"
@@ -84,45 +71,52 @@
 				ng-options="djel as djel.sifra for djel in djelatnosti" disabled>
 				<option value="" style="display: none"></option>
 			</select>
-
 			<button type="button" class="btn btn-default" data-toggle="modal"
 				data-target="#izaberiDjelatnost">Izaberi djelatnost</button>
-
-
-			<div id="izaberiDjelatnost" class="modal fade" role="dialog"
-				style="color: black;">
-				<div class="modal-dialog">
-					<!-- Modal content-->
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal">&times;</button>
-							<h4 class="modal-title">Izaberi djelatnost</h4>
-						</div>
-						<div class="modal-body">
-							<table class="table">
-								<thead>
-									<tr>
-										<th>Naziv</th>
-										<th>Sifra</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-repeat="djel in djelatnosti"
-										ng-click="setSelectedDjelatnost(djel)"
-										ng-class="{'info' : djelatnostKlijenta===djel}">
-										<td>{{djel.naziv}}</td>
-										<td>{{djel.sifra}}</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-
-				</div>
-			</div>
 			<div class="form-group">
 				<button type="submit" class="btn btn-success"
 					ng-Click="regKlijentaP()" ng-disabled="myForm.$invalid">Sacuvaj</button>
+			</div>
+		</div>
+
+		<div ng-if="mode=='filter' && korisnik.ulogaZ == 'Salterusa'">
+			<select ng-model="djelatnostKlijenta"
+				ng-options="djel as djel.sifra for djel in djelatnosti" disabled>
+				<option value="" style="display: none"></option>
+			</select>
+			<button type="button" class="btn btn-default" data-toggle="modal"
+				data-target="#izaberiDjelatnost">Izaberi djelatnost</button>
+		</div>
+
+		<div id="izaberiDjelatnost" class="modal fade" role="dialog"
+			style="color: black;">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Izaberi djelatnost</h4>
+					</div>
+					<div class="modal-body">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Naziv</th>
+									<th>Sifra</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="djel in djelatnosti"
+									ng-click="setSelectedDjelatnost(djel)"
+									ng-class="{'info' : djelatnostKlijenta===djel}">
+									<td>{{djel.naziv}}</td>
+									<td>{{djel.sifra}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
 			</div>
 		</div>
 	</div>

@@ -18,6 +18,8 @@
 <script type="text/javascript" src="js/app.js"></script>
 <script type="text/javascript" src="js/controllers.js"></script>
 <script type="text/javascript" src="js/service.js"></script>
+<script type="text/javascript" src="Klijent/klijentController.js"></script>
+<script type="text/javascript" src="Klijent/klijentService.js"></script>
 <script type="text/javascript" src="js/moment.min.js"></script>
 <script type="text/javascript" src="js/ng-notify.js"></script>
 </head>
@@ -49,7 +51,7 @@
 					</ul>
 					<ul class="nav navbar-nav navbar-right" ng-show="korisnik">
 						<form id="signin" class="navbar-form navbar-right" role="form">
-						<div ng-show="korisnik.uloga != 'Admin'">
+						<div ng-show="korisnik.ulogaZ != 'Administrator'">
 							<button type="button" class="btn btn-primary" ng-click="preuzmiKlijente()">Klijenti</button>
 						</div>
 							<a href="#!/changePassword" >Settings</a>

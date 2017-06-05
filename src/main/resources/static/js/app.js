@@ -6,12 +6,12 @@ app.config(function($routeProvider, $locationProvider) {
 	$routeProvider.when('login', {
 		templateUrl : 'index.html',
 		controller : 'appController'
-	}).when('/univerzalno/registracijaKorisnika', {
-		templateUrl: '/univerzalno/registracijaKorisnika.html',
+	}).when('/Admin/registracijaSalteruse', {
+		templateUrl: '/Admin/registracijaSalteruse.html',
 		controller: 'appController'
 	}).when('/Klijent/klijenti', {
 		templateUrl: '/Klijent/klijenti.html',
-		controller: 'appController'
+		controller: 'klijentController'
 	}).when('/changePassword', {
 		templateUrl: '/univerzalno/changePassword.html',
 		controller: 'appController'

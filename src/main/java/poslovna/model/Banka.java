@@ -49,7 +49,7 @@ public class Banka {
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "banka", cascade = CascadeType.ALL)
 	@JsonIgnore
-	public Set<Zaposleni> zaposleni = new HashSet<Zaposleni>();
+	public Set<Korisnik> korisnici = new HashSet<Korisnik>();
 	
 	public Banka() {
 		super();
