@@ -63,7 +63,6 @@ public class KursnaListaServisImpl implements KursnaListaServis {
 		return new ResponseEntity<List<KursnaLista>>(lista, HttpStatus.OK);
 	}
 
-	Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
 	
 
 }
