@@ -34,18 +34,11 @@ public class ZaposleniKontroler {
 	@Autowired
 	HttpSession sesija;
 
-	@AutorizacijaAnnotation(imeMetode = "registracijaKlijentaPravno")
-	@PostMapping(path = "/registracijaKlijentaPravno/{idDjelatnosti}")
-	public ResponseEntity<Klijent> registracijaKlijentaPravno(@Valid @RequestBody Klijent klijent,
+	@AutorizacijaAnnotation(imeMetode = "registracijaKlijenta")
+	@PostMapping(path = "/registracijaKlijenta/{idDjelatnosti}")
+	public ResponseEntity<Klijent> registracijaKlijenta(@Valid @RequestBody Klijent klijent,
 			@PathVariable("idDjelatnosti") Long idDjelatnosti) {
 		return klijentServis.registracijaKlijenta(klijent, idDjelatnosti);
-
-	}
-
-	@AutorizacijaAnnotation(imeMetode = "registracijaKlijentaFizicko")
-	@PostMapping(path = "/registracijaKlijentaFizicko")
-	public ResponseEntity<Klijent> registracijaKlijentaFizicko(@Valid @RequestBody Klijent klijent ) {
-		return klijentServis.registracijaKlijentaF(klijent);
 
 	}
 

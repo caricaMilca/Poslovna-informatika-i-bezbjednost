@@ -37,6 +37,19 @@ public class KlijentKontroler {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		return new ResponseEntity<Klijent>(klijentServis.preuzmiKlijenta(k.id), HttpStatus.OK);
 	}
+	
+	@AutorizacijaAnnotation(imeMetode = "izbrisiKlijenta")
+	@PutMapping(path = "/izbrisiKlijenta/{idKlijenta}")
+	public ResponseEntity<?> izbrisiFizicko(@PathVariable("idKlijenta") Long idKlijenta) {
+		klijentServis.izbrisiKlijenta(idKlijenta);
+		return klijentServis.izbrisiKlijenta(idKlijenta);
+	}
+	
+	@AutorizacijaAnnotation(imeMetode = "izmjeniKlijenta")
+	@PutMapping(path = "/izmjeniKlijenta/{idDjelatnosti}")
+	public ResponseEntity<Klijent> izmjeniKlijenta(@RequestBody(required = false) Klijent klijent, @PathVariable("idDjelatnosti") Long idDjelatnosti) {
+		return klijentServis.izmjeniKlijenta(klijent, idDjelatnosti);
+	}
 
 	@AutorizacijaAnnotation(imeMetode = "sviKlijenti")
 	@GetMapping(path = "/sviKlijenti")

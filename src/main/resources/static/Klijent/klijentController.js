@@ -10,6 +10,22 @@ app.run([ 'ngNotify', function(ngNotify) {
 	});
 } ]);
 
+
+app.directive('ngConfirmClick', [
+        function(){
+            return {
+                link: function (scope, element, attr) {
+                    var msg = attr.ngConfirmClick || "Are you sure?";
+                    var clickAction = attr.confirmedClick;
+                    element.bind('click',function (event) {
+                        if ( window.confirm(msg) ) {
+                            scope.$eval(clickAction)
+                        }
+                    });
+                }
+            };
+    }]);
+
 app.config([ '$qProvider', function($qProvider) {
 	$qProvider.errorOnUnhandledRejections(false);
 } ]);
@@ -25,7 +41,8 @@ app
 						'KlijentService',
 						function($rootScope, $scope, $location, ngNotify,
 								klijentService) {
-							
+
+							$scope.mode = 'nulto';
 							klijentService.preuzmiKlijente().then(
 									function(response) {
 										if (response.data) {
@@ -42,11 +59,16 @@ app
 												}
 											});
 
-							$scope.regKlijentaP = function() {
-								if ($scope.mode == 'add') 
+							$scope.regKlijenta = function() {
+								var id;
+								if ($scope.djelatnostKlijenta == -1)
+									id = -1;
+								else
+									id = $scope.djelatnostKlijenta.id;
+								if ($scope.mode == 'add')
 									klijentService
-											.regKlijentaP(
-													$scope.novi,
+											.regKlijenta(
+													$scope.noviKlijent,
 													$scope.djelatnostKlijenta.id)
 											.then(
 													function(response) {
@@ -59,18 +81,14 @@ app
 																			});
 															$scope.sviKlijenti
 																	.push(response.data);
-															$scope.novi = null;
+															$scope.noviKlijent = null;
 															$scope.show = null;
 														}
 													});
 								else if ($scope.mode == 'filter') {
-									var id;
-									if ($scope.djelatnostKlijenta == undefined)
-										id = -1;
-									else
-										id = $scope.djelatnostKlijenta.id;
 									klijentService
-											.pretraziKlijente($scope.novi, id)
+											.pretraziKlijente(
+													$scope.noviKlijent, id)
 											.then(
 													function(response) {
 														if (response.data) {
@@ -81,56 +99,36 @@ app
 																				type : 'success'
 																			});
 															$scope.sviKlijenti = response.data;
-															$scope.novi = null;
+															$scope.noviKlijent = null;
 															$scope.show = null;
 														}
 													});
 								}
 							}
 
-							$scope.regKlijentaF = function() {
-								if ($scope.mode == 'add')
-									klijentService
-											.regKlijentaF($scope.novi)
-											.then(
-													function(response) {
-														if (response.data) {
-															ngNotify
-																	.set(
-																			'Uspjesna registracija',
-																			{
-																				type : 'success'
-																			});
-															$scope.sviKlijenti
-																	.push(response.data);
-															$scope.novi = null;
-															$scope.show = null;
-														}
-													});
-								else if ($scope.mode == 'filter') {
-									var id;
-									if ($scope.djelatnostKlijenta == undefined)
-										id = -1;
-									else
-										id = $scope.djelatnostKlijenta.id;
-									klijentService
-											.pretraziKlijente($scope.novi, id)
-											.then(
-													function(response) {
-														if (response.data) {
-															ngNotify
-																	.set(
-																			'Uspjesna pretraga',
-																			{
-																				type : 'success'
-																			});
-															$scope.sviKlijenti = response.data;
-															$scope.novi = null;
-															$scope.show = null;
-														}
+							$scope.izbrisiKlijenta = function() {
+								klijentService
+										.izbrisiKlijenta(
+												$scope.selectedKlijent.id)
+										.then(
+												function(response) {
+													if (response.status == 200) {
+														ngNotify
+																.set(
+																		'Uspjesno brisanje',
+																		{
+																			type : 'success'
+																		});
+														var index = $scope.sviKlijenti
+																.indexOf($scope.selectedKlijent);
+														$scope.sviKlijenti
+																.splice(index,
+																		1);
+														$scope.noviKlijent = null;
+														$scope.show = null;
+													}
 
-													});
-								}
+												});
 							}
 
 							$scope.setSelectedDjelatnost = function(selected) {
@@ -140,19 +138,21 @@ app
 							$scope.setSelectedKlijent = function(selected) {
 								$scope.selectedKlijent = selected;
 								$scope.show = 10;
-								$scope.novi = angular.copy(selected);
+								$scope.noviKlijent = angular.copy(selected);
 								$scope.mode = 'edit';
-
+								if (selected.ulogaK == 'POSLOVNO')
+									$scope.djelatnostKlijenta.sifra = selected.djelatnost.sifra;
 							}
 
 							$scope.display = function(tab) {
-								$scope.novi = null;
+								$scope.noviKlijent = null;
 								$scope.show = tab;
 								if (tab == 10)
 									$scope.mode = 'add';
-								else if (tab == 1)
+								else if (tab == 1) {
 									$scope.mode = 'filter';
-								else
+									$scope.djelatnostKlijenta = -1;
+								} else
 									$scope.mode = 'edit';
 							}
 

@@ -44,25 +44,12 @@ public class KlijentServisImpl implements KlijentServis {
 
 	@Override
 	public ResponseEntity<Klijent> registracijaKlijenta(Klijent k, Long idDjelatnosti) {
+		if (k.ulogaK == UlogaKlijenta.POSLOVNO)
+			k.djelatnost = djelatnostRepozitorijum.findOne(idDjelatnosti);
 		Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
 		k.banka = zaposleni.banka;
 		if (klijentRepozitorijum.findByKorisnickoIme(k.korisnickoIme) != null)
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		k.ulogaK = UlogaKlijenta.POSLOVNO;
-		k.uloga = UlogaKorisnika.Klijent;
-		k.roles.add(roleServis.findOne(Long.valueOf(1)));
-		k.roles.add(roleServis.findOne(Long.valueOf(6)));
-		k.djelatnost = djelatnostRepozitorijum.findOne(idDjelatnosti);
-		return new ResponseEntity<Klijent>(klijentRepozitorijum.save(k), HttpStatus.CREATED);
-	}
-
-	@Override
-	public ResponseEntity<Klijent> registracijaKlijentaF(Klijent k) {
-		Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
-		k.banka = zaposleni.banka;
-		if (klijentRepozitorijum.findByKorisnickoIme(k.korisnickoIme) != null)
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		k.ulogaK = UlogaKlijenta.FIZICKO;
 		k.uloga = UlogaKorisnika.Klijent;
 		k.roles.add(roleServis.findOne(Long.valueOf(1)));
 		k.roles.add(roleServis.findOne(Long.valueOf(6)));
@@ -98,34 +85,62 @@ public class KlijentServisImpl implements KlijentServis {
 		Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
 		List<Klijent> k = klijentRepozitorijum.findByBanka(zaposleni.banka);
 		List<Klijent> lista = new ArrayList<Klijent>();
-		if (klijent == null && idDjelatnosti != -1) {
-			lista.addAll(klijentRepozitorijum.findByDjelatnost(djelatnostRepozitorijum.findOne(idDjelatnosti)));
-		} else {
-			if (klijent.ime == null)
-				klijent.ime = "%";
-			else
-				klijent.ime = "%" + klijent.ime + "%";
-			if (klijent.prezime == null)
-				klijent.prezime = "%";
-			else
-				klijent.prezime = "%" + klijent.prezime + "%";
-			if (klijent.korisnickoIme == null)
-				klijent.korisnickoIme = "%";
-			else
-				klijent.korisnickoIme = "%" + klijent.korisnickoIme + "%";
-			if (idDjelatnosti != -1)
-				lista.addAll(klijentRepozitorijum.findByDjelatnost(djelatnostRepozitorijum.findOne(idDjelatnosti)));
-			lista.addAll(klijentRepozitorijum.findByImeLikeOrPrezimeLikeOrKorisnickoImeLike(klijent.ime,
-					klijent.prezime, klijent.korisnickoIme));
-			if (klijent.ulogaK != null)
-				lista.addAll(klijentRepozitorijum.findByUlogaK(klijent.ulogaK));
+		List<Klijent> ime = new ArrayList<Klijent>();
+		List<Klijent> prezime = new ArrayList<Klijent>();
+		List<Klijent> korisnickoIme = new ArrayList<Klijent>();
+		if(klijent == null && idDjelatnosti == -1)
+			return new ResponseEntity<List<Klijent>>(lista, HttpStatus.OK);
 
+		List<Klijent> djelatnost = new ArrayList<Klijent>();
+		List<Klijent> uloga = new ArrayList<Klijent>();
+		if (klijent != null) {
+			if(klijent.korisnickoIme != null){
+				korisnickoIme.add(klijentRepozitorijum.findByKorisnickoIme(klijent.korisnickoIme));
+				k.retainAll(korisnickoIme);
+			}
+			if(klijent.prezime != null){
+				prezime = klijentRepozitorijum.findByPrezime(klijent.prezime);
+				k.retainAll(prezime);
+				}
+			if(klijent.ime != null){
+				ime = klijentRepozitorijum.findByIme(klijent.ime);
+				k.retainAll(ime);
+			}
+	//		lista = klijentRepozitorijum.findByImeLikeAndPrezimeLikeAndKorisnickoImeLike(klijent.ime, klijent.prezime, klijent.korisnickoIme);
+	//		k.retainAll(lista);       ovo radii ako gledas ako se ovo zakomentarise , ja zaboravile
+			if (klijent.ulogaK != null) {
+				uloga = klijentRepozitorijum.findByUlogaK(klijent.ulogaK);
+				k.retainAll(uloga);
+			}
 		}
-		lista.retainAll(k);
+		if (idDjelatnosti != -1) {
+			djelatnost = klijentRepozitorijum.findByDjelatnost(djelatnostRepozitorijum.findOne(idDjelatnosti));
+			k.retainAll(djelatnost);
+		}
 		Set<Klijent> set = new HashSet<Klijent>();
-		set.addAll(lista);
-		lista.clear();
-		lista.addAll(set);
-		return new ResponseEntity<List<Klijent>>(lista, HttpStatus.OK);
+		set.addAll(k);
+		k.clear();
+		k.addAll(set);
+		return new ResponseEntity<List<Klijent>>(k, HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<Klijent> izmjeniKlijenta(Klijent klijent, Long idDjelatnosti) {
+		Klijent k = klijentRepozitorijum.findOne(klijent.id);
+		if (k.ulogaK == UlogaKlijenta.POSLOVNO && idDjelatnosti != -1)
+			k.djelatnost = djelatnostRepozitorijum.findOne(idDjelatnosti);
+		if (klijent.ime != null)
+			k.ime = klijent.ime;
+		if (klijent.prezime != null)
+			k.prezime = klijent.prezime;
+		if (klijent.korisnickoIme != null)
+			k.korisnickoIme = klijent.prezime;
+		return new ResponseEntity<Klijent>(klijentRepozitorijum.save(k), HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<?> izbrisiKlijenta(Long idKlijenta) {
+		klijentRepozitorijum.delete(idKlijenta);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

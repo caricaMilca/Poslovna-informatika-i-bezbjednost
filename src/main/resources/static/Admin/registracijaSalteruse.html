@@ -1,66 +1,44 @@
-<div class="container" ng-controller="appController">
-	<h2 class="page-header">Registracija salteruse (crvena polja se
-		moraju popuniti)</h2>
-	<form name="myForm" novalidate>
-		<div class="form-group">
-			<label>Ime:</label> <input type="text" name="ime" ng-Model="novi.ime"
-				class="form-control" placeholder="Unesi ime"
-				pattern="^[A-Z][a-z A-Z]*" />
-		</div>
-		<div role="alert" style="color: red">
-			<span class="error" ng-show="myForm.ime.$error.pattern">
-				Primjer sa svim dozvoljenim slovima : "Sasa_da nekaNsda" !</span>
-		</div>
-		<div class="form-group">
-			<label>Prezime:</label> <input type="text" name="prezime"
-				ng-Model="novi.prezime" class="form-control"
-				placeholder="Unesi prezime" pattern="^[A-Z][a-z A-Z]*" />
-		</div>
-		<div role="alert" style="color: red">
-			<span class="error" ng-show="myForm.prezime.$error.pattern">
-				Primjer sa svim dozvoljenim slovima : "Sasa_da nekaNsda" !</span>
-		</div>
-		<div class="form-group">
-			<label>Korisnicko ime:</label> <input type="text"
-				name="korisnickoIme" ng-Model="novi.korisnickoIme"
-				class="form-control" placeholder="Unesi korisnickoIme" required />
-		</div>
-		<div role="alert" style="color: red">
-			<span class="error" ng-show="myForm.korisnickoIme.$error.pattern">
-				Primjer sa svim dozvoljenim slovima : "Sasa_da nekaNsda" !</span>
-		</div>
-			<div class="form-group">
-				<label>Lozinka:</label> <input type="password" name="lozinka"
-					ng-Model="novi.lozinka" class="form-control"
-					placeholder="Unesi lozinku" required />
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="control-label col-sm-3">Tip salteruse :</label>
-			<div class="col-sm-6">
-				<div class="row">
-					<div class="col-sm-4">
-						<label class="radio-inline"> <input type="radio"
-							id="femaleRadio" value="Salterusa" ng-model="novi.ulogaZ"
-							required>Registruje fizicka lica
-						</label>
-					</div>
-					<div class="col-sm-4">
-						<label class="radio-inline"> <input type="radio"
-							id="maleRadio" value="Super_salterusa" ng-model="novi.ulogaZ"
-							required>Registruje pravna lica
-						</label>
-					</div>
 
-				</div>
-			</div>
+<h2 class="page-header">Registracija salteruse (crvena polja se
+	moraju popuniti)</h2>
+<form name="myForm" novalidate>
+	<div class="form-group">
+		<label>Ime:</label> <input type="text" name="ime"
+			ng-Model="$parent.novi.ime" class="form-control"
+			placeholder="Unesi ime" pattern="^[A-Z][a-z A-Z]*" />
+	</div>
+	<div role="alert" style="color: red">
+		<span class="error" ng-show="myForm.ime.$error.pattern">
+			Primjer sa svim dozvoljenim slovima : "Sasa_da nekaNsda" !</span>
+	</div>
+	<div class="form-group">
+		<label>Prezime:</label> <input type="text" name="prezime"
+			ng-Model="$parent.novi.prezime" class="form-control"
+			placeholder="Unesi prezime" pattern="^[A-Z][a-z A-Z]*" />
+	</div>
+	<div role="alert" style="color: red">
+		<span class="error" ng-show="myForm.prezime.$error.pattern">
+			Primjer sa svim dozvoljenim slovima : "Sasa_da nekaNsda" !</span>
+	</div>
+	<div class="form-group">
+		<label>Korisnicko ime:</label> <input type="text" name="korisnickoIme"
+			ng-Model="$parent.novi.korisnickoIme" class="form-control"
+			placeholder="Unesi korisnickoIme" required />
+	</div>
+	<div role="alert" style="color: red">
+		<span class="error" ng-show="myForm.korisnickoIme.$error.pattern">
+			Primjer sa svim dozvoljenim slovima : "Sasa_da nekaNsda" !</span>
+	</div>
+	<div class="form-group">
+		<label>Lozinka:</label> <input type="password" name="lozinka"
+			ng-Model="$parent.novi.lozinka" class="form-control"
+			placeholder="Unesi lozinku" required />
+	</div>
+	<div class="form-group">
+		<div class="col-sm-9 col-sm-offset-3">
+			<button type="submit" class="btn btn-primary btn-block"
+				ng-disabled="myForm.$invalid" ng-click="$parent.regSalterusu()">Registeruj
+				salterusu</button>
 		</div>
-		<div class="form-group">
-			<div class="col-sm-9 col-sm-offset-3">
-				<button type="submit" class="btn btn-primary btn-block"
-					ng-disabled="myForm.$invalid" ng-click="regSalterusu()">Registeruj
-					salterusu</button>
-			</div>
-		</div>
-	</form>
-</div>
+	</div>
+</form>

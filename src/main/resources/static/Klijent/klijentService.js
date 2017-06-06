@@ -2,13 +2,10 @@ var app = angular.module('webApp');
 
 app.factory('KlijentService', function klijentService($http) {
 	
-	klijentService.regKlijentaP = function(klijent, id){
-		return $http.post("/zaposleni/registracijaKlijentaPravno/"+id, klijent);
+	klijentService.regKlijenta = function(klijent, id){
+		return $http.post("/zaposleni/registracijaKlijenta/"+id, klijent);
 	}
-	
-	klijentService.regKlijentaF = function(klijent){
-		return $http.post("/zaposleni/registracijaKlijentaFizicko", klijent);
-	}
+
 	
 	klijentService.sveDjelatnosti = function(){
 		return $http.get("/djelatnost/sveDjelatnosti");
@@ -22,6 +19,9 @@ app.factory('KlijentService', function klijentService($http) {
 		return $http.put("/klijent/pretraziKlijente/" + idDjelatnosti, klijent);
 	}
 	
+	klijentService.izbrisiKlijenta = function(id){
+		return $http.put("/klijent/izbrisiKlijenta/" + id);
+	}
 	
 	return klijentService;
 });

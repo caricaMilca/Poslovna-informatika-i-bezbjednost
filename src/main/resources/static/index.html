@@ -31,43 +31,44 @@
 			<nav class="navbar navbar-default">
 				<div class="container-fluid">
 					<ul class="nav navbar-nav navbar-right" ng-show="!korisnik">
-						<form id="signin" name="signin" class="navbar-form navbar-right" role="form">
+						<form id="signin" name="signin" class="navbar-form navbar-right"
+							role="form">
 							<div class="input-group">
 								<span class="input-group-addon"><i
 									class="glyphicon glyphicon-user"></i></span> <input id="username"
-									type="text" class="form-control" name="username" value=""  ng-Model="logovanje.korisnickoIme"
-									placeholder="Username" required>
+									type="text" class="form-control" name="username" value=""
+									ng-Model="logovanje.korisnickoIme" placeholder="Username"
+									required>
 							</div>
 
 							<div class="input-group">
 								<span class="input-group-addon"><i
 									class="glyphicon glyphicon-lock"></i></span> <input id="password"
-									type="password" class="form-control" name="password" value="" ng-Model="logovanje.lozinka"
-									placeholder="Password" required>
+									type="password" class="form-control" name="password" value=""
+									ng-Model="logovanje.lozinka" placeholder="Password" required>
 							</div>
 
-							<button type="submit" ng-disabled="signin.$invalid" class="btn btn-primary" ng-click="submitLogin()">Login</button>
+							<button type="submit" ng-disabled="signin.$invalid"
+								class="btn btn-primary" ng-click="submitLogin()">Login</button>
 						</form>
 					</ul>
 					<ul class="nav navbar-nav navbar-right" ng-show="korisnik">
 						<form id="signin" class="navbar-form navbar-right" role="form">
-						<div ng-show="korisnik.ulogaZ != 'Administrator'">
-							<button type="button" class="btn btn-primary" ng-click="preuzmiKlijente()">Klijenti</button>
-						</div>
-							<a href="#!/changePassword" >Settings</a>
+							<div ng-show="korisnik.ulogaZ != 'Administrator'">
+								<button type="button" class="btn btn-primary"
+									ng-click="preuzmiKlijente()">Klijenti</button>
+							</div>
+							<a href="#!/changePassword">Settings</a>
 							<button type="submit" class="btn btn-primary" ng-click="logout()">Logout</button>
 						</form>
 					</ul>
 				</div>
 			</nav>
 		</header>
-
 		<!-- MAIN CONTENT AND INJECTED VIEWS -->
 		<div id="main">
 			<div ng-view></div>
-
 		</div>
 	</div>
-
 </body>
 </html>

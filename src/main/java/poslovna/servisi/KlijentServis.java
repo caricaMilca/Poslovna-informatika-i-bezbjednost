@@ -11,8 +11,6 @@ public interface KlijentServis {
 
 	ResponseEntity<Klijent> registracijaKlijenta(Klijent k, Long idDjelantsti);
 	
-	ResponseEntity<Klijent> registracijaKlijentaF(Klijent k);
-
 	Klijent preuzmiKlijenta(Long id);
 
 	ResponseEntity<List<Klijent>> sviKlijenti();
@@ -20,6 +18,10 @@ public interface KlijentServis {
 	ResponseEntity<List<Klijent>> sviKlijentiDjelatnosti(Long idDjelatnosti);
 
 	ResponseEntity<List<Klijent>> pretraziKlijente(Klijent klijent, Long idDjelatnosti);
+
+	ResponseEntity<Klijent> izmjeniKlijenta(Klijent klijent, Long idDjelatnosti);
+
+	ResponseEntity<?> izbrisiKlijenta(Long idKlijenta);
 
 
 }
