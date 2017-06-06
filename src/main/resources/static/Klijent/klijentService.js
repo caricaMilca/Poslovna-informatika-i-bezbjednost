@@ -23,5 +23,9 @@ app.factory('KlijentService', function klijentService($http) {
 		return $http.put("/klijent/izbrisiKlijenta/" + id);
 	}
 	
+	klijentService.izmeniKlijenta = function(klijent, id){
+		return $http.put("/klijent/izmjeniKlijenta/" + id, klijent);
+	}
+	
 	return klijentService;
 });

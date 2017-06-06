@@ -83,6 +83,7 @@ public class KlijentServisImpl implements KlijentServis {
 	@Override
 	public ResponseEntity<List<Klijent>> pretraziKlijente(Klijent klijent, Long idDjelatnosti) {
 		Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
+		System.out.println(klijentRepozitorijum.count() + "asfdasfafs");
 		List<Klijent> k = klijentRepozitorijum.findByBanka(zaposleni.banka);
 		List<Klijent> lista = new ArrayList<Klijent>();
 		List<Klijent> ime = new ArrayList<Klijent>();
@@ -134,7 +135,7 @@ public class KlijentServisImpl implements KlijentServis {
 		if (klijent.prezime != null)
 			k.prezime = klijent.prezime;
 		if (klijent.korisnickoIme != null)
-			k.korisnickoIme = klijent.prezime;
+			k.korisnickoIme = klijent.korisnickoIme;
 		return new ResponseEntity<Klijent>(klijentRepozitorijum.save(k), HttpStatus.OK);
 	}
 

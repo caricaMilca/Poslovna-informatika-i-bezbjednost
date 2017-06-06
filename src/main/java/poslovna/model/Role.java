@@ -3,7 +3,6 @@ package poslovna.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -26,11 +25,11 @@ public class Role {
     public Long id;
  
     public String name;
-    @ManyToMany(mappedBy = "roles", cascade = { CascadeType.REMOVE, CascadeType.MERGE })
+    @ManyToMany(mappedBy = "roles")
     @JsonIgnore
     private Set<Korisnik> users = new HashSet<Korisnik>();
  
-    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.REMOVE, CascadeType.MERGE })
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "Roles_privileges", 
         joinColumns = @JoinColumn(

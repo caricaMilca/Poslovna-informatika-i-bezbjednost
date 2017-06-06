@@ -10,21 +10,19 @@ app.run([ 'ngNotify', function(ngNotify) {
 	});
 } ]);
 
-
-app.directive('ngConfirmClick', [
-        function(){
-            return {
-                link: function (scope, element, attr) {
-                    var msg = attr.ngConfirmClick || "Are you sure?";
-                    var clickAction = attr.confirmedClick;
-                    element.bind('click',function (event) {
-                        if ( window.confirm(msg) ) {
-                            scope.$eval(clickAction)
-                        }
-                    });
-                }
-            };
-    }]);
+app.directive('ngConfirmClick', [ function() {
+	return {
+		link : function(scope, element, attr) {
+			var msg = attr.ngConfirmClick || "Are you sure?";
+			var clickAction = attr.confirmedClick;
+			element.bind('click', function(event) {
+				if (window.confirm(msg)) {
+					scope.$eval(clickAction)
+				}
+			});
+		}
+	};
+} ]);
 
 app.config([ '$qProvider', function($qProvider) {
 	$qProvider.errorOnUnhandledRejections(false);
@@ -103,7 +101,30 @@ app
 															$scope.show = null;
 														}
 													});
+								} else if ($scope.mode == 'edit') {
+									klijentService
+											.izmeniKlijenta(
+													$scope.noviKlijent,
+													$scope.djelatnostKlijenta.id)
+											.then(
+													function(response) {
+														if (response.data) {
+															ngNotify
+																	.set(
+																			'Uspjesna izmena',
+																			{
+																				type : 'success'
+																			});
+
+															var index = $scope.sviKlijenti
+																	.indexOf($scope.selectedKlijent);
+															$scope.sviKlijenti[index] = response.data;
+															$scope.noviKlijent = response.data;
+															$scope.k.id = response.data.id;
+														}
+													});
 								}
+
 							}
 
 							$scope.izbrisiKlijenta = function() {
@@ -126,6 +147,7 @@ app
 																		1);
 														$scope.noviKlijent = null;
 														$scope.show = null;
+
 													}
 
 												});
@@ -144,16 +166,11 @@ app
 									$scope.djelatnostKlijenta.sifra = selected.djelatnost.sifra;
 							}
 
-							$scope.display = function(tab) {
+							$scope.changeMode = function(tab) {
 								$scope.noviKlijent = null;
-								$scope.show = tab;
-								if (tab == 10)
-									$scope.mode = 'add';
-								else if (tab == 1) {
-									$scope.mode = 'filter';
+								$scope.mode = tab;
+								if (tab == 'filter') 
 									$scope.djelatnostKlijenta = -1;
-								} else
-									$scope.mode = 'edit';
 							}
 
 						} ]);
