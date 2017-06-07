@@ -28,11 +28,42 @@
 	<!-- HEADER AND NAVBAR -->
 	<div ng-controller="appController">
 		<header>
+
 			<nav class="navbar navbar-default">
 				<div class="container-fluid">
-					<ul class="nav navbar-nav navbar-right" ng-show="!korisnik">
-						<form id="signin" name="signin" class="navbar-form navbar-right"
-							role="form">
+					<div class="navbar-header" ng-show="korisnik">
+						<button type="button" class="navbar-toggle collapsed"
+							data-toggle="collapse"
+							data-target="#bs-example-navbar-collapse-1">
+							<span class="sr-only">Toggle navigation</span> <span
+								class="icon-bar"></span> <span class="icon-bar"></span> <span
+								class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="#">Brand</a>
+					</div>
+					<div class="collapse navbar-collapse"
+						id="bs-example-navbar-collapse-1">
+						<div ng-show="korisnik">
+							<ul class="nav navbar-nav">
+								<li class="dropdown"><a href="" class="dropdown-toggle"
+									data-toggle="dropdown" role="button" aria-expanded="false">Tabele
+										<span class="caret"></span>
+								</a>
+									<ul class="dropdown-menu" role="menu">
+										<li><a href="/#!/Klijent/klijenti">Klijenti</a></li>
+										<li><a href="#">Dodajte svoje</a></li>
+										<li><a href="#">Dodajte svoje</a></li>
+									</ul></li>
+							</ul>
+							<div id="signin" class="navbar-form navbar-right" role="form">
+								<a href="#!/changePassword">Podesavanja</a>
+								<button type="submit" class="btn btn-primary"
+									ng-click="logout()">Logout</button>
+
+							</div>
+						</div>
+						<div id="signin" class="navbar-form navbar-right" role="form"
+							ng-show="!korisnik">
 							<div class="input-group">
 								<span class="input-group-addon"><i
 									class="glyphicon glyphicon-user"></i></span> <input id="username"
@@ -47,23 +78,17 @@
 									type="password" class="form-control" name="password" value=""
 									ng-Model="logovanje.lozinka" placeholder="Password" required>
 							</div>
-
 							<button type="submit" ng-disabled="signin.$invalid"
 								class="btn btn-primary" ng-click="submitLogin()">Login</button>
-						</form>
-					</ul>
-					<ul class="nav navbar-nav navbar-right" ng-show="korisnik">
-						<form id="signin" class="navbar-form navbar-right" role="form">
-							<div ng-show="korisnik.ulogaZ != 'Administrator'">
-								<button type="button" class="btn btn-primary"
-									ng-click="preuzmiKlijente()">Klijenti</button>
-							</div>
-							<a href="#!/changePassword">Settings</a>
-							<button type="submit" class="btn btn-primary" ng-click="logout()">Logout</button>
-						</form>
-					</ul>
+						</div>
+
+					</div>
 				</div>
 			</nav>
+
+
+
+
 		</header>
 		<!-- MAIN CONTENT AND INJECTED VIEWS -->
 		<div id="main">
