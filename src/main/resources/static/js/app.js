@@ -15,5 +15,8 @@ app.config(function($routeProvider, $locationProvider) {
 	}).when('/changePassword', {
 		templateUrl: '/univerzalno/changePassword.html',
 		controller: 'appController'
+	}).when('/nm/svaNM', {
+		templateUrl: '/NaseljenoMesto/naseljenoMesto.html',
+		controller: 'nmController'
 	})		
 });

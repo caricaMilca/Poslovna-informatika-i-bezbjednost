@@ -91,7 +91,7 @@
 		<br />
 	</div>
 	<div class="container" id="razmak">
-		<form class="form-horizontal" role="blabla">
+		<form class="form-horizontal" role="blabla" name="myForm" novalidate>
 			<div class="form-group">
 				<label for="ime" class="col-sm-3 control-label">Ime</label>
 				<div class="col-sm-9">
@@ -159,7 +159,7 @@
 			<div class="form-group" ng-if="noviKlijent.ulogaK == 'POSLOVNO' || mode=='filter'">
 				<label for="delatnost" class="col-sm-3 control-label">Delatnost</label>
 				<div class="col-sm-6">
-					<select id="delatnost" ng-model="djelatnostKlijenta"
+					<select id="djelatnost" ng-model="djelatnostKlijenta"
 						ng-options="djel as djel.sifra for djel in djelatnosti"
 						class="form-control">
 
@@ -174,7 +174,7 @@
 
 			<div class="form-group">
 				<div class="col-sm-9 col-sm-offset-3">
-					<button type="submit" ng-Click="regKlijenta()"
+					<button type="submit" ng-Click="regKlijenta()" ng-disabled="myForm.$invalid"
 						class="btn btn-primary btn-block">Potvrdi</button>
 				</div>
 			</div>

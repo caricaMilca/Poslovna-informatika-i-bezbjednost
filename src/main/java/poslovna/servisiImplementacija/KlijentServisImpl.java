@@ -83,7 +83,6 @@ public class KlijentServisImpl implements KlijentServis {
 	@Override
 	public ResponseEntity<List<Klijent>> pretraziKlijente(Klijent klijent, Long idDjelatnosti) {
 		Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
-		System.out.println(klijentRepozitorijum.count() + "asfdasfafs");
 		List<Klijent> k = klijentRepozitorijum.findByBanka(zaposleni.banka);
 		List<Klijent> lista = new ArrayList<Klijent>();
 		List<Klijent> ime = new ArrayList<Klijent>();
@@ -107,8 +106,6 @@ public class KlijentServisImpl implements KlijentServis {
 				ime = klijentRepozitorijum.findByIme(klijent.ime);
 				k.retainAll(ime);
 			}
-	//		lista = klijentRepozitorijum.findByImeLikeAndPrezimeLikeAndKorisnickoImeLike(klijent.ime, klijent.prezime, klijent.korisnickoIme);
-	//		k.retainAll(lista);       ovo radii ako gledas ako se ovo zakomentarise , ja zaboravile
 			if (klijent.ulogaK != null) {
 				uloga = klijentRepozitorijum.findByUlogaK(klijent.ulogaK);
 				k.retainAll(uloga);

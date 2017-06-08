@@ -55,4 +55,16 @@ public class NaseljenoMjestoKontroler {
 			@RequestBody(required = false) NaseljenoMjesto nm, @PathVariable("idDrzave") Long idDrzave) {
 		return naseljenoMjestoServis.pretraziNaseljenaMjesta(nm, idDrzave);
 	}
+	
+	@AutorizacijaAnnotation(imeMetode = "izbrisiNaseljenoMjesto")
+	@PutMapping(path = "/izbrisiNaseljenoMjesto/{idNM}")
+	public ResponseEntity<?> izbrisiNM(@PathVariable("idNM") Long idNM) {
+		return naseljenoMjestoServis.izbrisiNM(idNM);
+	}
+	
+	@AutorizacijaAnnotation(imeMetode = "izmjeniNaseljenoMjesto")
+	@PutMapping(path = "/izmjeniNaseljenoMjesto/{idDrzave}")
+	public ResponseEntity<NaseljenoMjesto> izmjeniNaseljenoMjesto(@RequestBody(required = false) NaseljenoMjesto nm, @PathVariable("idDrzave") Long idDrzave) {
+		return naseljenoMjestoServis.izmjeniNM(nm, idDrzave);
+	}
 }

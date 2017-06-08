@@ -16,4 +16,8 @@ public interface NaseljenoMjestoServis {
 
 	ResponseEntity<List<NaseljenoMjesto>> pretraziNaseljenaMjesta(NaseljenoMjesto nm, Long idDrzave);
 
+	ResponseEntity<NaseljenoMjesto> izmjeniNM(NaseljenoMjesto nm, Long idNM);
+
+	ResponseEntity<?> izbrisiNM(Long idNM);
+	
 }

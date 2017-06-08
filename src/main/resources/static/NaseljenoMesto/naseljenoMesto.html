@@ -1,0 +1,169 @@
+<div ng-controller="nmController">
+	<h1 id="header" class="page-header">Sva naseljena mesta</h1>
+	<p>
+	<div class="container">
+		<div class="table-responsive">
+			<table class="table">
+				<tr>
+				<div class="btn-group">
+			<button type="button" class="btn btn-default"
+				ng-click="changeMode('filter')">
+				<img class="dugmici" src="images/search.gif" />
+			</button>
+			<button type="button" class="btn btn-default"
+				ng-click="changeMode('filter')">
+				<img class="dugmici" src="images/refresh.gif" />
+			</button>
+			<button type="button" class="btn btn-default"
+				ng-click="changeMode(3)">
+				<img class="dugmici" src="images/zoom-pickup.gif" />
+			</button>
+			<button type="button" class="btn btn-default"
+				ng-click="changeMode(4)">
+				<img class="dugmici" src="images/help.gif" />
+			</button>
+			<button type="button" class="btn btn-default"
+				ng-click="changeMode(5)">
+				<img class="dugmici" src="images/zoom-pickup.gif" />
+			</button>
+		</div>
+		<div class="btn-group">
+			<button type="button" class="btn btn-default"
+				ng-click="changeMode(6)">
+				<img class="dugmici" src="images/first.gif" />
+			</button>
+			<button type="button" class="btn btn-default"
+				ng-click="changeMode(7)">
+				<img class="dugmici" src="images/prev.gif" />
+			</button>
+			<button type="button" class="btn btn-default"
+				ng-click="changeMode(8)">
+				<img class="dugmici" src="images/next.gif" />
+			</button>
+			<button type="button" class="btn btn-default"
+				ng-click="changeMode(9)">
+				<img class="dugmici" src="images/last.gif" />
+			</button>
+		</div>
+		<div class="btn-group">
+			<button type="button" class="btn btn-default"
+				ng-click="changeMode('add')">
+				<img class="dugmici" src="images/add.gif" />
+			</button>
+			<button type="button" class="btn btn-default"
+				ng-disabled="!selectedNM" ng-click="izbrisiNM()"
+				ng-confirm-click="Da li zelite da izbrisete selektovano naseljeno mesto? Potvrda brisanja nosi sve podatke zavisne od njega.">
+				<img class="dugmici" src="images/remove.gif" />
+			</button>
+		</div>
+		<div class="btn-group">
+			<button type="button" class="btn btn-default"
+				ng-click="changeMode(13)">
+				<img class="dugmici" src="images/nextform.gif" />
+			</button>
+			</p>
+		</div>
+				</tr>
+				<thead>
+					<tr>
+						<th>Naziv</th>
+						<th>PTT oznaka</th>
+						<th>Drzava</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="nm in svaNM track by nm.id"
+						ng-click="setSelectedNM(nm)"
+						ng-class="{'info' : selectedNM.id === nm.id}">
+						<td>{{nm.naziv}}</td>
+						<td>{{nm.pttOznaka}}</td>
+						<td>{{nm.drzava.naziv}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<br />
+	</div>
+	<div class="container" id="razmak">
+		<form class="form-horizontal" role="blabla" name="myForm" novalidate>
+			<div class="form-group">
+				<label for="naziv" class="col-sm-3 control-label">Naziv</label>
+				<div class="col-sm-9">
+					<input type="text" id="naziv" class="form-control"
+						placeholder="Unesi naziv" name = "naziv" ng-Model="novoNM.naziv" ng-disabled="mode == 'nulto'"
+						pattern="^[A-Z][a-z A-Z]*" autofocus>
+				</div>
+			</div>
+			<div role="alert" style="color: red">
+				<span class="error" ng-show="myForm.naziv.$error.pattern">
+					Primjer sa svim dozvoljenim slovima : "Sasa_da nekaNsda" !</span>
+			</div>
+			<div class="form-group">
+				<label for="pttOznaka" class="col-sm-3 control-label">PTT Oznaka</label>
+				<div class="col-sm-9">
+					<input type="text" id="pttOznaka" class="form-control"
+						placeholder="Unesi PTT oznaku" name = "pttOznaka" ng-Model="novoNM.pttOznaka" ng-disabled="mode == 'nulto'"
+						pattern="^[A-Z][a-z A-Z]*">
+				</div>
+			</div>
+			<div role="alert" style="color: red">
+				<span class="error" ng-show="myForm.pttOznaka.$error.pattern">
+					Primjer sa svim dozvoljenim slovima : "Sasa_da nekaNsda" !</span>
+			</div>
+			<div class="form-group" mode=='filter'">
+				<label for="drzava" class="col-sm-3 control-label">Drzava</label>
+				<div class="col-sm-6">
+					<select id="drzava" ng-model="drzavaNM"
+						ng-options="drz as drz.sifra for drz in drzave"
+						class="form-control">
+
+					</select>
+				</div>
+				<div>
+					<button type="button" id="izaberi" class="btn btn-default" data-toggle="modal"
+						data-target="#izaberiDrzavu">Izaberi</button>
+				</div>
+			</div>
+			<!-- /.form-group -->
+
+			<div class="form-group">
+				<div class="col-sm-9 col-sm-offset-3">
+					<button type="submit" ng-Click="regNM()" ng-disabled="myForm.$invalid"
+						class="btn btn-primary btn-block">Potvrdi</button>
+				</div>
+			</div>
+		</form>
+		<!-- /form -->
+	</div>
+	<!-- ./container -->
+	<div id="izaberiDrzavu" class="modal fade" role="dialog"
+		style="color: black;">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Izaberi drzavu</h4>
+				</div>
+				<div class="modal-body">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Naziv</th>
+								<th>Sifra</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="drz in drzave"
+								ng-click="setSelectedDrzava(drz)"
+								ng-class="{'info' : drzavaNM===drz}">
+								<td>{{drz.naziv}}</td>
+								<td>{{drz.sifra}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+		</div>
+	</div>
