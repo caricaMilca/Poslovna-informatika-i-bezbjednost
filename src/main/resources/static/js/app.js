@@ -18,5 +18,8 @@ app.config(function($routeProvider, $locationProvider) {
 	}).when('/nm/svaNM', {
 		templateUrl: '/NaseljenoMesto/naseljenoMesto.html',
 		controller: 'nmController'
+	}).when('/Djelatnost/sveDjelatnosti', {
+		templateUrl: '/Djelatnost/djelatnosti.html',
+		controller: 'djelatnostController'
 	})		
 });

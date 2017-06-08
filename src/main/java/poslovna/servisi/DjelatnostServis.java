@@ -15,4 +15,8 @@ public interface DjelatnostServis {
 	Djelatnost preuzmiDjelatnost(Long idDjelatnosti);
 
 	ResponseEntity<List<Djelatnost>> pretraziDjelantosti(Djelatnost djelatnost);
+
+	ResponseEntity<?> izbrisiDjelatnost(Long idDjelatnosti);
+
+	ResponseEntity<Djelatnost> izmjeniDjelatnost(Djelatnost dje);
 }

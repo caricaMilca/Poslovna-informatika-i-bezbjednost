@@ -18,14 +18,14 @@ public class DjelatnostServisImpl implements DjelatnostServis {
 
 	@Autowired
 	DjelatnostRepozitorijum djelatnostRepozitorijum;
-	
+
 	@Override
 	public ResponseEntity<Djelatnost> registracijaDjelatnosti(Djelatnost djelatnost) {
-		if(djelatnostRepozitorijum.findBySifra(djelatnost.sifra) != null)
+		if (djelatnostRepozitorijum.findBySifra(djelatnost.sifra) != null)
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		else 
+		else
 			return new ResponseEntity<Djelatnost>(djelatnostRepozitorijum.save(djelatnost), HttpStatus.CREATED);
-			
+
 	}
 
 	@Override
@@ -40,15 +40,34 @@ public class DjelatnostServisImpl implements DjelatnostServis {
 
 	@Override
 	public ResponseEntity<List<Djelatnost>> pretraziDjelantosti(Djelatnost djelatnost) {
-		if(djelatnost.naziv == null)
+		if (djelatnost.naziv == null)
 			djelatnost.naziv = "%";
-		else 
+		else
 			djelatnost.naziv = "%" + djelatnost.naziv + "%";
-		if(djelatnost.sifra == null)
+		if (djelatnost.sifra == null)
 			djelatnost.sifra = "%";
-		else 
+		else
 			djelatnost.sifra = "%" + djelatnost.sifra + "%";
-		return new ResponseEntity<List<Djelatnost>>(djelatnostRepozitorijum.findByNazivLikeOrSifraLike(djelatnost.naziv, djelatnost.sifra), HttpStatus.OK);
+		return new ResponseEntity<List<Djelatnost>>(
+				djelatnostRepozitorijum.findByNazivLikeAndSifraLike(djelatnost.naziv, djelatnost.sifra), HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<?> izbrisiDjelatnost(Long idDjelatnosti) {
+		djelatnostRepozitorijum.delete(idDjelatnosti);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<Djelatnost> izmjeniDjelatnost(Djelatnost dje) {
+		Djelatnost d = djelatnostRepozitorijum.findOne(dje.id);
+		if (djelatnostRepozitorijum.findBySifra(dje.sifra) != null && !d.sifra.equals(dje.sifra))
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		if (dje.sifra != null)
+			d.sifra = dje.sifra;
+		if (dje.naziv != null)
+			d.naziv = dje.naziv;
+		return new ResponseEntity<Djelatnost>(djelatnostRepozitorijum.save(dje), HttpStatus.OK);
 	}
 
 }
