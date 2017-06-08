@@ -29,13 +29,13 @@
 						<button type="button" class="btn btn-default" ng-click="first()">
 							<img class="dugmici" src="images/first.gif" />
 						</button>
-						<button type="button" ng-disabled="!selectedKlijent" class="btn btn-default" ng-click="prev()">
+						<button type="button" ng-disabled="!selectedKlijent"
+							class="btn btn-default" ng-click="prev()">
 							<img class="dugmici" src="images/prev.gif" />
 						</button>
 						<button type="button" ng-disabled="!selectedKlijent"
 							class="btn btn-default" ng-click="next()">
-							<img class="dugmici" 
-								src="images/next.gif" />
+							<img class="dugmici" src="images/next.gif" />
 						</button>
 						<button type="button" class="btn btn-default" ng-click="last()">
 							<img class="dugmici" src="images/last.gif" />
@@ -73,11 +73,18 @@
 				<tbody>
 					<tr ng-repeat="k in sviKlijenti" ng-click="setSelectedKlijent(k)"
 						ng-class="{'info' : selectedKlijent === k}">
-						<td>{{k.ime}}</td>
-						<td>{{k.prezime}}</td>
+						<td><div ng-if="k.ime != null ">{{k.ime}}</div>
+							<div ng-if="k.ime == null ">Nepoznato</div>
+							</div></td>
+						<td><div ng-if="k.prezime != null ">{{k.prezime}}</div>
+							<div ng-if="k.ime == null ">Prezime</div>
+							</div></td>
 						<td>{{k.korisnickoIme}}</td>
 						<td>{{k.ulogaK}}</td>
-						<td>{{k.djelatnost.sifra}}</td>
+						<td><div ng-if="k.ulogaK != 'POSLOVNO'">Samo za
+								poslovna</div>
+							<div ng-if="k.ulogaK == 'POSLOVNO'">{{k.djelatnost.sifra}}</div>
+							</div></td>
 					</tr>
 				</tbody>
 			</table>
@@ -90,7 +97,7 @@
 				<label for="ime" class="col-sm-3 control-label">Ime</label>
 				<div class="col-sm-9">
 					<input type="text" id="ime" class="form-control"
-						placeholder="Unesi ime" name="ime" ng-Model="noviKlijent.imeme"
+						placeholder="Unesi ime" name="ime" ng-Model="noviKlijent.ime"
 						ng-disabled="mode == 'nulto'" pattern="^[A-Z][a-z A-Z]*" autofocus>
 				</div>
 			</div>
@@ -118,7 +125,7 @@
 					<input type="text" id="korisnickoIme" class="form-control"
 						placeholder="Unesi korisnicko ime" name="korisnickoIme"
 						ng-Model="noviKlijent.korisnickoIme" ng-required="mode=='add'"
-						ng-disabled="mode == 'nulto'" >
+						ng-disabled="mode == 'nulto'">
 				</div>
 			</div>
 			<div role="alert" style="color: red">
@@ -174,7 +181,8 @@
 			<div class="form-group">
 				<div class="col-sm-9 col-sm-offset-3">
 					<button type="submit" ng-Click="regKlijenta()"
-						ng-disabled="myForm.$invalid || mode='nulto'" class="btn btn-primary btn-block">Potvrdi</button>
+						ng-disabled="myForm.$invalid || mode == 'nulto'"
+						class="btn btn-primary btn-block">Potvrdi</button>
 				</div>
 			</div>
 		</form>

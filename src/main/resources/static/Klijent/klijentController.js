@@ -113,7 +113,7 @@ app
 														if (response.data) {
 															ngNotify
 																	.set(
-																			'Uspjesna izmena',
+																			'Uspjesna izmjena',
 																			{
 																				type : 'success'
 																			});
@@ -174,20 +174,6 @@ app
 								$scope.mode = tab;
 								if (tab == 'filter')
 									$scope.djelatnostKlijenta = -1;
-							}
-
-							$scope.izbrisiKlijenta = function(tabela) {
-								if (tabela == 'klijenti')
-									klijentService
-											.preuzmiKlijente()
-											.then(
-													function(response) {
-														if (response.data) {
-															$scope.sviKlijenti = response.data;
-															$scope.mode = 'nulto';
-															$scope.selectedKlijent = null;
-														}
-													});
 							}
 
 							$scope.first = function() {

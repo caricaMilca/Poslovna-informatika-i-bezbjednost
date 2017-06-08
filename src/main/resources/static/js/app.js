@@ -21,5 +21,8 @@ app.config(function($routeProvider, $locationProvider) {
 	}).when('/valuta/valute', {
 		templateUrl: '/valuta/valute.html',
 		controller: 'valuteController'
+	}).when('/Djelatnost/sveDjelatnosti', {
+		templateUrl: '/Djelatnost/djelatnosti.html',
+		controller: 'djelatnostController'
 	})		
 });

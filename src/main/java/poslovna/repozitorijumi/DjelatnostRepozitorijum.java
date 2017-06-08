@@ -11,6 +11,6 @@ public interface DjelatnostRepozitorijum extends JpaRepository<Djelatnost, Long>
 
 	Djelatnost findBySifra(String sifra);
 
-	@Query("select d from Djelatnost d where lower(d.naziv) like ?1 or lower(d.sifra) like ?2")
-	List<Djelatnost> findByNazivLikeOrSifraLike(String naziv, String sifra);
+	@Query("select d from Djelatnost d where lower(d.naziv) like ?1 and lower(d.sifra) like ?2")
+	List<Djelatnost> findByNazivLikeAndSifraLike(String naziv, String sifra);
 }

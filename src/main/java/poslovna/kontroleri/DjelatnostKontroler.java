@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,6 +40,18 @@ public class DjelatnostKontroler {
 	@GetMapping(path = "/sveDjelatnosti")
 	public ResponseEntity<List<Djelatnost>> sveDjelatnosti() {
 		return djelatnostServis.sveDjelatnosti();
+	}
+	@AutorizacijaAnnotation(imeMetode = "izbrisiDjelatnost")
+	@PutMapping(path = "/izbrisiDjelatnost/{idDjelatnosti}")
+	public ResponseEntity<?> izbrisiDjelatnost(@PathVariable("idDjelatnosti") Long idDjelatnosti) {
+		return djelatnostServis.izbrisiDjelatnost(idDjelatnosti);
+	}
+	
+	@AutorizacijaAnnotation(imeMetode = "izmjeniDjelatnost")
+	@PutMapping(path = "/izmjeniDjelatnost/{idDjelatnosti}")
+	public ResponseEntity<Djelatnost> izmjeniDjelatnost(@RequestBody Djelatnost dje) {
+		
+		return djelatnostServis.izmjeniDjelatnost(dje);
 	}
 	
 	@AutorizacijaAnnotation(imeMetode = "pretraziDjelatnosti")
