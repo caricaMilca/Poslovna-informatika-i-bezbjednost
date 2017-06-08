@@ -2,69 +2,64 @@
 	<h1 id="header" class="page-header">Svi klijenti banke
 		{{korisnik.banka.naziv}}</h1>
 	<p>
-
 	<div class="container">
 		<div class="table-responsive">
 			<table class="table">
 				<tr>
-				<div class="btn-group">
-			<button type="button" class="btn btn-default"
-				ng-click="changeMode('filter')">
-				<img class="dugmici" src="images/search.gif" />
-			</button>
-			<button type="button" class="btn btn-default"
-				ng-click="changeMode('filter')">
-				<img class="dugmici" src="images/refresh.gif" />
-			</button>
-			<button type="button" class="btn btn-default"
-				ng-click="changeMode(3)">
-				<img class="dugmici" src="images/zoom-pickup.gif" />
-			</button>
-			<button type="button" class="btn btn-default"
-				ng-click="changeMode(4)">
-				<img class="dugmici" src="images/help.gif" />
-			</button>
-			<button type="button" class="btn btn-default"
-				ng-click="changeMode(5)">
-				<img class="dugmici" src="images/zoom-pickup.gif" />
-			</button>
-		</div>
-		<div class="btn-group">
-			<button type="button" class="btn btn-default"
-				ng-click="changeMode(6)">
-				<img class="dugmici" src="images/first.gif" />
-			</button>
-			<button type="button" class="btn btn-default"
-				ng-click="changeMode(7)">
-				<img class="dugmici" src="images/prev.gif" />
-			</button>
-			<button type="button" class="btn btn-default"
-				ng-click="changeMode(8)">
-				<img class="dugmici" src="images/next.gif" />
-			</button>
-			<button type="button" class="btn btn-default"
-				ng-click="changeMode(9)">
-				<img class="dugmici" src="images/last.gif" />
-			</button>
-		</div>
-		<div class="btn-group">
-			<button type="button" class="btn btn-default"
-				ng-click="changeMode('add')">
-				<img class="dugmici" src="images/add.gif" />
-			</button>
-			<button type="button" class="btn btn-default"
-				ng-disabled="!selectedKlijent" confirmed-click="izbrisiKlijenta()"
-				ng-confirm-click="Da li zelite da izbrisete selektovanog klijenta? Potvrda brisanja nosi sve podatke zavisne od njega."">
-				<img class="dugmici" src="images/remove.gif" />
-			</button>
-		</div>
-		<div class="btn-group">
-			<button type="button" class="btn btn-default"
-				ng-click="changeMode(13)">
-				<img class="dugmici" src="images/nextform.gif" />
-			</button>
-			</p>
-		</div>
+					<div class="btn-group">
+						<button type="button" class="btn btn-default"
+							ng-click="changeMode('filter')">
+							<img class="dugmici" src="images/search.gif" />
+						</button>
+						<button type="button" class="btn btn-default"
+							ng-click="refreashTable()">
+							<img class="dugmici" src="images/refresh.gif" />
+						</button>
+						<button type="button" class="btn btn-default">
+							<img class="dugmici" src="images/zoom-pickup.gif" />
+						</button>
+						<button type="button" class="btn btn-default">
+							<img class="dugmici" src="images/help.gif" />
+						</button>
+						<button type="button" class="btn btn-default">
+							<img class="dugmici" src="images/zoom-pickup.gif" />
+						</button>
+					</div>
+					<div class="btn-group">
+						<button type="button" class="btn btn-default" ng-click="first()">
+							<img class="dugmici" src="images/first.gif" />
+						</button>
+						<button type="button" ng-disabled="!selectedKlijent" class="btn btn-default" ng-click="prev()">
+							<img class="dugmici" src="images/prev.gif" />
+						</button>
+						<button type="button" ng-disabled="!selectedKlijent"
+							class="btn btn-default" ng-click="next()">
+							<img class="dugmici" 
+								src="images/next.gif" />
+						</button>
+						<button type="button" class="btn btn-default" ng-click="last()">
+							<img class="dugmici" src="images/last.gif" />
+						</button>
+					</div>
+					<div class="btn-group">
+						<button type="button" class="btn btn-default"
+							ng-click="changeMode('add')">
+							<img class="dugmici" src="images/add.gif" />
+						</button>
+						<button type="button" class="btn btn-default"
+							ng-disabled="!selectedKlijent"
+							confirmed-click="izbrisiKlijenta()"
+							ng-confirm-click="Da li zelite da izbrisete selektovanog klijenta? Potvrda brisanja nosi sve podatke zavisne od njega."">
+							<img class="dugmici" src="images/remove.gif" />
+						</button>
+					</div>
+					<div class="btn-group">
+						<button type="button" class="btn btn-default"
+							ng-click="changeMode(13)">
+							<img class="dugmici" src="images/nextform.gif" />
+						</button>
+						</p>
+					</div>
 				</tr>
 				<thead>
 					<tr>
@@ -76,9 +71,8 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="k in sviKlijenti track by k.id"
-						ng-click="setSelectedKlijent(k)"
-						ng-class="{'info' : selectedKlijent.id === k.id}">
+					<tr ng-repeat="k in sviKlijenti" ng-click="setSelectedKlijent(k)"
+						ng-class="{'info' : selectedKlijent === k}">
 						<td>{{k.ime}}</td>
 						<td>{{k.prezime}}</td>
 						<td>{{k.korisnickoIme}}</td>
@@ -96,8 +90,8 @@
 				<label for="ime" class="col-sm-3 control-label">Ime</label>
 				<div class="col-sm-9">
 					<input type="text" id="ime" class="form-control"
-						placeholder="Unesi ime" name = "ime" ng-Model="noviKlijent.imeme" ng-disabled="mode == 'nulto'"
-						pattern="^[A-Z][a-z A-Z]*" autofocus>
+						placeholder="Unesi ime" name="ime" ng-Model="noviKlijent.imeme"
+						ng-disabled="mode == 'nulto'" pattern="^[A-Z][a-z A-Z]*" autofocus>
 				</div>
 			</div>
 			<div role="alert" style="color: red">
@@ -108,7 +102,8 @@
 				<label for="prezime" class="col-sm-3 control-label">Prezime</label>
 				<div class="col-sm-9">
 					<input type="text" id="prezime" class="form-control"
-						placeholder="Unesi prezime" name = "prezime" ng-Model="noviKlijent.prezime" ng-disabled="mode == 'nulto'"
+						placeholder="Unesi prezime" name="prezime"
+						ng-Model="noviKlijent.prezime" ng-disabled="mode == 'nulto'"
 						pattern="^[A-Z][a-z A-Z]*">
 				</div>
 			</div>
@@ -121,8 +116,9 @@
 					ime</label>
 				<div class="col-sm-9">
 					<input type="text" id="korisnickoIme" class="form-control"
-						placeholder="Unesi korisnicko ime" name = "korisnickoIme" ng-Model="noviKlijent.korisnickoIme" ng-required="mode=='add'"
-						ng-disabled="mode == 'nulto'" pattern="^[A-Z][a-z A-Z]*">
+						placeholder="Unesi korisnicko ime" name="korisnickoIme"
+						ng-Model="noviKlijent.korisnickoIme" ng-required="mode=='add'"
+						ng-disabled="mode == 'nulto'" >
 				</div>
 			</div>
 			<div role="alert" style="color: red">
@@ -133,30 +129,33 @@
 				<label for="lozinka" class="col-sm-3 control-label">Lozinka</label>
 				<div class="col-sm-9">
 					<input type="password" id="lozinka" placeholder="Unesite lozinku"
-						ng-Model="noviKlijent.lozinka" class="form-control">
+						ng-Model="noviKlijent.lozinka" class="form-control" required>
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="control-label col-sm-3">Lice</label>
-				<div class="col-sm-6">
-					<div class="row">
-						<div class="col-sm-6">
-							<label class="radio-inline"> <input type="radio"
-								id="fizickoRadio" ng-value="'FIZICKO'"
-								ng-Model="noviKlijent.ulogaK">Fizicko
-							</label>
-						</div>
-						<div class="col-sm-6">
-							<label class="radio-inline"> <input type="radio"
-								id="poslovnoRadio" ng-value="'POSLOVNO'"
-								ng-Model="noviKlijent.ulogaK">Poslovno
-							</label>
+			<div class="form-group" ng-if="mode == 'add'">
+				<div class="form-group">
+					<label class="control-label col-sm-3">Lice</label>
+					<div class="col-sm-6">
+						<div class="row">
+							<div class="col-sm-6">
+								<label class="radio-inline"> <input type="radio"
+									id="fizickoRadio" ng-value="'FIZICKO'"
+									ng-Model="noviKlijent.ulogaK" required>Fizicko
+								</label>
+							</div>
+							<div class="col-sm-6">
+								<label class="radio-inline"> <input type="radio"
+									id="poslovnoRadio" ng-value="'POSLOVNO'"
+									ng-Model="noviKlijent.ulogaK" required>Poslovno
+								</label>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<!-- /.form-group -->
-			<div class="form-group" ng-if="noviKlijent.ulogaK == 'POSLOVNO' || mode=='filter'">
+			<div class="form-group"
+				ng-if="noviKlijent.ulogaK == 'POSLOVNO' || mode=='filter'">
 				<label for="delatnost" class="col-sm-3 control-label">Delatnost</label>
 				<div class="col-sm-6">
 					<select id="djelatnost" ng-model="djelatnostKlijenta"
@@ -166,16 +165,16 @@
 					</select>
 				</div>
 				<div>
-					<button type="button" id="izaberi" class="btn btn-default" data-toggle="modal"
-						data-target="#izaberiDjelatnost">Izaberi</button>
+					<button type="button" id="izaberi" class="btn btn-default"
+						data-toggle="modal" data-target="#izaberiDjelatnost">Izaberi</button>
 				</div>
 			</div>
 			<!-- /.form-group -->
 
 			<div class="form-group">
 				<div class="col-sm-9 col-sm-offset-3">
-					<button type="submit" ng-Click="regKlijenta()" ng-disabled="myForm.$invalid"
-						class="btn btn-primary btn-block">Potvrdi</button>
+					<button type="submit" ng-Click="regKlijenta()"
+						ng-disabled="myForm.$invalid || mode='nulto'" class="btn btn-primary btn-block">Potvrdi</button>
 				</div>
 			</div>
 		</form>

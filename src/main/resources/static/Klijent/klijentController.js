@@ -80,7 +80,8 @@ app
 															$scope.sviKlijenti
 																	.push(response.data);
 															$scope.noviKlijent = null;
-															$scope.show = null;
+															$scope.mode = 'nulto';
+															$scope.selectedKlijent = null;
 														}
 													});
 								else if ($scope.mode == 'filter') {
@@ -98,7 +99,8 @@ app
 																			});
 															$scope.sviKlijenti = response.data;
 															$scope.noviKlijent = null;
-															$scope.show = null;
+															$scope.mode = 'nulto';
+															$scope.selectedKlijent = null;
 														}
 													});
 								} else if ($scope.mode == 'edit') {
@@ -115,12 +117,12 @@ app
 																			{
 																				type : 'success'
 																			});
-
 															var index = $scope.sviKlijenti
 																	.indexOf($scope.selectedKlijent);
 															$scope.sviKlijenti[index] = response.data;
 															$scope.noviKlijent = response.data;
-															$scope.k.id = response.data.id;
+															$scope.selectedKlijent = response.data;
+															$scope.k = $scope.selectedKlijent;
 														}
 													});
 								}
@@ -146,7 +148,8 @@ app
 																.splice(index,
 																		1);
 														$scope.noviKlijent = null;
-														$scope.show = null;
+														$scope.mode = 'nulto';
+														$scope.selectedKlijent = null;
 
 													}
 
@@ -169,8 +172,75 @@ app
 							$scope.changeMode = function(tab) {
 								$scope.noviKlijent = null;
 								$scope.mode = tab;
-								if (tab == 'filter') 
+								if (tab == 'filter')
 									$scope.djelatnostKlijenta = -1;
+							}
+
+							$scope.izbrisiKlijenta = function(tabela) {
+								if (tabela == 'klijenti')
+									klijentService
+											.preuzmiKlijente()
+											.then(
+													function(response) {
+														if (response.data) {
+															$scope.sviKlijenti = response.data;
+															$scope.mode = 'nulto';
+															$scope.selectedKlijent = null;
+														}
+													});
+							}
+
+							$scope.first = function() {
+								$scope.mode = 'edit';
+								$scope.selectedKlijent = $scope.sviKlijenti[0];
+								$scope.k = $scope.selectedKlijent;
+								$scope.noviKlijent = $scope.selectedKlijent;
+							}
+
+							$scope.last = function() {
+								$scope.mode = 'edit';
+								var i = $scope.sviKlijenti.length - 1;
+								$scope.selectedKlijent = $scope.sviKlijenti[i];
+								$scope.k = $scope.selectedKlijent;
+								$scope.noviKlijent = $scope.selectedKlijent;
+							}
+
+							$scope.next = function() {
+								$scope.mode = 'edit';
+								var i = $scope.sviKlijenti
+										.indexOf($scope.selectedKlijent);
+								if (i + 1 > $scope.sviKlijenti.length - 1)
+									$scope.selectedKlijent = $scope.sviKlijenti[0];
+								else
+									$scope.selectedKlijent = $scope.sviKlijenti[i + 1];
+								$scope.k = $scope.selectedKlijent;
+								$scope.noviKlijent = $scope.selectedKlijent;
+							}
+
+							$scope.prev = function() {
+								$scope.mode = 'edit';
+								var i = $scope.sviKlijenti
+										.indexOf($scope.selectedKlijent);
+								if (i == 0)
+									$scope.selectedKlijent = $scope.sviKlijenti[$scope.sviKlijenti.length - 1];
+								else
+									$scope.selectedKlijent = $scope.sviKlijenti[i - 1];
+								$scope.k = $scope.selectedKlijent;
+								$scope.noviKlijent = $scope.selectedKlijent;
+							}
+
+							$scope.refreashTable = function() {
+								klijentService
+										.preuzmiKlijente()
+										.then(
+												function(response) {
+													if (response.data) {
+														$scope.sviKlijenti = response.data;
+														$scope.noviKlijent = null;
+														$scope.mode = 'nulto';
+														$scope.selectedKlijent = null;
+													}
+												});
 							}
 
 						} ]);

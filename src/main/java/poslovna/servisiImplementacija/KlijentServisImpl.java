@@ -125,6 +125,8 @@ public class KlijentServisImpl implements KlijentServis {
 	@Override
 	public ResponseEntity<Klijent> izmjeniKlijenta(Klijent klijent, Long idDjelatnosti) {
 		Klijent k = klijentRepozitorijum.findOne(klijent.id);
+		if (klijentRepozitorijum.findByKorisnickoIme(klijent.korisnickoIme) != null && !klijent.korisnickoIme.equals(k.korisnickoIme))
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		if (k.ulogaK == UlogaKlijenta.POSLOVNO && idDjelatnosti != -1)
 			k.djelatnost = djelatnostRepozitorijum.findOne(idDjelatnosti);
 		if (klijent.ime != null)
