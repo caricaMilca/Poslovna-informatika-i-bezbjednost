@@ -120,4 +120,63 @@ app.controller('nmController', [
 								});
 			}
 
+			$scope.first = function() {
+				$scope.mode = 'edit';
+				$scope.selectedNM = $scope.svaNM[0];
+				$scope.nm = $scope.selectedNM;
+				$scope.novoNM = $scope.selectedNM;
+			}
+
+			$scope.last = function() {
+				$scope.mode = 'edit';
+				var i = $scope.svaNM.length - 1;
+				$scope.selectedNM = $scope.svaNM[i];
+				$scope.nm = $scope.selectedNM;
+				$scope.novoNM = $scope.selectedNM;
+			}
+
+			$scope.next = function() {
+				$scope.mode = 'edit';
+				var i = $scope.svaNM
+						.indexOf($scope.selectedNM);
+				if (i + 1 > $scope.svaNM.length - 1)
+					$scope.selectedNM = $scope.svaNM[0];
+				else
+					$scope.selectedNM = $scope.svaNM[i + 1];
+				$scope.nm = $scope.selectedNM;
+				$scope.novoNM = $scope.selectedNM;
+			}
+
+			$scope.prev = function() {
+				$scope.mode = 'edit';
+				var i = $scope.svaNM
+						.indexOf($scope.selectedNM);
+				if (i == 0)
+					$scope.selectedNM = $scope.svaNM[$scope.svaNM.length - 1];
+				else
+					$scope.selectedNM = $scope.svaNM[i - 1];
+				$scope.nm = $scope.selectedNM;
+				$scope.novoNM = $scope.selectedNM;
+			}
+
+			$scope.refreshTable = function() {
+				nmService
+						.preuzmiNM()
+						.then(
+								function(response) {
+									if (response.data) {
+										$scope.svaNM = response.data;
+										$scope.novoNM = null;
+										$scope.mode = 'nulto';
+										$scope.selectedNM = null;
+									}
+								});
+			}
+			
+			$scope.odustani = function() {
+				$scope.mode = 'edit';
+				$scope.selectedNM = null;
+				$scope.novoNM = null;
+				$scope.show = null;
+			}
 		} ]);

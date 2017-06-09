@@ -187,7 +187,7 @@ app
 								$scope.noviKlijent = $scope.selectedKlijent;
 							}
 
-							$scope.refreashTable = function() {
+							$scope.refreshTable = function() {
 								klijentService
 										.preuzmiKlijente()
 										.then(
