@@ -1,0 +1,127 @@
+<div ng-controller="djelatnostController">
+	<h1 id="header" class="page-header">Svi moguce djelatnosti
+		poslovnih lica</h1>
+	<p>
+	<div class="container">
+		<div class="table-responsive">
+			<table class="table">
+				<tr>
+					<div class="btn-group">
+						<button type="button" class="btn btn-default"
+							ng-click="changeMode('filter')">
+							<img class="dugmici" src="images/search.gif" />
+						</button>
+						<button type="button" class="btn btn-default"
+							ng-click="refreashTable()">
+							<img class="dugmici" src="images/refresh.gif" />
+						</button>
+						<button type="button" class="btn btn-default">
+							<img class="dugmici" src="images/zoom-pickup.gif" />
+						</button>
+						<button type="button" class="btn btn-default">
+							<img class="dugmici" src="images/help.gif" />
+						</button>
+						<button type="button" class="btn btn-default">
+							<img class="dugmici" src="images/zoom-pickup.gif" />
+						</button>
+					</div>
+					<div class="btn-group">
+						<button type="button" class="btn btn-default"
+							ng-disabled="$parent.korisnik.ulogaZ != 'Administrator'"
+							ng-click="first()">
+							<img class="dugmici" src="images/first.gif" />
+						</button>
+						<button type="button"
+							ng-disabled="!selectedDjelatnost || $parent.korisnik.ulogaZ != 'Administrator'"
+							class="btn btn-default" ng-click="prev()">
+							<img class="dugmici" src="images/prev.gif" />
+						</button>
+						<button type="button"
+							ng-disabled="!selectedDjelatnost || $parent.korisnik.ulogaZ != 'Administrator'"
+							class="btn btn-default" ng-click="next()">
+							<img class="dugmici" src="images/next.gif" />
+						</button>
+						<button type="button" class="btn btn-default" ng-click="last()"
+							ng-disabled="$parent.korisnik.ulogaZ != 'Administrator'">
+							<img class="dugmici" src="images/last.gif" />
+						</button>
+					</div>
+					<div class="btn-group">
+						<button type="button" class="btn btn-default"
+							ng-click="changeMode('add')"
+							ng-disabled="$parent.korisnik.ulogaZ != 'Administrator'">
+							<img class="dugmici" src="images/add.gif" />
+						</button>
+						<button type="button" class="btn btn-default"
+							ng-disabled="!selectedDjelatnost || $parent.korisnik.ulogaZ != 'Administrator'"
+							confirmed-click="izbrisiDjelatnost()"
+							ng-confirm-click="Da li zelite da izbrisete selektovanu djelatnost? Potvrda brisanja nosi sve podatke zavisne od njega."">
+							<img class="dugmici" src="images/remove.gif" />
+						</button>
+					</div>
+					<div class="btn-group">
+						<button type="button" class="btn btn-default"
+							ng-click="changeMode(13)">
+							<img class="dugmici" src="images/nextform.gif" />
+						</button>
+						</p>
+					</div>
+				</tr>
+				<thead>
+					<tr>
+						<th>Naziv</th>
+						<th>Sifra</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="d in sveDjelatnosti"
+						ng-click="setSelectedDjelatnost(d)"
+						ng-class="{'info' : selectedKDjelatnost === d}">
+						<td>{{d.naziv}}</td>
+						<td>{{d.sifra}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<br />
+	</div>
+	<div class="container" id="razmak">
+		<form class="form-horizontal" role="blabla" name="myForm" novalidate>
+			<div class="form-group">
+				<label for="ime" class="col-sm-3 control-label">Naziv</label>
+				<div class="col-sm-9">
+					<input type="text" id="naziv" class="form-control"
+						placeholder="Unesi naziv " ng-Model="djelatnost.naziv"
+						ng-disabled="mode == 'nulto'" pattern="^[A-Z][a-z A-Z]*"
+						ng-required="mode == 'add'" autofocus>
+				</div>
+			</div>
+			<div role="alert" style="color: red">
+				<span class="error" ng-show="myForm.ime.$error.pattern">
+					Primjer sa svim dozvoljenim slovima : "Sasa_da nekaNsda" !</span>
+			</div>
+			<div class="form-group">
+				<label for="prezime" class="col-sm-3 control-label">Sifra</label>
+				<div class="col-sm-9">
+					<input type="text" id="sifra" class="form-control"
+						placeholder="Unesi sifru - 4slova VELIKA"
+						ng-Model="djelatnost.sifra" ng-disabled="mode == 'nulto'"
+						pattern="^[A-Z]*" ng-required="mode=='add'" ng-maxlength="4"
+						ng-minlength="4">
+				</div>
+			</div>
+			<div role="alert" style="color: red">
+				<span class="error" ng-show="myForm.prezime.$error.pattern">
+					Primjer sa svim dozvoljenim slovima : "SJFDSJ" !</span>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-9 col-sm-offset-3">
+					<button type="submit" ng-Click="regDjelatnost()"
+						ng-disabled="myForm.$invalid || mode == 'nulto'"
+						class="btn btn-primary btn-block">Potvrdi</button>
+				</div>
+			</div>
+
+		</form>
+	</div>
+</div>

@@ -21,5 +21,11 @@ app.config(function($routeProvider, $locationProvider) {
 	}).when('/Drzava/sveDrzave', {
 		templateUrl: '/Drzava/drzava.html',
 		controller: 'drzavaController'
+	}).when('/valuta/valute', {
+		templateUrl: '/valuta/valute.html',
+		controller: 'valuteController'
+	}).when('/Djelatnost/sveDjelatnosti', {
+		templateUrl: '/Djelatnost/djelatnosti.html',
+		controller: 'djelatnostController'
 	})		
 });
