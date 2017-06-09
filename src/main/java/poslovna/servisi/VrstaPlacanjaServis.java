@@ -12,4 +12,8 @@ public interface VrstaPlacanjaServis {
 
 	ResponseEntity<List<VrstaPlacanja>> sveVrstePlacanja();
 
+	ResponseEntity<?> izbrisiVrstuPlacanja(Long id);
+
+	ResponseEntity<VrstaPlacanja> izmjeniVrstuPlacanja(VrstaPlacanja vrstaPlacanja);
+
 }

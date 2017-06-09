@@ -98,6 +98,10 @@ insert into Privilege(name) values ('izbrisiKlijenta');--53
 insert into Privilege(name) values ('izmjeniKlijenta');--54
 insert into Privilege(name) values ('izbrisiDjelatnost');--55
 insert into Privilege(name) values ('izmjeniDjelatnost');--56
+insert into Privilege(name) values ('registracijaVrstePlacanja');--57
+insert into Privilege(name) values ('sveVrstePlacanja');--58
+insert into Privilege(name) values ('izmjeniVrstuPlacanja');--59
+insert into Privilege(name) values ('izbrisiVrstuPlacanja');--60
 
  
 insert into Role(name) values ('klijentRole');--1
@@ -126,6 +130,9 @@ insert into Roles_privileges(role_id, privilege_id) values (2, 32);
 insert into Roles_privileges(role_id, privilege_id) values (2, 34);
 insert into Roles_privileges(role_id, privilege_id) values (2, 55);
 insert into Roles_privileges(role_id, privilege_id) values (2, 56);
+insert into Roles_privileges(role_id, privilege_id) values (2, 57);
+insert into Roles_privileges(role_id, privilege_id) values (2, 59);
+insert into Roles_privileges(role_id, privilege_id) values (2, 60);
 
 insert into Roles_privileges(role_id, privilege_id) values (5, 3);
 insert into Roles_privileges(role_id, privilege_id) values (5, 4);
@@ -133,7 +140,6 @@ insert into Roles_privileges(role_id, privilege_id) values (5, 5);
 insert into Roles_privileges(role_id, privilege_id) values (5, 8);
 insert into Roles_privileges(role_id, privilege_id) values (5, 16);
 insert into Roles_privileges(role_id, privilege_id) values (5, 18);
-
 insert into Roles_privileges(role_id, privilege_id) values (5, 10);
 insert into Roles_privileges(role_id, privilege_id) values (5, 11);
 insert into Roles_privileges(role_id, privilege_id) values (5, 13);
@@ -176,6 +182,8 @@ insert into Roles_privileges(role_id, privilege_id) values (5, 54);
 insert into Roles_privileges(role_id, privilege_id) values (6, 1);
 insert into Roles_privileges(role_id, privilege_id) values (6, 24);
 insert into Roles_privileges(role_id, privilege_id) values (6, 25);
+insert into Roles_privileges(role_id, privilege_id) values (6, 58);
+
 
 
 insert into Korisnicke_roles(korisnik_id, role_id) values (1, 5);

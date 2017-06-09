@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -19,6 +20,7 @@ public class VrstaPlacanja {
 	@GeneratedValue
 	public Long id;
 	
+	@Column(unique=true,nullable=false)
 	public String naziv;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "vrstaPlacanja", cascade = CascadeType.ALL)

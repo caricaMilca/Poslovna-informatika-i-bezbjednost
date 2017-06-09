@@ -11,7 +11,7 @@
 				<img class="dugmici" src="images/search.gif" />
 			</button>
 			<button type="button" class="btn btn-default"
-				ng-click="changeMode('filter')">
+				ng-click="refresh()">
 				<img class="dugmici" src="images/refresh.gif" />
 			</button>
 			<button type="button" class="btn btn-default"
@@ -29,19 +29,19 @@
 		</div>
 		<div class="btn-group">
 			<button type="button" class="btn btn-default"
-				ng-click="changeMode(6)">
+				ng-click="first()">
 				<img class="dugmici" src="images/first.gif" />
 			</button>
-			<button type="button" class="btn btn-default"
-				ng-click="changeMode(7)">
+			<button type="button" ng-disabled="!selectedDrzava" class="btn btn-default"
+				ng-click="prev()">
 				<img class="dugmici" src="images/prev.gif" />
 			</button>
-			<button type="button" class="btn btn-default"
-				ng-click="changeMode(8)">
+			<button type="button" ng-disabled="!selectedDrzava" class="btn btn-default"
+				ng-click="next()">
 				<img class="dugmici" src="images/next.gif" />
 			</button>
 			<button type="button" class="btn btn-default"
-				ng-click="changeMode(9)">
+				ng-click="last()">
 				<img class="dugmici" src="images/last.gif" />
 			</button>
 		</div>
@@ -113,13 +113,13 @@
 			<div class="form-group" mode=='filter'">
 				<label for="valuta" class="col-sm-3 control-label">Valuta</label>
 				<div class="col-sm-6">
-					<select id="valuta" ng-model="valutaDrzave"
+					<select id="valuta" ng-disabled="mode == 'nulto'" ng-model="valutaDrzave"
 						ng-options="valuta as valuta.zvanicnaSifra for valuta in valute"
 						class="form-control">
 					</select>
 				</div>
 				<div>
-					<button type="button" id="izaberi" class="btn btn-default" data-toggle="modal"
+					<button type="button" id="izaberi" ng-disabled="mode == 'nulto'" class="btn btn-default" data-toggle="modal"
 						data-target="#izaberiValutu">Izaberi</button>
 				</div>
 			</div>
@@ -129,6 +129,12 @@
 				<div class="col-sm-9 col-sm-offset-3">
 					<button type="submit" ng-Click="regDrzavu()" ng-disabled="myForm.$invalid"
 						class="btn btn-primary btn-block">Potvrdi</button>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-9 col-sm-offset-3">
+					<button type="submit" ng-Click="odustani()"
+						class="btn btn-primary btn-block">Odustani</button>
 				</div>
 			</div>
 		</form>

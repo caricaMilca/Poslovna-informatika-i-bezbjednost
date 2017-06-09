@@ -1,33 +1,5 @@
 var app = angular.module('webApp');
 
-app.run([ 'ngNotify', function(ngNotify) {
-
-	ngNotify.config({
-		position : 'bottom',
-		duration : 1000,
-		theme : 'pitchy',
-		sticky : false,
-	});
-} ]);
-
-app.directive('ngConfirmClick', [ function() {
-	return {
-		link : function(scope, element, attr) {
-			var msg = attr.ngConfirmClick || "Are you sure?";
-			var clickAction = attr.confirmedClick;
-			element.bind('click', function(event) {
-				if (window.confirm(msg)) {
-					scope.$eval(clickAction)
-				}
-			});
-		}
-	};
-} ]);
-
-app.config([ '$qProvider', function($qProvider) {
-	$qProvider.errorOnUnhandledRejections(false);
-} ]);
-
 app
 		.controller(
 				'djelatnostController',
@@ -41,18 +13,19 @@ app
 								djelatnostService) {
 
 							$scope.mode = 'nulto';
-							djelatnostService.sveDjelatnosti().then(
-									function(response) {
-										if (response.data) {
-											$scope.sveDjelatnosti = response.data;
-										}
-									});
+							djelatnostService
+									.sveDjelatnosti()
+									.then(
+											function(response) {
+												if (response.data) {
+													$scope.sveDjelatnosti = response.data;
+												}
+											});
 
 							$scope.regDjelatnost = function() {
 								if ($scope.mode == 'add')
 									djelatnostService
-											.regDjelatnost(
-													$scope.djelatnost)
+											.regDjelatnost($scope.djelatnost)
 											.then(
 													function(response) {
 														if (response.data) {
@@ -90,9 +63,8 @@ app
 													});
 								} else if ($scope.mode == 'edit') {
 									djelatnostService
-											.izmeniKlijenta(
-													$scope.djelatnost,
-													$scope.djelatnostKlijenta.id)
+											.izmjeniDjelatnost(
+													$scope.djelatnost)
 											.then(
 													function(response) {
 														if (response.data) {
@@ -142,16 +114,6 @@ app
 							}
 
 							$scope.setSelectedDjelatnost = function(selected) {
-								/*if($rootScope.korisnik.ulogaZ != 'Administrator'){
-									ngNotify
-									.set(
-											'Nemate prava izmjene',
-											{
-												type : 'info'
-											});
-									return;
-								}
-									*/
 								$scope.selectedDjelatnost = selected;
 								$scope.show = 10;
 								$scope.djelatnost = angular.copy(selected);
@@ -215,5 +177,18 @@ app
 													}
 												});
 							}
+
+							$scope.odustani = function() {
+								$scope.mode = 'nulto';
+								$scope.selectedDjelatnost = null;
+								$scope.djelatnost = null;
+							}
+							
+							$scope.nextForm = function() {
+								$rootScope.kojiKlijenti = 'djelatnosti';
+								$rootScope.nextFormDjelatnost = $scope.selectedDjelatnost;
+								$location.path('/Klijent/klijenti')
+							}
+							
 
 						} ]);

@@ -61,4 +61,12 @@ public class RacunKontroler {
 			@RequestBody(required = false) Racun racun, @PathVariable("idKlijenta") Long idKlijenta, @PathVariable("idValute") Long idValute) {
 		return racunServis.pretraziRacune(racun, idKlijenta, idValute);
 	}
+	
+	@AutorizacijaAnnotation(imeMetode = "zatvoriRacun")
+	@PutMapping(path = "/zatvoriRacun")
+	public ResponseEntity<Racun> zatvoriRacun(
+			@RequestBody Racun racun) {
+		return racunServis.zatvoriRacun(racun);
+	}
+
 }

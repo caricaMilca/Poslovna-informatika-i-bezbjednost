@@ -29,6 +29,9 @@ app.config(function($routeProvider, $locationProvider) {
 		controller: 'djelatnostController'
 	}).when('/kursUValuti/kurs', {
 		templateUrl: '/kursUValuti/kursUValuti.html',
-		controller: 'kvController'
-	})			
+		controller: 'kvController'		
+	}).when('/VrstaPlacanja/vrstePlacanja', {
+		templateUrl: '/VrstaPlacanja/vrstePlacanja.html',
+		controller: 'vrstaPlacanjaController'
+	})		
 });

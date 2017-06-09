@@ -1,33 +1,5 @@
 var app = angular.module('webApp');
 
-app.run([ 'ngNotify', function(ngNotify) {
-
-	ngNotify.config({
-		position : 'bottom',
-		duration : 1000,
-		theme : 'pitchy',
-		sticky : false,
-	});
-} ]);
-
-app.directive('ngConfirmClick', [ function() {
-	return {
-		link : function(scope, element, attr) {
-			var msg = attr.ngConfirmClick || "Are you sure?";
-			var clickAction = attr.confirmedClick;
-			element.bind('click', function(event) {
-				if (window.confirm(msg)) {
-					scope.$eval(clickAction)
-				}
-			});
-		}
-	};
-} ]);
-
-app.config([ '$qProvider', function($qProvider) {
-	$qProvider.errorOnUnhandledRejections(false);
-} ]);
-
 app.controller('drzavaController', [
 		'$rootScope',
 		'$scope',
@@ -93,7 +65,7 @@ app.controller('drzavaController', [
 											.indexOf($scope.selectedDrzava);
 									$scope.sveDrzave[index] = response.data;
 									$scope.novaDrzava = response.data;
-									$scope.nm.id = response.data.id;
+									$scope.drzava.id = response.data.id;
 									$scope.mode = 'nulto';
 								}
 							});
@@ -138,4 +110,63 @@ app.controller('drzavaController', [
 						});
 			}
 
+			$scope.first = function() {
+				$scope.mode = 'edit';
+				$scope.selectedDrzava = $scope.sveDrzave[0];
+				$scope.drzava = $scope.selectedDrzava;
+				$scope.novaDrzava = $scope.selectedDrzava;
+			}
+
+			$scope.last = function() {
+				$scope.mode = 'edit';
+				var i = $scope.sveDrzave.length - 1;
+				$scope.selectedDrzava = $scope.sveDrzave[i];
+				$scope.drzava = $scope.selectedDrzava;
+				$scope.novaDrzava = $scope.selectedDrzava;
+			}
+
+			$scope.next = function() {
+				$scope.mode = 'edit';
+				var i = $scope.sveDrzave
+						.indexOf($scope.selectedDrzava);
+				if (i + 1 > $scope.sveDrzave.length - 1)
+					$scope.selectedDrzava = $scope.sveDrzave[0];
+				else
+					$scope.selectedDrzava = $scope.sveDrzave[i + 1];
+				$scope.drzava = $scope.selectedDrzava;
+				$scope.novaDrzava = $scope.selectedDrzava;
+			}
+
+			$scope.prev = function() {
+				$scope.mode = 'edit';
+				var i = $scope.sveDrzave
+						.indexOf($scope.selectedDrzava);
+				if (i == 0)
+					$scope.selectedDrzava = $scope.sveDrzave[$scope.sveDrzave.length - 1];
+				else
+					$scope.selectedDrzava = $scope.sveDrzave[i - 1];
+				$scope.drzava = $scope.selectedDrzava;
+				$scope.novaDrzava = $scope.selectedDrzava;
+			}
+
+			$scope.refreshTable = function() {
+				drzavaService
+						.preuzmiDrzavu()
+						.then(
+								function(response) {
+									if (response.data) {
+										$scope.sveDrzave = response.data;
+										$scope.novaDrzava = null;
+										$scope.mode = 'nulto';
+										$scope.selectedDrzava = null;
+									}
+								});
+			}
+			
+			$scope.odustani = function() {
+				$scope.mode = 'nulto';
+				$scope.selectedDrzava = null;
+				$scope.novaDrzava = null;
+				$scope.show = null;
+			}
 		} ]);

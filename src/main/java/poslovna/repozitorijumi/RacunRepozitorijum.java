@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import poslovna.model.Banka;
 import poslovna.model.Klijent;
@@ -14,17 +15,18 @@ public interface RacunRepozitorijum extends JpaRepository<Racun, Long> {
 
 	List<Racun> findByBanka(Banka banka);
 
-	List<Racun> findByBankaAndValuta(Banka b, Valuta findOne);
+	List<Racun> findByVazeci(Boolean vazeci);
 
-	List<Racun> findByBankaAndKlijent(Banka b, Klijent findOne);
+	@Query("select r from Racun r where lower(r.brojRacuna) like %?1%")
+	List<Racun> findByRacunLike(String brojRacuna);
 
-	List<Racun> findByBankaAndVazeci(Banka b, Boolean vazeci);
+	List<Racun> findByDatumOtvaranja(Date datumOtvaranja);
 
-	List<Racun> findByBankaAndBrojRacuna(Banka b, String brojRacuna);
+	List<Racun> findByDatumZatvaranja(Date datumZatvaranja);
 
-	List<Racun> findByBankaAndDatumOtvaranja(Banka b, Date datumOtvaranja);
+	List<Racun> findByKlijent(Klijent findOne);
 
-	List<Racun> findByBankaAndDatumZatvaranja(Banka b, Date datumZatvaranja);
+	List<Racun> findByValuta(Valuta findOne);
 
 	
 

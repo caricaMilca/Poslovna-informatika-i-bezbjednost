@@ -12,7 +12,7 @@
 							<img class="dugmici" src="images/search.gif" />
 						</button>
 						<button type="button" class="btn btn-default"
-							ng-click="refreashTable()">
+							ng-click="refreshTable()">
 							<img class="dugmici" src="images/refresh.gif" />
 						</button>
 						<button type="button" class="btn btn-default">
@@ -43,11 +43,12 @@
 					</div>
 					<div class="btn-group">
 						<button type="button" class="btn btn-default"
+							ng-disabled="korisnik.ulogaZ != 'Salterusa'"
 							ng-click="changeMode('add')">
 							<img class="dugmici" src="images/add.gif" />
 						</button>
 						<button type="button" class="btn btn-default"
-							ng-disabled="!selectedKlijent"
+							ng-disabled="!selectedKlijent || korisnik.ulogaZ != 'Salterusa'"
 							confirmed-click="izbrisiKlijenta()"
 							ng-confirm-click="Da li zelite da izbrisete selektovanog klijenta? Potvrda brisanja nosi sve podatke zavisne od njega."">
 							<img class="dugmici" src="images/remove.gif" />
@@ -77,7 +78,7 @@
 							<div ng-if="k.ime == null ">Nepoznato</div>
 							</div></td>
 						<td><div ng-if="k.prezime != null ">{{k.prezime}}</div>
-							<div ng-if="k.ime == null ">Prezime</div>
+							<div ng-if="k.ime == null ">Nepoznato</div>
 							</div></td>
 						<td>{{k.korisnickoIme}}</td>
 						<td>{{k.ulogaK}}</td>
@@ -139,7 +140,7 @@
 						ng-Model="noviKlijent.lozinka" class="form-control" required>
 				</div>
 			</div>
-			<div class="form-group" ng-if="mode == 'add'">
+			<div class="form-group">
 				<div class="form-group">
 					<label class="control-label col-sm-3">Lice</label>
 					<div class="col-sm-6">
@@ -147,33 +148,37 @@
 							<div class="col-sm-6">
 								<label class="radio-inline"> <input type="radio"
 									id="fizickoRadio" ng-value="'FIZICKO'"
-									ng-Model="noviKlijent.ulogaK" required>Fizicko
+									ng-Model="noviKlijent.ulogaK"
+									ng-disabled="mode != 'add' && mode != 'filter' || kojiKlijenti != 'svi'"
+									ng-required="mode == 'add' && kojiKlijenti == 'svi'">Fizicko
 								</label>
 							</div>
 							<div class="col-sm-6">
 								<label class="radio-inline"> <input type="radio"
 									id="poslovnoRadio" ng-value="'POSLOVNO'"
-									ng-Model="noviKlijent.ulogaK" required>Poslovno
+									ng-Model="noviKlijent.ulogaK"
+									ng-disabled="mode != 'add' && mode != 'filter' || kojiKlijenti != 'svi'"
+									ng-required="mode == 'add' && kojiKlijenti == 'svi'">Poslovno
 								</label>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<!-- /.form-group -->
-			<div class="form-group"
-				ng-if="noviKlijent.ulogaK == 'POSLOVNO' || mode=='filter'">
-				<label for="delatnost" class="col-sm-3 control-label">Delatnost</label>
-				<div class="col-sm-6">
-					<select id="djelatnost" ng-model="djelatnostKlijenta"
-						ng-options="djel as djel.sifra for djel in djelatnosti"
-						class="form-control">
+				<!-- /.form-group -->
+				<div class="form-group" ng-if="noviKlijent.ulogaK == 'POSLOVNO'">
+					<label for="delatnost" class="col-sm-3 control-label">Delatnost</label>
+					<div class="col-sm-6">
+						<select disabled id="djelatnost" ng-model="djelatnostKlijenta"
+							ng-options="djel as djel.sifra for djel in djelatnosti"
+							class="form-control">
 
-					</select>
-				</div>
-				<div>
-					<button type="button" id="izaberi" class="btn btn-default"
-						data-toggle="modal" data-target="#izaberiDjelatnost">Izaberi</button>
+						</select>
+					</div>
+					<div>
+						<button type="button" id="izaberi" class="btn btn-default"
+							data-toggle="modal" data-target="#izaberiDjelatnost"
+							ng-disabled="kojiKlijenti != 'svi'">Izaberi</button>
+					</div>
 				</div>
 			</div>
 			<!-- /.form-group -->
@@ -181,8 +186,21 @@
 			<div class="form-group">
 				<div class="col-sm-9 col-sm-offset-3">
 					<button type="submit" ng-Click="regKlijenta()"
-						ng-disabled="myForm.$invalid || mode == 'nulto'"
+						ng-disabled="myForm.$invalid || mode == 'nulto' || korisnik.ulogaZ != 'Salterusa' && mode != 'filter'"
 						class="btn btn-primary btn-block">Potvrdi</button>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-9 col-sm-offset-3">
+					<button type="submit" ng-Click="odustani()"
+						class="btn btn-primary btn-block">Odustani</button>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-9 col-sm-offset-3">
+					<button type="submit" ng-Click="vratiSve()"
+						ng-disabled="kojiKlijenti == 'svi'"
+						class="btn btn-primary btn-block">Prikazi sve klijente</button>
 				</div>
 			</div>
 		</form>

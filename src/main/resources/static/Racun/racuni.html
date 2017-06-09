@@ -1,0 +1,257 @@
+<div ng-controller="racunController">
+	<h1 id="header" class="page-header">Svi racuni banke
+		{{korisnik.banka.naziv}}</h1>
+	<p>
+	<div class="container">
+		<div class="table-responsive">
+			<table class="table">
+				<tr>
+					<div class="btn-group">
+						<button type="button" class="btn btn-default"
+							ng-click="changeMode('filter')">
+							<img class="dugmici" src="images/search.gif" />
+						</button>
+						<button type="button" class="btn btn-default"
+							ng-click="refreshTable()">
+							<img class="dugmici" src="images/refresh.gif" />
+						</button>
+						<button type="button" class="btn btn-default">
+							<img class="dugmici" src="images/zoom-pickup.gif" />
+						</button>
+						<button type="button" class="btn btn-default">
+							<img class="dugmici" src="images/help.gif" />
+						</button>
+						<button type="button" class="btn btn-default">
+							<img class="dugmici" src="images/zoom-pickup.gif" />
+						</button>
+					</div>
+					<div class="btn-group">
+						<button type="button" class="btn btn-default" ng-click="first()">
+							<img class="dugmici" src="images/first.gif" />
+						</button>
+						<button type="button" ng-disabled="!selectedRacun"
+							class="btn btn-default" ng-click="prev()">
+							<img class="dugmici" src="images/prev.gif" />
+						</button>
+						<button type="button" ng-disabled="!selectedRacun"
+							class="btn btn-default" ng-click="next()">
+							<img class="dugmici" src="images/next.gif" />
+						</button>
+						<button type="button" class="btn btn-default" ng-click="last()">
+							<img class="dugmici" src="images/last.gif" />
+						</button>
+					</div>
+					<div class="btn-group">
+						<button type="button" class="btn btn-default"
+							ng-disabled="korisnik.ulogaZ != 'Salterusa'"
+							ng-click="changeMode('add')">
+							<img class="dugmici" src="images/add.gif" />
+						</button>
+						<button type="button" class="btn btn-default"
+							ng-disabled="!selectedRacun || korisnik.ulogaZ != 'Salterusa'"
+							confirmed-click="izbrisiRacun()"
+							ng-confirm-click="Da li zelite da izbrisete selektovanog racun? Potvrda brisanja nosi sve podatke zavisne od njega."">
+							<img class="dugmici" src="images/remove.gif" />
+						</button>
+					</div>
+					<div class="btn-group">
+						<button type="button" class="btn btn-default"
+							ng-click="changeMode(13)">
+							<img class="dugmici" src="images/nextform.gif" />
+						</button>
+						</p>
+					</div>
+				</tr>
+				<thead>
+					<tr>
+						<th>Broj racuna</th>
+						<th>Vazeci?</th>
+						<th>Datum otvaranja</th>
+						<th>Datum zatvaranja</th>
+						<th>Vlasnik racuna</th>
+						<th>Valuta racuna</th>
+						<th>Racun prenosa</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="r in sviRacuni" ng-click="setSelectedRacun(r)"
+						ng-class="{'info' : selectedRacun === r}">
+						<td>{{r.brojRacuna}}</td>
+						<td><div ng-if="r.vazeci == 0 ">Ugasen</div>
+							<div ng-if="r.vazeci == 1">Vazeci</div>
+							</div></td>
+						<td>{{r.datumOtvaranja}}</td>
+						<td><div ng-if="r.vazeci == 0">{{r.datumZatvaranja}}</div>
+							<div ng-if="r.vazeci == 1">Samo ugaseni</div></td>
+						<td>{{r.klijent.korisnickoIme}}</td>
+						<td>{{r.valuta.zvanicnaSifra}}</td>
+						<td><div ng-if="r.vazeci == 0">{{r.racunPrenosa}}</div>
+							<div ng-if="r.vazeci == 1">Samo ugaseni</div></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<br />
+	</div>
+	<div class="container" id="razmak">
+		<form class="form-horizontal" role="blabla" name="myForm" novalidate>
+			<div class="form-group">
+				<label for="ime" class="col-sm-3 control-label">Broj racuna</label>
+				<div class="col-sm-9">
+					<input type="text" id="ime" class="form-control"
+						placeholder="Unesi broj racuna" name="ime"
+						ng-Model="noviRacun.brojRacuna" ng-required="mode=='add'"
+						ng-disabled="mode == 'nulto'" pattern="^[0-9]*" ng-maxlength="18"
+						ng-minlength="18" autofocus>
+				</div>
+			</div>
+			<div role="alert" style="color: red">
+				<span class="error" ng-show="myForm.ime.$error.pattern">
+					Primjer : "123456789012345678" !</span>
+			</div>
+			<div class="form-group">
+				<label for="prezime" class="col-sm-3 control-label">Datum
+					otvaranja</label>
+				<div class="col-sm-9">
+					<input type="date" ng-Model="noviRacun.datumOtvaranja"
+						ng-disabled="mode == 'nulto'" class="form-control"
+						placeholder="Unesite datum otvaranja banke" />
+				</div>
+			</div>
+	</div>
+	<div class="form-group" ng-if="mode=='add'">
+		<label for="delatnost" class="col-sm-3 control-label">Vlasnik
+			racuna</label>
+		<div class="col-sm-6">
+			<select disabled id="djelatnost" ng-model="klijentRacuna"
+				ng-options="klijent as klijent.korisnickoIme for klijent in sviKlijenti"
+				class="form-control">
+			</select>
+		</div>
+		<div>
+			<button type="button" id="izaberi" class="btn btn-default"
+				data-toggle="modal" data-target="#izaberiVlasnika"
+				ng-disabled="kojiRacuni == 'klijenta'">Izaberi</button>
+		</div>
+	</div>
+
+	<div class="form-group" ng-if="mode=='add'">
+		<label for="delatnost" class="col-sm-3 control-label">Valuta
+			racuna</label>
+		<div class="col-sm-6">
+			<select disabled id="djelatnost" ng-model="valutaRacuna"
+				ng-options="val as val.zvanicnaSifra for val in valute"
+				class="form-control">
+			</select>
+		</div>
+		<div>
+			<button type="button" id="izaberi" class="btn btn-default"
+				data-toggle="modal" data-target="#izaberiValutu"
+				ng-disabled="kojiRacuni == 'valuta'">Izaberi</button>
+		</div>
+	</div>
+</div>
+<!-- /.form-group -->
+
+<div class="form-group">
+	<div class="col-sm-9 col-sm-offset-3">
+		<button type="submit" ng-Click="regRacuna()"
+			ng-disabled="myForm.$invalid || mode == 'nulto' || korisnik.ulogaZ != 'Salterusa' && mode != 'filter'"
+			class="btn btn-primary btn-block">Potvrdi</button>
+	</div>
+</div>
+<div class="form-group">
+	<div class="col-sm-9 col-sm-offset-3">
+		<button type="submit" ng-Click="odustani()"
+			class="btn btn-primary btn-block">Odustani</button>
+	</div>
+</div>
+<div class="form-group">
+	<div class="col-sm-9 col-sm-offset-3">
+		<button type="submit" ng-Click="vratiSve()"
+			ng-disabled="kojiRacuni == 'svi'" class="btn btn-primary btn-block">Prikazi
+			sve racune</button>
+	</div>
+</div>
+</form>
+<!-- /form -->
+</div>
+<!-- ./container -->
+<div id="izaberiVlasnika" class="modal fade" role="dialog"
+	style="color: black;">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Izaberi vlasnika</h4>
+			</div>
+			<div class="modal-body">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Ime</th>
+							<th>Prezime</th>
+							<th>Korisnicko ime</th>
+							<th>Lice</th>
+							<th>Djelatnost</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="k in sviKlijenti" ng-click="setSelectedKlijent(k)"
+							ng-class="{'info' : selectedKlijent === k}">
+							<td><div ng-if="k.ime != null ">{{k.ime}}</div>
+								<div ng-if="k.ime == null ">Nepoznato</div>
+								</div></td>
+							<td><div ng-if="k.prezime != null ">{{k.prezime}}</div>
+								<div ng-if="k.ime == null ">Nepoznato</div>
+								</div></td>
+							<td>{{k.korisnickoIme}}</td>
+							<td>{{k.ulogaK}}</td>
+							<td><div ng-if="k.ulogaK != 'POSLOVNO'">Samo za
+									poslovna</div>
+								<div ng-if="k.ulogaK == 'POSLOVNO'">{{k.djelatnost.sifra}}</div>
+								</div></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<!-- ./container -->
+<div id="izaberiValutu" class="modal fade" role="dialog"
+	style="color: black;">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Izaberi valutu</h4>
+			</div>
+			<div class="modal-body">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Zvanicna sifra</th>
+							<th>Naziv</th>
+							<th>Domicilna</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="v in valute" ng-click="setSelectedValuta(v)"
+							ng-class="{'info' : selectedValuta === v}">
+							<td>{{v.zvanicnaSifra}}</td>
+							<td>{{v.naziv}}</td>
+							<td><div ng-if="v.domicilna == 0 ">Nije</div>
+								<div ng-if="v.domicilna == 1">Jeste</div></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+</div>

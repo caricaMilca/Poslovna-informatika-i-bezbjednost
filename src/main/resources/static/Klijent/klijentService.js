@@ -15,6 +15,10 @@ app.factory('KlijentService', function klijentService($http) {
 		return $http.get("/klijent/sviKlijenti");
 	}
 	
+	klijentService.sviKlijentiDjelatnosti = function(id){
+		return $http.get("/klijent/sviKlijentiDjelatnosti/" + id);
+	}
+	
 	klijentService.pretraziKlijente = function(klijent, idDjelatnosti){
 		return $http.put("/klijent/pretraziKlijente/" + idDjelatnosti, klijent);
 	}
@@ -23,7 +27,7 @@ app.factory('KlijentService', function klijentService($http) {
 		return $http.put("/klijent/izbrisiKlijenta/" + id);
 	}
 	
-	klijentService.izmeniKlijenta = function(klijent, id){
+	klijentService.izmjeniKlijenta = function(klijent, id){
 		return $http.put("/klijent/izmjeniKlijenta/" + id, klijent);
 	}
 	

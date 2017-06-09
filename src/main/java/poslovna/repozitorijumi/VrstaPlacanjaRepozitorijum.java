@@ -6,4 +6,6 @@ import poslovna.model.VrstaPlacanja;
 
 public interface VrstaPlacanjaRepozitorijum extends JpaRepository<VrstaPlacanja, Long> {
 
+	VrstaPlacanja findByNaziv(String naziv);
+
 }

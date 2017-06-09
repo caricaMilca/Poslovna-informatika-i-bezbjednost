@@ -1,33 +1,5 @@
 var app = angular.module('webApp');
 
-app.run([ 'ngNotify', function(ngNotify) {
-
-	ngNotify.config({
-		position : 'bottom',
-		duration : 1000,
-		theme : 'pitchy',
-		sticky : false,
-	});
-} ]);
-
-app.directive('ngConfirmClick', [ function() {
-	return {
-		link : function(scope, element, attr) {
-			var msg = attr.ngConfirmClick || "Are you sure?";
-			var clickAction = attr.confirmedClick;
-			element.bind('click', function(event) {
-				if (window.confirm(msg)) {
-					scope.$eval(clickAction)
-				}
-			});
-		}
-	};
-} ]);
-
-app.config([ '$qProvider', function($qProvider) {
-	$qProvider.errorOnUnhandledRejections(false);
-} ]);
-
 app
 		.controller(
 				'klijentController',
@@ -41,12 +13,33 @@ app
 								klijentService) {
 
 							$scope.mode = 'nulto';
-							klijentService.preuzmiKlijente().then(
-									function(response) {
-										if (response.data) {
-											$scope.sviKlijenti = response.data;
-										}
-									});
+							if($rootScope.kojiKlijenti == 'svi'){
+								klijentService.preuzmiKlijente().then(
+										function(response) {
+											if (response.data) {
+												$scope.sviKlijenti = response.data;
+											}
+										});
+							} else if($rootScope.kojiKlijenti == 'djelatnosti'){
+								klijentService.sviKlijentiDjelatnosti($rootScope.nextFormDjelatnost.id).then(
+										function(response) {
+											if (response.data) {
+												$scope.sviKlijenti = response.data;
+												$scope.djelatnostKlijenta = $rootScope.nextFormDjelatnost;
+											}
+										});
+								
+							}
+							$scope.vratiSve = function() {
+								klijentService.preuzmiKlijente().then(
+										function(response) {
+											if (response.data) {
+												$scope.sviKlijenti = response.data;
+												$rootScope.kojiKlijenti = 'svi';
+												$scope.djelatnostKlijenta = $scope.djelatnosti[0];
+											}
+										});
+							}
 							klijentService
 									.sveDjelatnosti()
 									.then(
@@ -63,11 +56,21 @@ app
 									id = -1;
 								else
 									id = $scope.djelatnostKlijenta.id;
-								if ($scope.mode == 'add')
+								if($rootScope.kojiKlijenti != 'svi'){
+									$scope.noviKlijent.ulogaK = 'POSLOVNO';
+									id = $rootScope.nextFormDjelatnost.id;
+									ngNotify
+									.set(
+											'U modu ste dodavanja u djelatnost odredjenu.',
+											{
+												type : 'info'
+											});
+								}
+								if ($scope.mode == 'add') {
 									klijentService
 											.regKlijenta(
 													$scope.noviKlijent,
-													$scope.djelatnostKlijenta.id)
+													id)
 											.then(
 													function(response) {
 														if (response.data) {
@@ -84,7 +87,7 @@ app
 															$scope.selectedKlijent = null;
 														}
 													});
-								else if ($scope.mode == 'filter') {
+								} else if ($scope.mode == 'filter') {
 									klijentService
 											.pretraziKlijente(
 													$scope.noviKlijent, id)
@@ -105,9 +108,9 @@ app
 													});
 								} else if ($scope.mode == 'edit') {
 									klijentService
-											.izmeniKlijenta(
+											.izmjeniKlijenta(
 													$scope.noviKlijent,
-													$scope.djelatnostKlijenta.id)
+													id)
 											.then(
 													function(response) {
 														if (response.data) {
@@ -161,6 +164,7 @@ app
 							}
 
 							$scope.setSelectedKlijent = function(selected) {
+								$scope.djelatnostKlijenta = -1;
 								$scope.selectedKlijent = selected;
 								$scope.show = 10;
 								$scope.noviKlijent = angular.copy(selected);
@@ -170,10 +174,14 @@ app
 							}
 
 							$scope.changeMode = function(tab) {
+								$scope.djelatnostKlijenta = -1;
 								$scope.noviKlijent = null;
 								$scope.mode = tab;
 								if (tab == 'filter')
 									$scope.djelatnostKlijenta = -1;
+								if(tab == 'add' && $rootScope.kojiKlijenti == 'svi')
+									$scope.djelatnostKlijenta = $scope.djelatnosti[0];
+								
 							}
 
 							$scope.first = function() {
@@ -215,18 +223,36 @@ app
 								$scope.noviKlijent = $scope.selectedKlijent;
 							}
 
-							$scope.refreashTable = function() {
-								klijentService
-										.preuzmiKlijente()
-										.then(
-												function(response) {
-													if (response.data) {
-														$scope.sviKlijenti = response.data;
-														$scope.noviKlijent = null;
-														$scope.mode = 'nulto';
-														$scope.selectedKlijent = null;
-													}
-												});
+							$scope.refreshTable = function() {
+								if($rootScope.kojiKlijenti == 'svi'){
+									klijentService.preuzmiKlijente().then(
+											function(response) {
+												if (response.data) {
+													$scope.sviKlijenti = response.data;
+													$scope.noviKlijent = null;
+													$scope.mode = 'nulto';
+													$scope.selectedKlijent = null;
+												}
+											});
+								} else if($rootScope.kojiKlijenti == 'djelatnosti'){
+									klijentService.sviKlijentiDjelatnosti($rootScope.nextFormDjelatnost.id).then(
+											function(response) {
+												if (response.data) {
+													$scope.sviKlijenti = response.data;
+													$scope.noviKlijent = null;
+													$scope.mode = 'nulto';
+													$scope.selectedKlijent = null;
+													$scope.djelatnostKlijenta = $rootScope.nextFormDjelatnost;
+												}
+											});
+									
+								}
+							}
+
+							$scope.odustani = function() {
+								$scope.mode = 'nulto';
+								$scope.selectedKlijent = null;
+								$scope.noviKlijent = null;
 							}
 
 						} ]);

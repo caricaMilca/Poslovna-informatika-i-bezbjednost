@@ -10,6 +10,20 @@ app.run([ 'ngNotify', function(ngNotify) {
 	});
 } ]);
 
+app.directive('ngConfirmClick', [ function() {
+	return {
+		link : function(scope, element, attr) {
+			var msg = attr.ngConfirmClick || "Are you sure?";
+			var clickAction = attr.confirmedClick;
+			element.bind('click', function(event) {
+				if (window.confirm(msg)) {
+					scope.$eval(clickAction)
+				}
+			});
+		}
+	};
+} ]);
+
 app.config([ '$qProvider', function($qProvider) {
 	$qProvider.errorOnUnhandledRejections(false);
 } ]);
@@ -23,6 +37,10 @@ app
 						'$location','ngNotify', 
 						'SessionService',
 						function($rootScope, $scope, $location,ngNotify, sessionService) {
+							
+							$rootScope.kojiKlijenti = 'svi';
+							$rootScope.nextFormDjelatnost = null;
+							
 							sessionService
 									.preuzmiKlijenta()
 									.then(
