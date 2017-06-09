@@ -16,4 +16,8 @@ public interface DrzavaServis {
 
 	ResponseEntity<Drzava> registracijaDrzave(Drzava drzava, Long idValute);
 
+	ResponseEntity<?> izbrisiDrzavu(Long idDrzave);
+
+	ResponseEntity<Drzava> izmeniDrzavu(Drzava drzava, Long idValute);
+
 }
