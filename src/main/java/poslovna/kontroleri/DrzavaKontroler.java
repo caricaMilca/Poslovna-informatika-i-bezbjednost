@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import poslovna.autorizacija.AutorizacijaAnnotation;
 import poslovna.model.Drzava;
+import poslovna.model.Klijent;
 import poslovna.servisi.DrzavaServis;
 
 @RestController
@@ -55,5 +56,18 @@ public class DrzavaKontroler {
 			@PathVariable("idValute") Long idValute) {
 		return drzavaServis.pretraziDrzave(drzava, idValute);
 	}
+	
+	@AutorizacijaAnnotation(imeMetode = "izbrisiDrzavu")
+	@PutMapping(path = "/izbrisiDrzavu/{idDrzave}")
+	public ResponseEntity<?> izbrisiDrzavu(@PathVariable("idDrzave") Long idDrzave) {
+		return drzavaServis.izbrisiDrzavu(idDrzave);
+	}
 
+	@AutorizacijaAnnotation(imeMetode = "izmeniDrzavu")
+	@PutMapping(path = "/izmeniDrzavu/{idValute}")
+	public ResponseEntity<Drzava> izmeniDrzavu(@RequestBody(required = false) Drzava drzava, @PathVariable("idValute") Long idValute) {
+		
+		return drzavaServis.izmeniDrzavu(drzava, idValute);
+	}
+	
 }

@@ -10,7 +10,7 @@ import poslovna.model.Valuta;
 
 public interface DrzavaRepozitorijum extends JpaRepository<Drzava, Long> {
 
-	Drzava findBySifra(String sifra);
+	List<Drzava> findBySifra(String sifra);
 
 	List<Drzava> findByValuta(Valuta v);
 
@@ -18,5 +18,9 @@ public interface DrzavaRepozitorijum extends JpaRepository<Drzava, Long> {
 	List<Drzava> findByNazivLikeOrSifraLike(String naziv, String sifra);
 	@Query("select d from Drzava d where lower(d.naziv) like ?1 or lower(d.sifra) like ?2 or d.valuta = valuta")
 	List<Drzava> findByNazivLikeOrSifraLikeOrValuta(String naziv, String sifra, Valuta valuta);
+
+	List<Drzava> findByNaziv(String naziv);
+
+	List<Drzava> findByValuta(Drzava findOne);
 
 }

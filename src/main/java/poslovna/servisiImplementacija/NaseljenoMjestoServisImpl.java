@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import poslovna.model.NaseljenoMjesto;
-import poslovna.model.NaseljenoMjesto;
-import poslovna.model.Zaposleni;
 import poslovna.repozitorijumi.DrzavaRepozitorijum;
 import poslovna.repozitorijumi.NaseljenoMjestoRepozitorijum;
 import poslovna.servisi.NaseljenoMjestoServis;
