@@ -54,4 +54,25 @@ public class ValutaServisImpl implements ValutaServis {
 
 	}
 
+	@Override
+	public ResponseEntity<?> izbrisiV(Long id) {
+		// TODO Auto-generated method stub
+		valutaRepozitorijum.delete(id);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<Valuta> izmeniV(Valuta v) {
+		// TODO Auto-generated method stub
+		Valuta vv = valutaRepozitorijum.findOne(v.id);
+
+		if (v.naziv != null)
+			vv.naziv = v.naziv;
+		if (v.zvanicnaSifra != null)
+			vv.zvanicnaSifra = v.zvanicnaSifra;
+		if (v.domicilna != null)
+			vv.domicilna = v.domicilna;
+		return new ResponseEntity<Valuta>(valutaRepozitorijum.save(vv), HttpStatus.OK);
+	}
+
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
+import poslovna.model.NaseljenoMjesto;
 import poslovna.model.Valuta;
 
 public interface ValutaServis {
@@ -16,4 +17,7 @@ public interface ValutaServis {
 
 	ResponseEntity<List<Valuta>> pretraziValute(Valuta valuta);
 
+	ResponseEntity<?> izbrisiV(Long id);
+	
+	ResponseEntity<Valuta> izmeniV(Valuta v);
 }

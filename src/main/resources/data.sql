@@ -12,9 +12,9 @@ insert into Vrsta_placanja(naziv) values ('kes');
 insert into Kursna_lista(datum, primjenjuje_se_od, broj, banka_id) values ('11-11-11', '11-11-09', 98, 1);
 insert into Kursna_lista(datum, primjenjuje_se_od, broj, banka_id) values ('11-01-11', '01-11-09', 58, 1);
 
-insert into Valuta(naziv, zvanicna_sifra, domicilna) values ('euro', 1, true);
-insert into Valuta(naziv, zvanicna_sifra, domicilna) values ('dinar', 2, true);
-insert into Valuta(naziv, zvanicna_sifra, domicilna) values ('marka', 3, true);
+insert into Valuta(naziv, zvanicna_sifra, domicilna) values ('Euro', 1, true);
+insert into Valuta(naziv, zvanicna_sifra, domicilna) values ('Dinar', 2, true);
+insert into Valuta(naziv, zvanicna_sifra, domicilna) values ('Marka', 3, true);
 
 insert into KursUValuti(kupovni, prodajni, srednji, osnovna_valuta_id, prema_valuti_id, kursna_lista_id) values (6, 5, 3, 1, 2, 1);
 insert into KursUValuti(kupovni, prodajni, srednji, osnovna_valuta_id, prema_valuti_id, kursna_lista_id) values (6, 7, 4, 3, 2, 2);

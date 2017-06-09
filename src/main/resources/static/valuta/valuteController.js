@@ -101,7 +101,7 @@ app.controller('valuteController', [
 				$scope.mode = tab;
 			}
 			
-			$scope.izbrisiNM = function() {
+			$scope.izbrisiV = function() {
 				valuteService
 						.izbrisiV(
 								$scope.selectedV.id)
@@ -114,7 +114,7 @@ app.controller('valuteController', [
 														{
 															type : 'success'
 														});
-										var index = $scope.svaV
+										var index = $scope.sveV
 												.indexOf($scope.selectedV);
 										$scope.sveV
 												.splice(index,
@@ -126,5 +126,67 @@ app.controller('valuteController', [
 
 								});
 			}
+			
+			
+			$scope.first = function() {
+				$scope.mode = 'edit';
+				$scope.selectedV = $scope.sveV[0];
+				$scope.v = $scope.selectedV;
+				$scope.novaV = $scope.selectedV;
+			}
 
+			$scope.last = function() {
+				$scope.mode = 'edit';
+				var i = $scope.sveV.length - 1;
+				$scope.selectedV = $scope.sveV[i];
+				$scope.v = $scope.selectedV;
+				$scope.novaV = $scope.selectedV;
+			}
+
+			$scope.next = function() {
+				$scope.mode = 'edit';
+				var i = $scope.sveV
+						.indexOf($scope.selectedV);
+				if (i + 1 > $scope.sveV.length - 1)
+					$scope.selectedV = $scope.sveV[0];
+				else
+					$scope.selectedV = $scope.sveV[i + 1];
+				$scope.v = $scope.selectedV;
+				$scope.novaV = $scope.selectedV;
+			}
+
+			$scope.prev = function() {
+				$scope.mode = 'edit';
+				var i = $scope.sveV
+						.indexOf($scope.selectedV);
+				if (i == 0)
+					$scope.selectedV = $scope.sveV[$scope.sveV.length - 1];
+				else
+					$scope.selectedV = $scope.sveV[i - 1];
+				$scope.v = $scope.selectedV;
+				$scope.novaV = $scope.selectedV;
+			}
+
+			$scope.refreash = function() {
+				valuteService
+						.preuzmiV()
+						.then(
+								function(response) {
+									if (response.data) {
+										$scope.sveV = response.data;
+										$scope.novaV = null;
+										$scope.mode = 'nulto';
+										$scope.selectedV = null;
+									}
+								});
+			}
+
+
+			$scope.odustani = function() {
+				$scope.mode = 'edit';
+				$scope.selectedV = null;
+				$scope.novaV = null;
+				$scope.show = null;
+			}
+			
 		} ]);

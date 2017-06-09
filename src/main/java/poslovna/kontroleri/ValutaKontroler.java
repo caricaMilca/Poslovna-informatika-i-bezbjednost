@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,5 +46,17 @@ public class ValutaKontroler {
 	@PutMapping(path = "/pretraziValute")
 	public ResponseEntity<List<Valuta>> pretraziValute(@RequestBody Valuta valuta) {
 		return valutaServis.pretraziValute(valuta);
+	}
+	
+	@AutorizacijaAnnotation(imeMetode = "izbrisiValutu")
+	@PutMapping(path = "/izbrisiValutu/{id}")
+	public ResponseEntity<?> izbrisiV(@PathVariable("id") Long idNM) {
+		return valutaServis.izbrisiV(idNM);
+	}
+	
+	@AutorizacijaAnnotation(imeMetode = "izmeniValutu")
+	@PutMapping(path = "/izmeniValutu")
+	public ResponseEntity<Valuta> izmeniV(@RequestBody(required = false) Valuta v) {
+		return valutaServis.izmeniV(v);
 	}
 }
