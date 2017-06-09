@@ -35,7 +35,7 @@ app
 									id = -1;
 								else
 									id = $scope.djelatnostKlijenta.id;
-								if ($scope.mode == 'add')
+								if ($scope.mode == 'add') {
 									klijentService
 											.regKlijenta(
 													$scope.noviKlijent,
@@ -56,7 +56,7 @@ app
 															$scope.selectedKlijent = null;
 														}
 													});
-								else if ($scope.mode == 'filter') {
+								} else if ($scope.mode == 'filter') {
 									klijentService
 											.pretraziKlijente(
 													$scope.noviKlijent, id)
@@ -200,7 +200,7 @@ app
 													}
 												});
 							}
-							
+
 							$scope.odustani = function() {
 								$scope.mode = 'nulto';
 								$scope.selectedKlijent = null;

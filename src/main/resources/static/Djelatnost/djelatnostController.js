@@ -13,18 +13,19 @@ app
 								djelatnostService) {
 
 							$scope.mode = 'nulto';
-							djelatnostService.sveDjelatnosti().then(
-									function(response) {
-										if (response.data) {
-											$scope.sveDjelatnosti = response.data;
-										}
-									});
+							djelatnostService
+									.sveDjelatnosti()
+									.then(
+											function(response) {
+												if (response.data) {
+													$scope.sveDjelatnosti = response.data;
+												}
+											});
 
 							$scope.regDjelatnost = function() {
 								if ($scope.mode == 'add')
 									djelatnostService
-											.regDjelatnost(
-													$scope.djelatnost)
+											.regDjelatnost($scope.djelatnost)
 											.then(
 													function(response) {
 														if (response.data) {
@@ -113,16 +114,12 @@ app
 							}
 
 							$scope.setSelectedDjelatnost = function(selected) {
-								/*if($rootScope.korisnik.ulogaZ != 'Administrator'){
-									ngNotify
-									.set(
-											'Nemate prava izmjene',
-											{
-												type : 'info'
-											});
+								if ($rootScope.korisnik.ulogaZ != 'Administrator') {
+									ngNotify.set('Nemate prava izmjene', {
+										type : 'info'
+									});
 									return;
 								}
-									*/
 								$scope.selectedDjelatnost = selected;
 								$scope.show = 10;
 								$scope.djelatnost = angular.copy(selected);
@@ -186,12 +183,11 @@ app
 													}
 												});
 							}
-							
+
 							$scope.odustani = function() {
 								$scope.mode = 'nulto';
 								$scope.selectedDjelatnost = null;
 								$scope.djelatnost = null;
 							}
-
 
 						} ]);

@@ -12,6 +12,7 @@ import poslovna.model.UlogaKlijenta;
 
 public interface KlijentRepozitorijum extends JpaRepository<Klijent, Long> {
 
+	@Query("select k from Klijent k where lower(k.korisnickoIme) like ?1")
 	Klijent findByKorisnickoIme(String korisnickoIme);
 
 	List<Klijent> findByDjelatnost(Djelatnost findOne);
@@ -23,9 +24,11 @@ public interface KlijentRepozitorijum extends JpaRepository<Klijent, Long> {
 	List<Klijent> findByUlogaK(UlogaKlijenta ulogaK);
 
 	List<Klijent> findByBanka(Banka banka);
-
+	
+	@Query("select k from Klijent k where lower(k.prezime) like ?1")
 	List<Klijent> findByPrezime(String prezime);
 
+	@Query("select k from Klijent k where lower(k.ime) like ?1")
 	List<Klijent> findByIme(String ime);
 	
 }
