@@ -27,5 +27,8 @@ app.config(function($routeProvider, $locationProvider) {
 	}).when('/Djelatnost/sveDjelatnosti', {
 		templateUrl: '/Djelatnost/djelatnosti.html',
 		controller: 'djelatnostController'
-	})		
+	}).when('/kursUValuti/kurs', {
+		templateUrl: '/kursUValuti/kursUValuti.html',
+		controller: 'kvController'
+	})			
 });
