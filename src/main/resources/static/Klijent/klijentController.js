@@ -77,7 +77,7 @@ app
 													});
 								} else if ($scope.mode == 'edit') {
 									klijentService
-											.izmeniKlijenta(
+											.izmjeniKlijenta(
 													$scope.noviKlijent,
 													$scope.djelatnostKlijenta.id)
 											.then(
@@ -187,7 +187,7 @@ app
 								$scope.noviKlijent = $scope.selectedKlijent;
 							}
 
-							$scope.refreashTable = function() {
+							$scope.refreshTable = function() {
 								klijentService
 										.preuzmiKlijente()
 										.then(
@@ -199,6 +199,12 @@ app
 														$scope.selectedKlijent = null;
 													}
 												});
+							}
+							
+							$scope.odustani = function() {
+								$scope.mode = 'nulto';
+								$scope.selectedDjelatnost = null;
+								$scope.djelatnost = null;
 							}
 
 						} ]);

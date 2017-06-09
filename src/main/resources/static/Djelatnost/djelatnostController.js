@@ -62,9 +62,8 @@ app
 													});
 								} else if ($scope.mode == 'edit') {
 									djelatnostService
-											.izmeniKlijenta(
-													$scope.djelatnost,
-													$scope.djelatnostKlijenta.id)
+											.izmjeniDjelatnost(
+													$scope.djelatnost)
 											.then(
 													function(response) {
 														if (response.data) {
@@ -187,5 +186,12 @@ app
 													}
 												});
 							}
+							
+							$scope.odustani = function() {
+								$scope.mode = 'nulto';
+								$scope.selectedKlijent = null;
+								$scope.noviKlijent = null;
+							}
+
 
 						} ]);

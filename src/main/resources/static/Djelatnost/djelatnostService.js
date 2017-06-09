@@ -19,7 +19,7 @@ app.factory('DjelatnostService', function djelatnostService($http) {
 		return $http.put("/djelatnost/izbrisiDjelatnost/" + id);
 	}
 	
-	djelatnostService.izmeniDjelatnost = function(djelatnost){
+	djelatnostService.izmjeniDjelatnost = function(djelatnost){
 		return $http.put("/djelatnost/izmjeniDjelatnost", djelatnost);
 	}
 	

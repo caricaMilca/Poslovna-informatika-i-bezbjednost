@@ -48,7 +48,7 @@ public class DjelatnostKontroler {
 	}
 	
 	@AutorizacijaAnnotation(imeMetode = "izmjeniDjelatnost")
-	@PutMapping(path = "/izmjeniDjelatnost/{idDjelatnosti}")
+	@PutMapping(path = "/izmjeniDjelatnost")
 	public ResponseEntity<Djelatnost> izmjeniDjelatnost(@RequestBody Djelatnost dje) {
 		
 		return djelatnostServis.izmjeniDjelatnost(dje);
