@@ -203,8 +203,8 @@ app
 							
 							$scope.odustani = function() {
 								$scope.mode = 'nulto';
-								$scope.selectedDjelatnost = null;
-								$scope.djelatnost = null;
+								$scope.selectedKlijent = null;
+								$scope.noviKlijent = null;
 							}
 
 						} ]);

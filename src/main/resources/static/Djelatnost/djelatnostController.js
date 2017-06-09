@@ -189,8 +189,8 @@ app
 							
 							$scope.odustani = function() {
 								$scope.mode = 'nulto';
-								$scope.selectedKlijent = null;
-								$scope.noviKlijent = null;
+								$scope.selectedDjelatnost = null;
+								$scope.djelatnost = null;
 							}
 
 
