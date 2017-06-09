@@ -39,7 +39,7 @@ app
 									klijentService
 											.regKlijenta(
 													$scope.noviKlijent,
-													$scope.djelatnostKlijenta.id)
+													id)
 											.then(
 													function(response) {
 														if (response.data) {
@@ -79,7 +79,7 @@ app
 									klijentService
 											.izmjeniKlijenta(
 													$scope.noviKlijent,
-													$scope.djelatnostKlijenta.id)
+													id)
 											.then(
 													function(response) {
 														if (response.data) {
@@ -133,6 +133,7 @@ app
 							}
 
 							$scope.setSelectedKlijent = function(selected) {
+								$scope.djelatnostKlijenta = -1;
 								$scope.selectedKlijent = selected;
 								$scope.show = 10;
 								$scope.noviKlijent = angular.copy(selected);
@@ -142,6 +143,7 @@ app
 							}
 
 							$scope.changeMode = function(tab) {
+								$scope.djelatnostKlijenta = -1;
 								$scope.noviKlijent = null;
 								$scope.mode = tab;
 								if (tab == 'filter')
