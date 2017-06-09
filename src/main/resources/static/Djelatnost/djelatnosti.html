@@ -59,7 +59,7 @@
 		</div>
 		<div class="btn-group">
 			<button type="button" class="btn btn-default"
-				ng-click="changeMode(13)">
+				ng-click="nextForm()" ng-disabled="!selectedDjelatnost" >
 				<img class="dugmici" src="images/nextform.gif" />
 			</button>
 			</p>
@@ -115,7 +115,7 @@
 			<div class="form-group">
 				<div class="col-sm-9 col-sm-offset-3">
 					<button type="submit" ng-Click="regDjelatnost()"
-						ng-disabled="myForm.$invalid || mode == 'nulto'"
+						ng-disabled="myForm.$invalid || mode == 'nulto' || $parent.korisnik.ulogaK != 'Administrator'"
 						class="btn btn-primary btn-block">Potvrdi</button>
 				</div>
 			</div>

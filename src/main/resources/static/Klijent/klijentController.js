@@ -13,12 +13,33 @@ app
 								klijentService) {
 
 							$scope.mode = 'nulto';
-							klijentService.preuzmiKlijente().then(
-									function(response) {
-										if (response.data) {
-											$scope.sviKlijenti = response.data;
-										}
-									});
+							if($rootScope.kojiKlijenti == 'svi'){
+								klijentService.preuzmiKlijente().then(
+										function(response) {
+											if (response.data) {
+												$scope.sviKlijenti = response.data;
+											}
+										});
+							} else if($rootScope.kojiKlijenti == 'djelatnosti'){
+								klijentService.sviKlijentiDjelatnosti($rootScope.nextFormDjelatnost.id).then(
+										function(response) {
+											if (response.data) {
+												$scope.sviKlijenti = response.data;
+												$scope.djelatnostKlijenta = $rootScope.nextFormDjelatnost;
+											}
+										});
+								
+							}
+							$scope.vratiSve = function() {
+								klijentService.preuzmiKlijente().then(
+										function(response) {
+											if (response.data) {
+												$scope.sviKlijenti = response.data;
+												$rootScope.kojiKlijenti = 'svi';
+												$scope.djelatnostKlijenta = $scope.djelatnosti[0];
+											}
+										});
+							}
 							klijentService
 									.sveDjelatnosti()
 									.then(
@@ -35,6 +56,16 @@ app
 									id = -1;
 								else
 									id = $scope.djelatnostKlijenta.id;
+								if($rootScope.kojiKlijenti != 'svi'){
+									$scope.noviKlijent.ulogaK = 'POSLOVNO';
+									id = $rootScope.nextFormDjelatnost.id;
+									ngNotify
+									.set(
+											'U modu ste dodavanja u djelatnost odredjenu.',
+											{
+												type : 'info'
+											});
+								}
 								if ($scope.mode == 'add') {
 									klijentService
 											.regKlijenta(
@@ -148,6 +179,9 @@ app
 								$scope.mode = tab;
 								if (tab == 'filter')
 									$scope.djelatnostKlijenta = -1;
+								if(tab == 'add' && $rootScope.kojiKlijenti == 'svi')
+									$scope.djelatnostKlijenta = $scope.djelatnosti[0];
+								
 							}
 
 							$scope.first = function() {
@@ -190,17 +224,29 @@ app
 							}
 
 							$scope.refreshTable = function() {
-								klijentService
-										.preuzmiKlijente()
-										.then(
-												function(response) {
-													if (response.data) {
-														$scope.sviKlijenti = response.data;
-														$scope.noviKlijent = null;
-														$scope.mode = 'nulto';
-														$scope.selectedKlijent = null;
-													}
-												});
+								if($rootScope.kojiKlijenti == 'svi'){
+									klijentService.preuzmiKlijente().then(
+											function(response) {
+												if (response.data) {
+													$scope.sviKlijenti = response.data;
+													$scope.noviKlijent = null;
+													$scope.mode = 'nulto';
+													$scope.selectedKlijent = null;
+												}
+											});
+								} else if($rootScope.kojiKlijenti == 'djelatnosti'){
+									klijentService.sviKlijentiDjelatnosti($rootScope.nextFormDjelatnost.id).then(
+											function(response) {
+												if (response.data) {
+													$scope.sviKlijenti = response.data;
+													$scope.noviKlijent = null;
+													$scope.mode = 'nulto';
+													$scope.selectedKlijent = null;
+													$scope.djelatnostKlijenta = $rootScope.nextFormDjelatnost;
+												}
+											});
+									
+								}
 							}
 
 							$scope.odustani = function() {

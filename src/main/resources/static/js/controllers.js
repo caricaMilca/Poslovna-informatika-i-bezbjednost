@@ -37,6 +37,10 @@ app
 						'$location','ngNotify', 
 						'SessionService',
 						function($rootScope, $scope, $location,ngNotify, sessionService) {
+							
+							$rootScope.kojiKlijenti = 'svi';
+							$rootScope.nextFormDjelatnost = null;
+							
 							sessionService
 									.preuzmiKlijenta()
 									.then(

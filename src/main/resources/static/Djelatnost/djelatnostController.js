@@ -114,12 +114,6 @@ app
 							}
 
 							$scope.setSelectedDjelatnost = function(selected) {
-								if ($rootScope.korisnik.ulogaZ != 'Administrator') {
-									ngNotify.set('Nemate prava izmjene', {
-										type : 'info'
-									});
-									return;
-								}
 								$scope.selectedDjelatnost = selected;
 								$scope.show = 10;
 								$scope.djelatnost = angular.copy(selected);
@@ -189,5 +183,12 @@ app
 								$scope.selectedDjelatnost = null;
 								$scope.djelatnost = null;
 							}
+							
+							$scope.nextForm = function() {
+								$rootScope.kojiKlijenti = 'djelatnosti';
+								$rootScope.nextFormDjelatnost = $scope.selectedDjelatnost;
+								$location.path('/Klijent/klijenti')
+							}
+							
 
 						} ]);
