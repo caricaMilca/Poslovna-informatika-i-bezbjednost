@@ -61,8 +61,14 @@ public class RacunServisImpl implements RacunServis {
 
 		Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
 		Banka b = z.banka;
-		return new ResponseEntity<List<Racun>>(
-				racunRepozitorijum.findByBankaAndValuta(b, valutaRepozitorijum.findOne(idValute)), HttpStatus.OK);
+		List<Racun> valuta = racunRepozitorijum.findByValuta(valutaRepozitorijum.findOne(idValute));
+		List<Racun> banka = racunRepozitorijum.findByBanka(b);
+		banka.retainAll(valuta);
+		Set<Racun> set = new HashSet<Racun>();
+		set.addAll(banka);
+		banka.clear();
+		banka.addAll(set);
+		return new ResponseEntity<List<Racun>>(banka, HttpStatus.OK);
 	}
 
 	@Override
@@ -70,35 +76,70 @@ public class RacunServisImpl implements RacunServis {
 
 		Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
 		Banka b = z.banka;
-		return new ResponseEntity<List<Racun>>(
-				racunRepozitorijum.findByBankaAndKlijent(b, klijentRepozitorijum.findOne(idKlijenta)), HttpStatus.OK);
+		List<Racun> klijent = racunRepozitorijum.findByKlijent(klijentRepozitorijum.findOne(idKlijenta));
+		List<Racun> banka = racunRepozitorijum.findByBanka(b);
+		banka.retainAll(klijent);
+		Set<Racun> set = new HashSet<Racun>();
+		set.addAll(banka);
+		banka.clear();
+		banka.addAll(set);
+		return new ResponseEntity<List<Racun>>(banka, HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<List<Racun>> pretraziRacune(Racun racun, Long idKlijenta, Long idValute) {
-
 		Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
 		Banka b = z.banka;
-		List<Racun> lista = new ArrayList<Racun>();
+		List<Racun> vazeci = new ArrayList<Racun>();
+		List<Racun> banka = new ArrayList<Racun>();
+		List<Racun> brojRacuna = new ArrayList<Racun>();
+		List<Racun> datumOtvaranja = new ArrayList<Racun>();
+		List<Racun> datumZatvaranja = new ArrayList<Racun>();
+		List<Racun> klijent = new ArrayList<Racun>();
+		List<Racun> valuta = new ArrayList<Racun>();
+		if (racun == null && idKlijenta == -1 && idValute == -1)
+			return new ResponseEntity<List<Racun>>(banka, HttpStatus.OK);
+		banka = racunRepozitorijum.findByBanka(b);
 		if (racun != null) {
-			if (racun.vazeci != null)
-				lista.addAll(racunRepozitorijum.findByBankaAndVazeci(b, racun.vazeci));
-			if (racun.brojRacuna != null)
-				lista.addAll(racunRepozitorijum.findByBankaAndBrojRacuna(b, racun.brojRacuna));
-			if (racun.datumOtvaranja != null)
-				lista.addAll(racunRepozitorijum.findByBankaAndDatumOtvaranja(b, racun.datumOtvaranja));
-			if (racun.datumZatvaranja != null)
-				lista.addAll(racunRepozitorijum.findByBankaAndDatumZatvaranja(b, racun.datumZatvaranja));
+			if (racun.vazeci != null) {
+				vazeci = racunRepozitorijum.findByVazeci(racun.vazeci);
+				banka.retainAll(vazeci);
+			}
+			if (racun.brojRacuna != null) {
+				brojRacuna = racunRepozitorijum.findByRacunLike(racun.brojRacuna);
+				banka.retainAll(brojRacuna);
+			}
+			if (racun.datumOtvaranja != null) {
+				datumOtvaranja = racunRepozitorijum.findByDatumOtvaranja(racun.datumOtvaranja);
+				banka.retainAll(datumOtvaranja);
+			}
+			if (racun.datumZatvaranja != null) {
+				datumZatvaranja = racunRepozitorijum.findByDatumZatvaranja(racun.datumZatvaranja);
+				banka.retainAll(datumZatvaranja);
+			}
 		}
-		if (idKlijenta != null)
-			lista.addAll(racunRepozitorijum.findByBankaAndKlijent(b, klijentRepozitorijum.findOne(idKlijenta)));
-		if (idValute != null)
-			lista.addAll(racunRepozitorijum.findByBankaAndValuta(b, valutaRepozitorijum.findOne(idValute)));
+		if (idKlijenta != null) {
+			klijent = racunRepozitorijum.findByKlijent(klijentRepozitorijum.findOne(idKlijenta));
+			banka.retainAll(klijent);
+		}
+		if (idValute != null) {
+			valuta = racunRepozitorijum.findByValuta(valutaRepozitorijum.findOne(idValute));
+			banka.retainAll(valuta);
+		}
 		Set<Racun> set = new HashSet<Racun>();
-		set.addAll(lista);
-		lista.clear();
-		lista.addAll(set);
-		return new ResponseEntity<List<Racun>>(lista, HttpStatus.OK);
+		set.addAll(banka);
+		banka.clear();
+		banka.addAll(set);
+		return new ResponseEntity<List<Racun>>(banka, HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<Racun> zatvoriRacun(Racun racun) {
+		Racun r = racunRepozitorijum.findOne(racun.id);
+		r.datumZatvaranja = racun.datumZatvaranja;
+		r.vazeci = false;
+		r.racunPrenosa = racun.racunPrenosa;
+		return new ResponseEntity<Racun>(racunRepozitorijum.save(r), HttpStatus.OK);
 	}
 
 }

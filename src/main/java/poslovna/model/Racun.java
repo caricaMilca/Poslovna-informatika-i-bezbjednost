@@ -26,6 +26,7 @@ public class Racun {
 	@GeneratedValue
 	public Long id;
 	
+	@Column(unique=true,nullable=false)
 	public String brojRacuna;
 	
 	@Temporal(TemporalType.DATE)

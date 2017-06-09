@@ -18,4 +18,6 @@ public interface RacunServis {
 
 	ResponseEntity<List<Racun>> pretraziRacune(Racun racun, Long idKlijenta, Long idValute);
 
+	ResponseEntity<Racun> zatvoriRacun(Racun racun);
+
 }
