@@ -77,7 +77,7 @@
                             <div ng-if="k.ime == null ">Nepoznato</div>
                             </div></td>
                         <td><div ng-if="k.prezime != null ">{{k.prezime}}</div>
-                            <div ng-if="k.ime == null ">Prezime</div>
+                            <div ng-if="k.ime == null ">Nepoznato</div>
                             </div></td>
                         <td>{{k.korisnickoIme}}</td>
                         <td>{{k.ulogaK}}</td>
@@ -165,7 +165,7 @@
                 ng-if="noviKlijent.ulogaK == 'POSLOVNO' || mode=='filter'">
                 <label for="delatnost" class="col-sm-3 control-label">Delatnost</label>
                 <div class="col-sm-6">
-                    <select id="djelatnost" ng-model="djelatnostKlijenta"
+                    <select disabled id="djelatnost" ng-model="djelatnostKlijenta"
                         ng-options="djel as djel.sifra for djel in djelatnosti"
                         class="form-control">
  
@@ -185,6 +185,12 @@
                         class="btn btn-primary btn-block">Potvrdi</button>
                 </div>
             </div>
+            <div class="form-group">
+				<div class="col-sm-9 col-sm-offset-3">
+					<button type="submit" ng-Click="odustani()"
+						class="btn btn-primary btn-block">Odustani</button>
+				</div>
+			</div>
         </form>
         <!-- /form -->
     </div>

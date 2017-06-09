@@ -164,7 +164,7 @@ app.controller('drzavaController', [
 			}
 			
 			$scope.odustani = function() {
-				$scope.mode = 'edit';
+				$scope.mode = 'nulto';
 				$scope.selectedDrzava = null;
 				$scope.novaDrzava = null;
 				$scope.show = null;

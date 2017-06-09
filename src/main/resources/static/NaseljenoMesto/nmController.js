@@ -174,7 +174,7 @@ app.controller('nmController', [
 			}
 			
 			$scope.odustani = function() {
-				$scope.mode = 'edit';
+				$scope.mode = 'nulto';
 				$scope.selectedNM = null;
 				$scope.novoNM = null;
 				$scope.show = null;

@@ -95,7 +95,7 @@ public class KlijentServisImpl implements KlijentServis {
 		List<Klijent> uloga = new ArrayList<Klijent>();
 		if (klijent != null) {
 			if(klijent.korisnickoIme != null){
-				korisnickoIme.add(klijentRepozitorijum.findByKorisnickoIme(klijent.korisnickoIme));
+				korisnickoIme = klijentRepozitorijum.findByKorisnickoImeLike(klijent.korisnickoIme);
 				k.retainAll(korisnickoIme);
 			}
 			if(klijent.prezime != null){
