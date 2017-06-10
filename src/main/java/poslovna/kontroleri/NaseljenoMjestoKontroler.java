@@ -46,6 +46,7 @@ public class NaseljenoMjestoKontroler {
 	@AutorizacijaAnnotation(imeMetode = "svaNaseljenaMjestaDrzave")
 	@GetMapping(path = "/svaNaseljenaMjestaDrzave/{idDrzave}")
 	public ResponseEntity<List<NaseljenoMjesto>> svaNaseljenaMjesta(@PathVariable("idDrzave") Long idDrzave) {
+		System.out.println("aaaaaaaaaaaaa " + idDrzave);
 		return naseljenoMjestoServis.svaNaseljenaMjestaDrzave(idDrzave);
 	}
 

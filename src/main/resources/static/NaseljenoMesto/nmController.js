@@ -1,6 +1,5 @@
 var app = angular.module('webApp');
 
-
 app.controller('nmController', [
 		'$rootScope',
 		'$scope',
@@ -10,11 +9,22 @@ app.controller('nmController', [
 		function($rootScope, $scope, $location, ngNotify, nmService) {
 
 			$scope.mode = 'nulto';
-			nmService.preuzmiNM().then(function(response) {
-				if (response.data) {
-					$scope.svaNM = response.data;
-				}
-			});
+
+			if ($rootScope.kojaNM == 'drzave') {
+				nmService.svaNMDrzave($rootScope.nextFormDrzava.id).then(
+						function(response) {
+							if (response.data) {
+								$scope.svaNM = response.data;
+								$scope.nmDrzave = $rootScope.nextFormDrzava;
+							}
+						});
+			} else {
+				nmService.preuzmiNM().then(function(response) {
+					if (response.data) {
+						$scope.svaNM = response.data;
+					}
+				});
+			}
 
 			nmService.sveDrzave().then(function(response) {
 				if (response.data) {
@@ -30,8 +40,7 @@ app.controller('nmController', [
 				else
 					id = $scope.drzavaNM.id;
 				if ($scope.mode == 'add')
-					nmService.regNM($scope.novoNM,
-							$scope.drzavaNM.id).then(
+					nmService.regNM($scope.novoNM, $scope.drzavaNM.id).then(
 							function(response) {
 								if (response.data) {
 									ngNotify.set('Uspjesna registracija', {
@@ -43,8 +52,8 @@ app.controller('nmController', [
 								}
 							});
 				else if ($scope.mode == 'filter') {
-					nmService.pretraziNM($scope.novoNM, id)
-							.then(function(response) {
+					nmService.pretraziNM($scope.novoNM, id).then(
+							function(response) {
 								if (response.data) {
 									ngNotify.set('Uspjesna pretraga', {
 										type : 'success'
@@ -55,8 +64,7 @@ app.controller('nmController', [
 								}
 							});
 				} else if ($scope.mode == 'edit') {
-					nmService.izmeniNM($scope.novoNM,
-							$scope.drzavaNM.id).then(
+					nmService.izmeniNM($scope.novoNM, $scope.drzavaNM.id).then(
 							function(response) {
 								if (response.data) {
 									ngNotify.set('Uspjesna izmena', {
@@ -93,31 +101,23 @@ app.controller('nmController', [
 				if (tab == 'filter')
 					$scope.drzavaNM = -1;
 			}
-			
-			$scope.izbrisiNM = function() {
-				nmService
-						.izbrisiNM(
-								$scope.selectedNM.id)
-						.then(
-								function(response) {
-									if (response.status == 200) {
-										ngNotify
-												.set(
-														'Uspjesno brisanje',
-														{
-															type : 'success'
-														});
-										var index = $scope.svaNM
-												.indexOf($scope.selectedNM);
-										$scope.svaNM
-												.splice(index,
-														1);
-										$scope.novoNM = null;
-										$scope.show = null;
-										$scope.selectedNM = null;
-									}
 
+			$scope.izbrisiNM = function() {
+				nmService.izbrisiNM($scope.selectedNM.id).then(
+						function(response) {
+							if (response.status == 200) {
+								ngNotify.set('Uspjesno brisanje', {
+									type : 'success'
 								});
+								var index = $scope.svaNM
+										.indexOf($scope.selectedNM);
+								$scope.svaNM.splice(index, 1);
+								$scope.novoNM = null;
+								$scope.show = null;
+								$scope.selectedNM = null;
+							}
+
+						});
 			}
 
 			$scope.first = function() {
@@ -137,8 +137,7 @@ app.controller('nmController', [
 
 			$scope.next = function() {
 				$scope.mode = 'edit';
-				var i = $scope.svaNM
-						.indexOf($scope.selectedNM);
+				var i = $scope.svaNM.indexOf($scope.selectedNM);
 				if (i + 1 > $scope.svaNM.length - 1)
 					$scope.selectedNM = $scope.svaNM[0];
 				else
@@ -149,8 +148,7 @@ app.controller('nmController', [
 
 			$scope.prev = function() {
 				$scope.mode = 'edit';
-				var i = $scope.svaNM
-						.indexOf($scope.selectedNM);
+				var i = $scope.svaNM.indexOf($scope.selectedNM);
 				if (i == 0)
 					$scope.selectedNM = $scope.svaNM[$scope.svaNM.length - 1];
 				else
@@ -160,19 +158,16 @@ app.controller('nmController', [
 			}
 
 			$scope.refreshTable = function() {
-				nmService
-						.preuzmiNM()
-						.then(
-								function(response) {
-									if (response.data) {
-										$scope.svaNM = response.data;
-										$scope.novoNM = null;
-										$scope.mode = 'nulto';
-										$scope.selectedNM = null;
-									}
-								});
+				nmService.preuzmiNM().then(function(response) {
+					if (response.data) {
+						$scope.svaNM = response.data;
+						$scope.novoNM = null;
+						$scope.mode = 'nulto';
+						$scope.selectedNM = null;
+					}
+				});
 			}
-			
+
 			$scope.odustani = function() {
 				$scope.mode = 'nulto';
 				$scope.selectedNM = null;

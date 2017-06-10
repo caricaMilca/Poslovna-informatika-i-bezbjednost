@@ -28,10 +28,8 @@ public class DrzavaServisImpl implements DrzavaServis {
 
 	@Override
 	public ResponseEntity<Drzava> registracijaDrzave(Drzava drzava, Long idValute) {
-		System.out.println("safasfaaaaaaaaaaaaaaaaa " + drzava.naziv + "  " +  drzava.sifra);
 		if (drzavaRepozitorijum.findBySifra(drzava.sifra).size() != 0)
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		System.out.println("SAfasfa");
 		drzava.valuta = valutaRepozitorijum.findOne(idValute);
 		return new ResponseEntity<Drzava>(drzavaRepozitorijum.save(drzava), HttpStatus.CREATED);
 	}

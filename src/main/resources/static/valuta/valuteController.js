@@ -162,6 +162,7 @@ app.controller('valuteController', [
 			}
 			
 			$scope.prikaziDrzave = function() {
+				$('#izaberiNextFormu').modal('hide');
 				$rootScope.kojeDrzave = 'valute';
 				$rootScope.nextFormValuta = $scope.selectedV;
 				$location.path('/Drzava/sveDrzave')

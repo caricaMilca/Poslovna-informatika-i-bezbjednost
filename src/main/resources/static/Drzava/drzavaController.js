@@ -212,4 +212,10 @@ app
 								$scope.novaDrzava = null;
 								$scope.show = null;
 							}
+							
+							$scope.nextForm = function() {
+								$rootScope.kojaNM = 'drzave';
+								$rootScope.nextFormDrzava = $scope.selectedDrzava;
+								$location.path('/nm/svaNM')
+							}
 						} ]);
