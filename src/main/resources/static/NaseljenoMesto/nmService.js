@@ -11,6 +11,7 @@ app.factory('NMService', function nmService($http) {
 	}
 	
 	nmService.svaNMDrzave = function(id){
+		return $http.get("/naseljenoMjesto/svaNaseljenaMjestaDrzave/" + id);
 	}
 	
 	nmService.pretraziNM = function(nm, idDrzave){
