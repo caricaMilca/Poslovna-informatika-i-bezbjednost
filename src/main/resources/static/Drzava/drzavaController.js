@@ -202,8 +202,24 @@ app
 														$scope.novaDrzava = null;
 														$scope.mode = 'nulto';
 														$scope.selectedDrzava = null;
+														$rootScope.kojeDrzave = 'sve';
 													}
 												});
+							}
+							
+							function refreash() {
+								drzavaService
+								.preuzmiDrzavu()
+								.then(
+										function(response) {
+											if (response.data) {
+												$scope.sveDrzave = response.data;
+												$scope.novaDrzava = null;
+												$scope.mode = 'nulto';
+												$scope.selectedDrzava = null;
+												$rootScope.kojeDrzave = 'sve';
+											}
+										});
 							}
 
 							$scope.odustani = function() {
@@ -211,6 +227,8 @@ app
 								$scope.selectedDrzava = null;
 								$scope.novaDrzava = null;
 								$scope.show = null;
+								$rootScope.kojeDrzave = 'sve';
+								refreash();
 							}
 							
 							$scope.nextForm = function() {

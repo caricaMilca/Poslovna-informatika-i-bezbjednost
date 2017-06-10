@@ -9,11 +9,19 @@ app.controller('kvController', [
 		function($rootScope, $scope, $location, ngNotify, kvService) {
 
 			$scope.mode = 'nulto';
-			kvService.preuzmiV().then(function(response) {
-				if (response.data) {
-					$scope.sveV = response.data;
-				}
-			});
+			if ($rootScope.kojiKursevi == 'valute') {
+				kvService.preuzmiV2($rootScope.nextFormValuta.id).then(function(response) {
+					if (response.data) {
+						$scope.sveV = response.data;
+					}
+				});
+			} else {
+				kvService.preuzmiV().then(function(response) {
+					if (response.data) {
+						$scope.sveV = response.data;
+					}
+				});
+			}
 
 			kvService.sveKursneListe().then(function(response) {
 				if (response.data) {
@@ -36,21 +44,22 @@ app.controller('kvController', [
 					id = -1;
 				else
 					id = $scope.valutaK.id;
-				
+
 				var id2;
 				if ($scope.valutaK2 == -1)
 					id2 = -1;
 				else
 					id2 = $scope.valutaK2.id;
-				
+
 				var id3;
 				if ($scope.kl == -1)
 					id3 = -1;
 				else
 					id3 = $scope.kl.id;
-								
+
 				if ($scope.mode == 'add')
-					kvService.regV($scope.novaV,$scope.valutaK.id,$scope.valutaK2.id,$scope.kl.id).then(
+					kvService.regV($scope.novaV, $scope.valutaK.id,
+							$scope.valutaK2.id, $scope.kl.id).then(
 							function(response) {
 								if (response.data) {
 									ngNotify.set('Uspesno dodavanje', {
@@ -62,8 +71,9 @@ app.controller('kvController', [
 								}
 							});
 				else if ($scope.mode == 'filter') {
-					kvService.pretraziV($scope.novaV)
-							.then(function(response) {
+					kvService.pretraziV($scope.novaV, $scope.valutaK2.id,
+							$scope.valutaK.id, $scope.kl.id).then(
+							function(response) {
 								if (response.data) {
 									ngNotify.set('Uspesna pretraga', {
 										type : 'success'
@@ -74,7 +84,8 @@ app.controller('kvController', [
 								}
 							});
 				} else if ($scope.mode == 'edit') {
-					kvService.izmeniV($scope.novaV,$scope.valutaK.id,$scope.valutaK2.id,$scope.kl.id).then(
+					kvService.izmeniV($scope.novaV, $scope.valutaK.id,
+							$scope.valutaK2.id, $scope.kl.id).then(
 							function(response) {
 								if (response.data) {
 									ngNotify.set('Uspesna izmena', {
@@ -92,15 +103,15 @@ app.controller('kvController', [
 				}
 
 			}
-			
+
 			$scope.setSelectedValuta = function(selected) {
 				$scope.valutaK = selected;
 			}
-			
+
 			$scope.setSelectedValuta2 = function(selected) {
 				$scope.valutaK2 = selected;
 			}
-			
+
 			$scope.setSelectedLista = function(selected) {
 				$scope.kl = selected;
 			}
@@ -119,34 +130,25 @@ app.controller('kvController', [
 				$scope.novaV = null;
 				$scope.mode = tab;
 			}
-			
-			$scope.izbrisiV = function() {
-				kvService
-						.izbrisiV(
-								$scope.selectedV.id)
-						.then(
-								function(response) {
-									if (response.status == 200) {
-										ngNotify
-												.set(
-														'Uspesno brisanje',
-														{
-															type : 'success'
-														});
-										var index = $scope.sveV
-												.indexOf($scope.selectedV);
-										$scope.sveV
-												.splice(index,
-														1);
-										$scope.novaV = null;
-										$scope.show = null;
-										$scope.selectedV = null;
-									}
 
+			$scope.izbrisiV = function() {
+				kvService.izbrisiV($scope.selectedV.id).then(
+						function(response) {
+							if (response.status == 200) {
+								ngNotify.set('Uspesno brisanje', {
+									type : 'success'
 								});
+								var index = $scope.sveV
+										.indexOf($scope.selectedV);
+								$scope.sveV.splice(index, 1);
+								$scope.novaV = null;
+								$scope.show = null;
+								$scope.selectedV = null;
+							}
+
+						});
 			}
-			
-			
+
 			$scope.first = function() {
 				$scope.mode = 'edit';
 				$scope.selectedV = $scope.sveV[0];
@@ -164,8 +166,7 @@ app.controller('kvController', [
 
 			$scope.next = function() {
 				$scope.mode = 'edit';
-				var i = $scope.sveV
-						.indexOf($scope.selectedV);
+				var i = $scope.sveV.indexOf($scope.selectedV);
 				if (i + 1 > $scope.sveV.length - 1)
 					$scope.selectedV = $scope.sveV[0];
 				else
@@ -176,8 +177,7 @@ app.controller('kvController', [
 
 			$scope.prev = function() {
 				$scope.mode = 'edit';
-				var i = $scope.sveV
-						.indexOf($scope.selectedV);
+				var i = $scope.sveV.indexOf($scope.selectedV);
 				if (i == 0)
 					$scope.selectedV = $scope.sveV[$scope.sveV.length - 1];
 				else
@@ -187,25 +187,33 @@ app.controller('kvController', [
 			}
 
 			$scope.refreash = function() {
-				kvService
-						.preuzmiV()
-						.then(
-								function(response) {
-									if (response.data) {
-										$scope.sveV = response.data;
-										$scope.novaV = null;
-										$scope.mode = 'nulto';
-										$scope.selectedV = null;
-									}
-								});
+				kvService.preuzmiV().then(function(response) {
+					if (response.data) {
+						$scope.sveV = response.data;
+						$scope.novaV = null;
+						$scope.mode = 'nulto';
+						$scope.selectedV = null;
+					}
+				});
 			}
-
+			function refreash2() {
+				kvService.preuzmiV().then(function(response) {
+					if (response.data) {
+						$scope.sveV = response.data;
+						$scope.novaV = null;
+						$scope.mode = 'nulto';
+						$scope.selectedV = null;
+					}
+				});
+			}
 
 			$scope.odustani = function() {
 				$scope.mode = 'nulto';
 				$scope.selectedV = null;
 				$scope.novaV = null;
 				$scope.show = null;
+				$rootScope.kojiKursevi = 'sve';
+				refreash2();
 			}
-			
+
 		} ]);

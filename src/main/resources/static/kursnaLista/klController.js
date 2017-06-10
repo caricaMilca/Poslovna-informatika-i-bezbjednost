@@ -29,6 +29,7 @@ app.controller('klController', [
 									$scope.novoNM = null;
 									$scope.show = null;
 								}
+							refreash();
 							});
 				else if ($scope.mode == 'filter') {
 					klService.pretraziNM($scope.novoNM)
@@ -67,6 +68,8 @@ app.controller('klController', [
 				$scope.show = 10;
 				$scope.novoNM = angular.copy(selected);
 				$scope.mode = 'edit';
+				document.getElementById("datum").value = selected.datum;
+				document.getElementById("primjenjujeSeOd").value = selected.primjenjujeSeOd;
 			}
 
 			$scope.changeMode = function(tab) {
@@ -153,10 +156,26 @@ app.controller('klController', [
 								});
 			}
 			
+			function refreash() {
+				klService
+				.preuzmiNM()
+				.then(
+						function(response) {
+							if (response.data) {
+								$scope.svaNM = response.data;
+								$scope.novoNM = null;
+								$scope.mode = 'nulto';
+								$scope.selectedNM = null;
+							}
+						});s
+			}
+			
 			$scope.odustani = function() {
 				$scope.mode = 'nulto';
 				$scope.selectedNM = null;
 				$scope.novoNM = null;
 				$scope.show = null;
 			}
+			
+			
 		} ]);

@@ -168,4 +168,11 @@ app.controller('valuteController', [
 				$location.path('/Drzava/sveDrzave')
 			}
 			
+			$scope.prikaziKurseve = function() {
+				$('#izaberiNextFormu').modal('hide');
+				$rootScope.kojiKursevi = 'valute';
+				$rootScope.nextFormValuta = $scope.selectedV;
+				$location.path('/kursUValuti/kurs')
+			}
+			
 		} ]);
