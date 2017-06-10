@@ -63,6 +63,25 @@ public class KursnaListaServisImpl implements KursnaListaServis {
 		return new ResponseEntity<List<KursnaLista>>(lista, HttpStatus.OK);
 	}
 
-	
+	@Override
+	public ResponseEntity<KursnaLista> izmeniKL(KursnaLista kl) {
+		// TODO Auto-generated method stub
+		KursnaLista kursnaLista = kursnaListaRepozitorijum.findOne(kl.id);
+
+		if (kl.datum != null)
+			kursnaLista.datum = kl.datum;
+		if (kl.primjenjujeSeOd != null)
+			kursnaLista.primjenjujeSeOd = kl.primjenjujeSeOd;
+		if (kl.broj != null)
+			kursnaLista.broj = kl.broj;
+		return new ResponseEntity<KursnaLista>(kursnaListaRepozitorijum.save(kursnaLista), HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<?> izbrisiKL(Long id) {
+		// TODO Auto-generated method stub
+		kursnaListaRepozitorijum.delete(id);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 
 }

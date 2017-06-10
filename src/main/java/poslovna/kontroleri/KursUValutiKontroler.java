@@ -30,7 +30,7 @@ public class KursUValutiKontroler {
 	KursUValutiServis kursUValutiServis;
 
 	@AutorizacijaAnnotation(imeMetode = "registracijaKursaUValuti")
-	@PostMapping(path = "/registracijaKursaUValuti/{idValuteOsnovni}/{idValutePrema}/{idKursneListe}")
+	@PostMapping(path = "/dodajKursUValuti/{idValuteOsnovni}/{idValutePrema}/{idKursneListe}")
 	public ResponseEntity<KursUValuti> registracijaKursaUValuti(@Valid @RequestBody KursUValuti kursUValuti,
 			@PathVariable("idValuteOsnovni") Long idValuteOsnovni, @PathVariable("idValutePrema") Long idValutePrema,
 			@PathVariable("idKursneListe") Long idKursneListe) {

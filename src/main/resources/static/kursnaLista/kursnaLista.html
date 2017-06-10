@@ -1,0 +1,137 @@
+<div ng-controller="klController">
+	<h1 id="header" class="page-header">Kursne liste</h1>
+	<p>
+	<div class="container">
+		<div class="table-responsive">
+			<table class="table">
+				<tr>
+					<div class="btn-group">
+						<button type="button" class="btn btn-default"
+							ng-click="changeMode('filter')">
+							<img class="dugmici" src="images/search.gif" />
+						</button>
+						<button type="button" class="btn btn-default"
+							ng-click="refreshTable()">
+							<img class="dugmici" src="images/refresh.gif" />
+						</button>
+						<button type="button" class="btn btn-default"
+							ng-click="changeMode(3)">
+							<img class="dugmici" src="images/zoom-pickup.gif" />
+						</button>
+						<button type="button" class="btn btn-default"
+							ng-click="changeMode(4)">
+							<img class="dugmici" src="images/help.gif" />
+						</button>
+						<button type="button" class="btn btn-default"
+							ng-click="changeMode(5)">
+							<img class="dugmici" src="images/zoom-pickup.gif" />
+						</button>
+					</div>
+					<div class="btn-group">
+						<button type="button" class="btn btn-default" ng-click="first()">
+							<img class="dugmici" src="images/first.gif" />
+						</button>
+						<button type="button" ng-disabled="!selectedNM"
+							class="btn btn-default" ng-click="prev()">
+							<img class="dugmici" src="images/prev.gif" />
+						</button>
+						<button type="button" ng-disabled="!selectedNM"
+							class="btn btn-default" ng-click="next()">
+							<img class="dugmici" src="images/next.gif" />
+						</button>
+						<button type="button" class="btn btn-default" ng-click="last()">
+							<img class="dugmici" src="images/last.gif" />
+						</button>
+					</div>
+					<div class="btn-group">
+						<button type="button" class="btn btn-default"
+							ng-click="changeMode('add')">
+							<img class="dugmici" src="images/add.gif" />
+						</button>
+						<button type="button" class="btn btn-default"
+							ng-disabled="!selectedNM" ng-click="izbrisiNM()"
+							ng-confirm-click="Da li zelite da izbrisete selektovano naseljeno mesto? Potvrda brisanja nosi sve podatke zavisne od njega.">
+							<img class="dugmici" src="images/remove.gif" />
+						</button>
+					</div>
+					<div class="btn-group">
+						<button type="button" class="btn btn-default"
+							ng-click="changeMode(13)">
+							<img class="dugmici" src="images/nextform.gif" />
+						</button>
+						</p>
+					</div>
+				</tr>
+				<thead>
+					<tr>
+						<th>Datum</th>
+						<th>Primenjuje se od</th>
+						<th>Broj</th>
+						<th>Banka</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="nm in svaNM track by nm.id"
+						ng-click="setSelectedNM(nm)"
+						ng-class="{'info' : selectedNM.id === nm.id}">
+						<td>{{nm.datum}}</td>
+						<td>{{nm.primjenjujeSeOd}}</td>
+						<td>{{nm.broj}}</td>
+						<td>{{nm.banka.naziv}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<br />
+	</div>
+	<div class="container" id="razmak">
+		<form class="form-horizontal" role="blabla" name="myForm" novalidate>
+			<div class="form-group">
+				<label for="naziv" class="col-sm-3 control-label">Datum:</label>
+				<div class="col-sm-9">
+					<input type="text" id="datum" class="form-control"
+						placeholder="Unesi datum" name="datum" ng-Model="novoNM.datum"
+						ng-disabled="mode == 'nulto'" autofocus>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label for="naziv" class="col-sm-3 control-label">Primenjuje se od:</label>
+				<div class="col-sm-9">
+					<input type="text" id="datum" class="form-control"
+						placeholder="Unesite datum" name="datum" ng-Model="novoNM.primjenjujeSeOd"
+						ng-disabled="mode == 'nulto'" autofocus>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="pttOznaka" class="col-sm-3 control-label">Broj:</label>
+				<div class="col-sm-9">
+					<input type="text" id="broj" class="form-control"
+						placeholder="Unesite broj" name="broj"
+						ng-Model="novoNM.broj" ng-disabled="mode == 'nulto'"
+						pattern="[0-9]*">
+				</div>
+			</div>
+			<div role="alert" style="color: red">
+				<span class="error" ng-show="myForm.pttOznaka.$error.pattern">
+					Mora biti broj !</span>
+			</div>
+
+			<!-- /.form-group -->
+
+			<div class="form-group">
+				<div class="col-sm-9 col-sm-offset-3">
+					<button type="submit" ng-Click="regNM()"
+						ng-disabled="myForm.$invalid" class="btn btn-primary btn-block">Potvrdi</button>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-9 col-sm-offset-3">
+					<button type="submit" ng-Click="odustani()"
+						class="btn btn-primary btn-block">Odustani</button>
+				</div>
+			</div>
+		</form>
+		<!-- /form -->
+	</div>
+	<!-- ./container -->

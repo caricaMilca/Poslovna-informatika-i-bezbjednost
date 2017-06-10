@@ -33,7 +33,7 @@ public class KursnaListaKontroler {
 	KursnaListaServis kursnaListaServis;
 
 	@AutorizacijaAnnotation(imeMetode = "registracijaKursneListe")
-	@PostMapping(path = "/registracijaKursneListe")
+	@PostMapping(path = "/dodavanjeKursneListe")
 	public ResponseEntity<KursnaLista> registracijaKursneListe(@Valid @RequestBody KursnaLista kursnaLista) {
 		return kursnaListaServis.registracijaKursneListe(kursnaLista);
 
@@ -50,6 +50,19 @@ public class KursnaListaKontroler {
 	public ResponseEntity<List<KursnaLista>> pretraziKursneListe(@RequestBody(required = false) KursnaLista kursnaLista) {
 		return kursnaListaServis.pretraziKursneListe(kursnaLista);
 
+	}
+	
+	@AutorizacijaAnnotation(imeMetode = "izmeniKursnuListu")
+	@PutMapping(path = "/izmeniKursnuListu")
+	public ResponseEntity<KursnaLista> izmeniKursnuListu(@RequestBody(required = false) KursnaLista kl) {
+		return kursnaListaServis.izmeniKL(kl);
+	}
+	
+
+	@AutorizacijaAnnotation(imeMetode = "izbrisiKursnuListu")
+	@PutMapping(path = "/izbrisiKursnuListu")
+	public ResponseEntity<?> izbrisiKursnuListu(@RequestBody(required = false) KursnaLista kl) {
+		return kursnaListaServis.izbrisiKL(kl.id);
 	}
 
 }

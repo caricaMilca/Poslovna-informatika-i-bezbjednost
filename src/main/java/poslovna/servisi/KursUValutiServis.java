@@ -8,8 +8,8 @@ import poslovna.model.KursUValuti;
 
 public interface KursUValutiServis {
 
-	ResponseEntity<KursUValuti> registracijaKursaUValuti(KursUValuti kursUValuti, Long idValuteOsnovni,
-			Long idValutePrema, Long idKursneListe);
+	ResponseEntity<KursUValuti> registracijaKursaUValuti(KursUValuti kursUValuti, Long idValutePrema,
+			Long idValuteOsnovni, Long idKursneListe);
 
 	ResponseEntity<List<KursUValuti>> sviKurseviUValuti();
 

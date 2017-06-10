@@ -6,6 +6,10 @@ app.factory('drzavaService', function drzavaService($http) {
 		return $http.get("/drzava/sveDrzave");
 	}
 	
+	drzavaService.preuzmiDrzaveValute = function(id){
+		return $http.get("/drzava/sveDrzaveValute/" + id);
+	}
+	
 	drzavaService.sveValute = function(){
 		return $http.get("/valuta/sveValute");
 	}

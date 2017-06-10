@@ -74,6 +74,7 @@
 						<th>Prodajni</th>
 						<th>Prema valuti</th>
 						<th>Osnovna valuta</th>
+						<th>Kursna lista</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -83,8 +84,9 @@
 						<td>{{v.kupovni}}</td>
 						<td>{{v.srednji}}</td>
 						<td>{{v.prodajni}}</td>
-						<td>{{v.premaValuti}}</td>
-						<td>{{v.osnovnaValuta}}</td>
+						<td>{{v.premaValuti.naziv}}</td>
+						<td>{{v.osnovnaValuta.naziv}}</td>
+						<td>{{v.kursnaLista.broj}}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -98,7 +100,7 @@
 				<div class="col-sm-9">
 					<input type="text" id="kupovni" class="form-control"
 						placeholder="kupovni" name = "sifra" ng-Model="novaV.kupovni" ng-disabled="mode == 'nulto'"
-						pattern="^[0-9]*.[0-9]{1-2}" autofocus>
+						pattern="[0-9]*" autofocus>
 				</div>
 			</div>
 			<div role="alert" style="color: red">
@@ -110,7 +112,7 @@
 				<div class="col-sm-9">
 					<input type="text" id="srednji" class="form-control"
 						placeholder="srednji" name = "naziv" ng-Model="novaV.srednji" ng-disabled="mode == 'nulto'"
-						pattern="^[0-9]*.[0-9]{1-2}*">
+						pattern="[0-9]*">
 				</div>
 			</div>
 			<div role="alert" style="color: red">
@@ -122,7 +124,7 @@
 				<div class="col-sm-9">
 					<input type="text" id="prodajni" class="form-control"
 						placeholder="prodajni" name = "naziv" ng-Model="novaV.prodajni" ng-disabled="mode == 'nulto'"
-						pattern="^[0-9]*.[0-9]{1-2}*">
+						pattern="[0-9]*">
 				</div>
 			</div>
 			<div role="alert" style="color: red">
@@ -134,7 +136,7 @@
 				<label for="val" class="col-sm-3 control-label">Prema valuti</label>
 				<div class="col-sm-6">
 					<select id="val" ng-model="valutaK"
-						ng-options="v as v.naziv for va in sveValute"
+						ng-options="v as v.naziv for v in valute"
 						class="form-control">
 
 					</select>
@@ -149,7 +151,7 @@
 				<label for="val2" class="col-sm-3 control-label">Osnovna valuta</label>
 				<div class="col-sm-6">
 					<select id="val2" ng-model="valutaK2"
-						ng-options="v as v.naziv for va in sveValute"
+						ng-options="va as va.naziv for va in valute"
 						class="form-control">
 
 					</select>
@@ -157,6 +159,21 @@
 				<div>
 					<button type="button" id="izaberi" class="btn btn-default" data-toggle="modal"
 						data-target="#izaberiValutu2">Izaberi</button>
+				</div>
+			</div>
+			
+				<div class="form-group" mode=='filter'">
+				<label for="k1" class="col-sm-3 control-label">Kursna lista</label>
+				<div class="col-sm-6">
+					<select id="k1" ng-model="kl"
+						ng-options="k as k.broj for k in sveListe"
+						class="form-control">
+
+					</select>
+				</div>
+				<div>
+					<button type="button" id="izaberi" class="btn btn-default" data-toggle="modal"
+						data-target="#izaberiListu">Izaberi</button>
 				</div>
 			</div>
 			
@@ -198,7 +215,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat="v in sveValute"
+							<tr ng-repeat="v in valute"
 								ng-click="setSelectedValuta(v)"
 								ng-class="{'info' : valutaK===v}">
 								<td>{{v.zvanicnaSifra}}</td>
@@ -230,11 +247,46 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat="v2 in sveValute"
-								ng-click="setSelectedValuta(v2)"
-								ng-class="{'info' : valutaK===v2}">
+							<tr ng-repeat="v2 in valute"
+								ng-click="setSelectedValuta2(v2)"
+								ng-class="{'info' : valutaK2===v2}">
 								<td>{{v2.zvanicnaSifra}}</td>
 								<td>{{v2.naziv}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	
+		<div id="izaberiListu" class="modal fade" role="dialog"
+		style="color: black;">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Izaberi kursnu listu</h4>
+				</div>
+				<div class="modal-body">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Datum</th>
+								<th>Primenjuje se od</th>
+								<th>Broj</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="kk in sveListe"
+								ng-click="setSelectedLista(kk)"
+								ng-class="{'info' : kl===kk}">
+								<td>{{kk.datum}}</td>
+								<td>{{kk.primjenjujeSeOd}}</td>
+								<td>{{kk.broj}}</td>
 							</tr>
 						</tbody>
 					</table>

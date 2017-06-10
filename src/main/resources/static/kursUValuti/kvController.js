@@ -1,24 +1,56 @@
 var app = angular.module('webApp');
 
-app.controller('valuteController', [
+app.controller('kvController', [
 		'$rootScope',
 		'$scope',
 		'$location',
 		'ngNotify',
-		'ValuteService',
-		function($rootScope, $scope, $location, ngNotify, valuteService) {
+		'KvService',
+		function($rootScope, $scope, $location, ngNotify, kvService) {
 
 			$scope.mode = 'nulto';
-			valuteService.preuzmiV().then(function(response) {
+			kvService.preuzmiV().then(function(response) {
 				if (response.data) {
 					$scope.sveV = response.data;
 				}
 			});
 
+			kvService.sveKursneListe().then(function(response) {
+				if (response.data) {
+					$scope.sveListe = response.data;
+					$scope.kl = response.data[0];
+				}
+			});
+
+			kvService.sveValute().then(function(response) {
+				if (response.data) {
+					$scope.valute = response.data;
+					$scope.valutaK = response.data[0];
+					$scope.valutaK2 = response.data[0];
+				}
+			});
 
 			$scope.regV = function() {
-					if ($scope.mode == 'add')
-					valuteService.regV($scope.novaV).then(
+				var id;
+				if ($scope.valutaK == -1)
+					id = -1;
+				else
+					id = $scope.valutaK.id;
+				
+				var id2;
+				if ($scope.valutaK2 == -1)
+					id2 = -1;
+				else
+					id2 = $scope.valutaK2.id;
+				
+				var id3;
+				if ($scope.kl == -1)
+					id3 = -1;
+				else
+					id3 = $scope.kl.id;
+								
+				if ($scope.mode == 'add')
+					kvService.regV($scope.novaV,$scope.valutaK.id,$scope.valutaK2.id,$scope.kl.id).then(
 							function(response) {
 								if (response.data) {
 									ngNotify.set('Uspesno dodavanje', {
@@ -30,7 +62,7 @@ app.controller('valuteController', [
 								}
 							});
 				else if ($scope.mode == 'filter') {
-					valuteService.pretraziV($scope.novaV)
+					kvService.pretraziV($scope.novaV)
 							.then(function(response) {
 								if (response.data) {
 									ngNotify.set('Uspesna pretraga', {
@@ -42,7 +74,7 @@ app.controller('valuteController', [
 								}
 							});
 				} else if ($scope.mode == 'edit') {
-					valuteService.izmeniV($scope.novaV).then(
+					kvService.izmeniV($scope.novaV,$scope.valutaK.id,$scope.valutaK2.id,$scope.kl.id).then(
 							function(response) {
 								if (response.data) {
 									ngNotify.set('Uspesna izmena', {
@@ -60,12 +92,27 @@ app.controller('valuteController', [
 				}
 
 			}
+			
+			$scope.setSelectedValuta = function(selected) {
+				$scope.valutaK = selected;
+			}
+			
+			$scope.setSelectedValuta2 = function(selected) {
+				$scope.valutaK2 = selected;
+			}
+			
+			$scope.setSelectedLista = function(selected) {
+				$scope.kl = selected;
+			}
 
 			$scope.setSelectedV = function(selected) {
 				$scope.selectedV = selected;
 				$scope.show = 10;
 				$scope.novaV = angular.copy(selected);
 				$scope.mode = 'edit';
+				$scope.valutaK.naziv = selected.premaValuti.naziv;
+				$scope.valutaK2.naziv = selected.osnovnaValuta.naziv;
+				$scope.kl.broj = selected.kursnaLista.broj;
 			}
 
 			$scope.changeMode = function(tab) {
@@ -74,7 +121,7 @@ app.controller('valuteController', [
 			}
 			
 			$scope.izbrisiV = function() {
-				valuteService
+				kvService
 						.izbrisiV(
 								$scope.selectedV.id)
 						.then(
@@ -140,7 +187,7 @@ app.controller('valuteController', [
 			}
 
 			$scope.refreash = function() {
-				valuteService
+				kvService
 						.preuzmiV()
 						.then(
 								function(response) {
@@ -155,16 +202,10 @@ app.controller('valuteController', [
 
 
 			$scope.odustani = function() {
-				$scope.mode = 'edit';
+				$scope.mode = 'nulto';
 				$scope.selectedV = null;
 				$scope.novaV = null;
 				$scope.show = null;
-			}
-			
-			$scope.prikaziDrzave = function() {
-				$rootScope.kojeDrzave = 'valute';
-				$rootScope.nextFormValuta = $scope.selectedV;
-				$location.path('/Drzava/sveDrzave')
 			}
 			
 		} ]);

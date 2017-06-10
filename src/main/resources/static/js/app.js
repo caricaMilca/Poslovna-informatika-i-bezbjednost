@@ -33,5 +33,8 @@ app.config(function($routeProvider, $locationProvider) {
 	}).when('/VrstaPlacanja/vrstePlacanja', {
 		templateUrl: '/VrstaPlacanja/vrstePlacanja.html',
 		controller: 'vrstaPlacanjaController'
-	})		
+	}).when('/kursnaLista/lista', {
+		templateUrl: '/kursnaLista/kursnaLista.html',
+		controller: 'klController'
+	})
 });

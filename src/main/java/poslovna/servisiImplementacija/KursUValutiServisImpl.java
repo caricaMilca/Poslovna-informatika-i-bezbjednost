@@ -37,8 +37,8 @@ public class KursUValutiServisImpl implements KursUValutiServis {
 	HttpSession sesija;
 	
 	@Override
-	public ResponseEntity<KursUValuti> registracijaKursaUValuti(KursUValuti kursUValuti, Long idValuteOsnovni,
-			Long idValutePrema, Long idKursneListe) {
+	public ResponseEntity<KursUValuti> registracijaKursaUValuti(KursUValuti kursUValuti, Long idValutePrema,
+			Long idValuteOsnovni, Long idKursneListe) {
 		kursUValuti.osnovnaValuta = valutaRepozitorijum.findOne(idValuteOsnovni);
 		kursUValuti.premaValuti = valutaRepozitorijum.findOne(idValutePrema);
 		kursUValuti.kursnaLista = kursnaListaRepozitorijum.findOne(idKursneListe);
