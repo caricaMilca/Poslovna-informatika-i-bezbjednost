@@ -36,5 +36,8 @@ app.config(function($routeProvider, $locationProvider) {
 	}).when('/kursnaLista/lista', {
 		templateUrl: '/kursnaLista/kursnaLista.html',
 		controller: 'klController'
+	}).when('/Racun/racuni', {
+		templateUrl: '/Racun/racuni.html',
+		controller: 'racunController'
 	})
 });

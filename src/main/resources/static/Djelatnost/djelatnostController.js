@@ -123,6 +123,8 @@ app
 							$scope.changeMode = function(tab) {
 								$scope.djelatnost = null;
 								$scope.mode = tab;
+								if(tab == 'add')
+									$scope.selectedDjelatnost = null;
 							}
 
 							$scope.first = function() {

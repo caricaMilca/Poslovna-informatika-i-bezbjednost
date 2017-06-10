@@ -15,16 +15,20 @@ app.factory('RacunService', function racunService($http) {
 		return $http.get("/racun/sviRacuniValute/" + id);
 	}
 	
+	racunService.sviKlijenti = function(){
+		return $http.get("/klijent/sviKlijenti");
+	}
+	
+	racunService.sveValute = function(){
+		return $http.get("/valuta/sveValute");
+	}
+	
 	racunService.preuzmiRacune = function(){
 		return $http.get("/racun/sviRacuni");
 	}
 	
 	racunService.pretraziRacune = function(racun, id, id_v){
 		return $http.put("/racun/pretraziRacune/" + id + "/" + id_v, racun);
-	}
-	
-	racunService.izbrisiRacun = function(id){
-		return $http.put("/racun/izbrisiRacun/" + id);
 	}
 	
 	racunService.zatvoriRacun = function(racun){

@@ -8,10 +8,10 @@ app
 						'$scope',
 						'$location',
 						'ngNotify',
-						'racunService',
+						'RacunService',
 						function($rootScope, $scope, $location, ngNotify,
 								racunService) {
-
+							$scope.todays = new Date();
 							$scope.mode = 'nulto';
 							if ($rootScope.kojiRacuni == 'svi') {
 								racunService
@@ -30,7 +30,7 @@ app
 												function(response) {
 													if (response.data) {
 														$scope.sviRacuni = response.data;
-														$scope.klijentRacuna = $rootScope.nextFormKlijent;
+														$scope.vlasnikRacuna = $rootScope.nextFormKlijent;
 													}
 												});
 							} else if ($rootScope.kojiRacuni == 'valute') {
@@ -54,7 +54,7 @@ app
 													if (response.data) {
 														$scope.sviRacuni = response.data;
 														$rootScope.kojiRacuni = 'svi';
-														$scope.klijentRacuna = $scope.sviKlijenti[0];
+														$scope.vlasnikRacuna = $scope.sviKlijenti[0];
 														$scope.valutaRacuna = $scope.valute[0];
 													}
 												});
@@ -62,7 +62,7 @@ app
 							racunService.sviKlijenti().then(function(response) {
 								if (response.data) {
 									$scope.sviKlijenti = response.data;
-									$scope.klijentRacuna = response.data[0];
+									$scope.vlasnikRacuna = response.data[0];
 								}
 							});
 							racunService.sveValute().then(function(response) {
@@ -79,14 +79,14 @@ app
 									v_id = -1;
 								else
 									v_id = $scope.valutaRacuna.id;
-								if ($scope.klijentRacuna == -1)
+								if ($scope.vlasnikRacuna == -1)
 									k_id = -1;
 								else
-									k_id = $scope.klijentRacuna.id;
+									k_id = $scope.vlasnikRacuna.id;
 								if ($rootScope.kojiRacuni != 'svi') {
-									if ($rootScope.kojiRacuni != 'klijenta')
+									if ($rootScope.kojiRacuni == 'klijenta')
 										k_id = $rootScope.nextFormKlijent.id;
-									if ($rootScope.kojiRacuni != 'valute')
+									if ($rootScope.kojiRacuni == 'valute')
 										v_id = $rootScope.nextFormValuta.id;
 									ngNotify
 											.set(
@@ -108,6 +108,15 @@ app
 																			{
 																				type : 'success'
 																			});
+															response.data.datumOtvaranja = moment(
+																	response.data.datumOtvaranja)
+																	.format(
+																			'YYYY-MM-DD');
+															if (response.data.datumZatvaranja != null)
+																response.data.datumZatvaranja = moment(
+																		response.data.datumZatvaranja)
+																		.format(
+																				'YYYY-MM-DD');
 															$scope.sviRacuni
 																	.push(response.data);
 															$scope.noviRacun = null;
@@ -138,34 +147,33 @@ app
 
 							}
 
-							$scope.izbrisiRacun = function() {
+							$scope.zatvoriRacun = function(racun) {
+								$scope.selectedRacun.racunPrenosa = racun;
+								$scope.selectedRacun.racunPrenosa = $scope.racunPrenosa;
 								racunService
-										.izbrisiRacun($scope.selectedRacun.id)
+										.zatvoriRacun($scope.selectedRacun)
 										.then(
 												function(response) {
 													if (response.status == 200) {
 														ngNotify
 																.set(
-																		'Uspjesno brisanje',
+																		'Uspjesno zatvaranje racuna.',
 																		{
 																			type : 'success'
 																		});
 														var index = $scope.sviRacuni
 																.indexOf($scope.selectedRacun);
-														$scope.sviRacuni
-																.splice(index,
-																		1);
+														$scope.sviRacuni[index] = response.data;
 														$scope.noviRacun = null;
 														$scope.mode = 'nulto';
 														$scope.selectedRacun = null;
-
 													}
 
 												});
 							}
 
 							$scope.setSelectedKlijent = function(selected) {
-								$scope.klijentRacuna = selected;
+								$scope.vlasnikRacuna = selected;
 							}
 
 							$scope.setSelectedValuta = function(selected) {
@@ -175,8 +183,10 @@ app
 							$scope.setSelectedRacun = function(selected) {
 								$scope.selectedRacun = selected;
 								$scope.noviRacun = angular.copy(selected);
+								$scope.noviRacun.datumOtvaranja = new Date(
+										selected.datumOtvaranja);
 								$scope.mode = 'edit';
-								$scope.klijentRacuna.korisnickoIme = selected.klijent.korisnickoIme;
+								$scope.vlasnikRacuna.korisnickoIme = selected.klijent.korisnickoIme;
 								$scope.valutaRacuna.zvanicnaSifra = selected.valuta.zvanicnaSifra;
 							}
 
@@ -184,13 +194,21 @@ app
 								$scope.noviRacun = null;
 								$scope.mode = tab;
 								if (tab == 'filter') {
-									$scope.klijentRacuna = -1;
+									$scope.vlasnikRacuna = -1;
 									$scope.valutaRacuna = -1;
 								}
-								if (tab == 'add'
-										&& $rootScope.kojiRacuni == 'svi') {
-									$scope.klijentRacuna = $scope.sviRacuni[0];
-									$scope.valutaRacuna = $scope.valute[0];
+								if (tab == 'add') {
+									$scope.selectedRacun = null;
+									if ($rootScope.kojiRacuni == 'svi') {
+										$scope.vlasnikRacuna = $scope.sviKlijenti[0];
+										$scope.valutaRacuna.zvanicnaSifra = $scope.valute[0].zvanicnaSifra;
+									} else if($rootScope.kojiRacuni == 'klijenta'){
+										$scope.vlasnikRacuna.korisnickoIme = $rootScope.nextFormKlijent.korisnickoIme;
+										$scope.valutaRacuna.zvanicnaSifra = $scope.valute[0].zvanicnaSifra;
+									} else {
+										$scope.vlasnikRacuna = $scope.sviKlijenti[0];
+										$scope.valutaRacuna.zvanicnaSifra = $rootScope.nextFormValuta.zvanicnaSifra;
+									}
 								}
 
 							}
@@ -233,7 +251,7 @@ app
 								$scope.k = $scope.selectedRacun;
 								$scope.noviRacun = $scope.selectedRacun;
 							}
-							
+
 							$scope.refreshTable = function() {
 								if ($rootScope.kojiRacuni == 'svi') {
 									racunService
@@ -258,7 +276,7 @@ app
 															$scope.noviRacun = null;
 															$scope.mode = 'nulto';
 															$scope.selectedRacun = null;
-															$scope.klijentRacuna = $rootScope.nextFormKlijent;
+															$scope.vlasnikRacuna = $rootScope.nextFormKlijent;
 														}
 													});
 								} else if ($rootScope.kojiRacuni == 'valute') {

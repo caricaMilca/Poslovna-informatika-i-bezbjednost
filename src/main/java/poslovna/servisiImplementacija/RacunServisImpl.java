@@ -1,6 +1,7 @@
 package poslovna.servisiImplementacija;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -118,11 +119,11 @@ public class RacunServisImpl implements RacunServis {
 				banka.retainAll(datumZatvaranja);
 			}
 		}
-		if (idKlijenta != null) {
+		if (idKlijenta != -1) {
 			klijent = racunRepozitorijum.findByKlijent(klijentRepozitorijum.findOne(idKlijenta));
 			banka.retainAll(klijent);
 		}
-		if (idValute != null) {
+		if (idValute != -1) {
 			valuta = racunRepozitorijum.findByValuta(valutaRepozitorijum.findOne(idValute));
 			banka.retainAll(valuta);
 		}
@@ -136,7 +137,7 @@ public class RacunServisImpl implements RacunServis {
 	@Override
 	public ResponseEntity<Racun> zatvoriRacun(Racun racun) {
 		Racun r = racunRepozitorijum.findOne(racun.id);
-		r.datumZatvaranja = racun.datumZatvaranja;
+		r.datumZatvaranja = new Date();
 		r.vazeci = false;
 		r.racunPrenosa = racun.racunPrenosa;
 		return new ResponseEntity<Racun>(racunRepozitorijum.save(r), HttpStatus.OK);

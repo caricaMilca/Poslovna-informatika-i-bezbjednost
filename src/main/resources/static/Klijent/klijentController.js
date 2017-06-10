@@ -179,8 +179,11 @@ app
 								$scope.mode = tab;
 								if (tab == 'filter')
 									$scope.djelatnostKlijenta = -1;
-								if(tab == 'add' && $rootScope.kojiKlijenti == 'svi')
+								if(tab == 'add') { 
+									$scope.selectedKlijent = null;
+									if($rootScope.kojiKlijenti == 'svi')
 									$scope.djelatnostKlijenta = $scope.djelatnosti[0];
+								}
 								
 							}
 
@@ -253,6 +256,12 @@ app
 								$scope.mode = 'nulto';
 								$scope.selectedKlijent = null;
 								$scope.noviKlijent = null;
+							}
+							
+							$scope.nextForm = function() {
+								$rootScope.kojiRacuni = 'klijenta';
+								$rootScope.nextFormKlijent = $scope.selectedKlijent;
+								$location.path('/Racun/racuni')
 							}
 
 						} ]);
