@@ -8,12 +8,15 @@ app.controller('nmController', [
 		'NMService',
 		function($rootScope, $scope, $location, ngNotify, nmService) {
 
+			$rootScope.kojiKursevi = '';
+			$rootScope.kojiKlijenti = 'svi';
 			$scope.mode = 'nulto';
 
 			if ($rootScope.kojaNM == 'drzave') {
 				nmService.svaNMDrzave($rootScope.nextFormDrzava.id).then(
 						function(response) {
 							if (response.data) {
+								document.getElementById("drzava").selected = $scope.nmDrzave;
 								$scope.svaNM = response.data;
 								$scope.nmDrzave = $rootScope.nextFormDrzava;
 							}
