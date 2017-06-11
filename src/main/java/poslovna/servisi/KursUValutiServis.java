@@ -20,4 +20,9 @@ public interface KursUValutiServis {
 	ResponseEntity<List<KursUValuti>> pretraziKursUValuti(KursUValuti kursUValuti, Long idValuteOsnovni,
 			Long idValutePrema, Long idKursneListe);
 
+	
+	ResponseEntity<?> izbrisiKursUValuti(Long id);
+	
+	ResponseEntity<KursUValuti> izmeniKursUValuti(KursUValuti kursUValuti, Long idValutePrema,
+			Long idValuteOsnovni, Long idKursneListe);
 }

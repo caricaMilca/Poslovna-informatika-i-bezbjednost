@@ -106,6 +106,8 @@ insert into Privilege(name) values ('izmeniKursnuListu');--61
 insert into Privilege(name) values ('izbrisiKursnuListu');--62
 insert into Privilege(name) values ('izmeniValutu');--63
 insert into Privilege(name) values ('izbrisiValutu');--64
+insert into Privilege(name) values ('izmeniKursUValuti');--65
+insert into Privilege(name) values ('izbrisiKursUValuti');--66
 
  
 insert into Role(name) values ('klijentRole');--1
@@ -141,6 +143,8 @@ insert into Roles_privileges(role_id, privilege_id) values (2, 61);
 insert into Roles_privileges(role_id, privilege_id) values (2, 62);
 insert into Roles_privileges(role_id, privilege_id) values (2, 63);
 insert into Roles_privileges(role_id, privilege_id) values (2, 64);
+insert into Roles_privileges(role_id, privilege_id) values (2, 65);
+insert into Roles_privileges(role_id, privilege_id) values (2, 66);
 
 insert into Roles_privileges(role_id, privilege_id) values (5, 3);
 insert into Roles_privileges(role_id, privilege_id) values (5, 4);

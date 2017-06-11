@@ -106,4 +106,39 @@ public class KursUValutiServisImpl implements KursUValutiServis {
 		return new ResponseEntity<List<KursUValuti>>(lista, HttpStatus.OK);
 	}
 
+	@Override
+	public ResponseEntity<?> izbrisiKursUValuti(Long id) {
+		// TODO Auto-generated method stub
+		kursUValutiRepozitorijum.delete(id);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<KursUValuti> izmeniKursUValuti(KursUValuti kursUValuti, Long idValutePrema, Long idValuteOsnovni,
+			Long idKursneListe) {
+		KursUValuti kv = kursUValutiRepozitorijum.findOne(kursUValuti.id);
+		
+		if(kursUValuti.kupovni != null){
+			kv.kupovni = kursUValuti.kupovni;
+		}
+		if(kursUValuti.srednji != null){
+			kv.srednji = kursUValuti.srednji;
+		}
+		if(kursUValuti.prodajni != null){
+			kv.prodajni = kursUValuti.prodajni;
+		}
+		if(kursUValuti.premaValuti != null) {
+			kv.premaValuti = kursUValuti.premaValuti;
+		}
+		if(kursUValuti.osnovnaValuta != null){
+			kv.osnovnaValuta = kursUValuti.osnovnaValuta;
+		}
+		if(kursUValuti.kursnaLista != null){
+			kv.kursnaLista = kursUValuti.kursnaLista;
+		}
+		
+		return new ResponseEntity<KursUValuti>(kursUValutiRepozitorijum.save(kv), HttpStatus.OK);
+		
+	}
+
 }

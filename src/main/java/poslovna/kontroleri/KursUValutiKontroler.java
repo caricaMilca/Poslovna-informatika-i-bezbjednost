@@ -65,5 +65,19 @@ public class KursUValutiKontroler {
 		return kursUValutiServis.pretraziKursUValuti(kursUValuti, idValuteOsnovni, idValutePrema, idKursneListe);
 
 	}
-
+	
+	@AutorizacijaAnnotation(imeMetode = "izmeniKursUValuti")
+	@PutMapping(path = "/izmeniKursUValuti/{idValutePrema}/{idValuteOsnovni}/{idKursneListe}")
+	public ResponseEntity<KursUValuti> izmeniKursUValuti(@RequestBody(required = false) KursUValuti kursUValuti,
+			@PathVariable("idValuteOsnovni") Long idValuteOsnovni, @PathVariable("idValutePrema") Long idValutePrema,
+			@PathVariable("idKursneListe") Long idKursneListe) {
+		
+		return kursUValutiServis.izmeniKursUValuti(kursUValuti, idValutePrema,idValuteOsnovni,idKursneListe);
+	}
+	
+	@AutorizacijaAnnotation(imeMetode = "izbrisiKursUValuti")
+	@PutMapping(path = "/izbrisiKursUValuti/{idKursa}")
+	public ResponseEntity<?> izbrisiKursUValuti(@PathVariable("idKursa") Long idKursa) {
+		return kursUValutiServis.izbrisiKursUValuti(idKursa);
+	}
 }

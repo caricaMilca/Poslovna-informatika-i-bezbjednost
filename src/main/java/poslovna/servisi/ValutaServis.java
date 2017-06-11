@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
-import poslovna.model.NaseljenoMjesto;
 import poslovna.model.Valuta;
 
 public interface ValutaServis {
