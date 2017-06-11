@@ -12,6 +12,9 @@ app
 						function($rootScope, $scope, $location, ngNotify,
 								djelatnostService) {
 
+							$rootScope.kojiKursevi = '';
+							$rootScope.kojiKlijenti = 'svi';
+							$rootScope.kojaNM = ''
 							$scope.mode = 'nulto';
 							djelatnostService
 									.sveDjelatnosti()

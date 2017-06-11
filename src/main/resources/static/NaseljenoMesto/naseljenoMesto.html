@@ -56,7 +56,7 @@
 					</div>
 					<div class="btn-group">
 						<button type="button" class="btn btn-default"
-							ng-click="changeMode(13)">
+							ng-click="changeMode(13)" ng-disabled="!selectedDrzava">
 							<img class="dugmici" src="images/nextform.gif" />
 						</button>
 						</p>
@@ -113,7 +113,7 @@
 			<div class="form-group" mode=="filter">
 				<label for="drzava" class="col-sm-3 control-label">Drzava</label>
 				<div class="col-sm-6">
-					<select id="drzava" ng-disabled="mode == 'nulto'" ng-model="drzavaNM"
+					<select id="drzava" disabled ng-model="drzavaNM"
 						ng-options="drz as drz.sifra for drz in drzave"
 						class="form-control">
 

@@ -8,6 +8,9 @@ app.controller('kvController', [
 		'KvService',
 		function($rootScope, $scope, $location, ngNotify, kvService) {
 
+			$rootScope.kojiKursevi = '';
+			$rootScope.kojiKlijenti = 'svi';
+			$rootScope.kojaNM = ''
 			$scope.mode = 'nulto';
 			if ($rootScope.kojiKursevi == 'valute') {
 				kvService.preuzmiV2($rootScope.nextFormValuta.id).then(function(response) {

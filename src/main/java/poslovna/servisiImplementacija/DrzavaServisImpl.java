@@ -65,7 +65,7 @@ public class DrzavaServisImpl implements DrzavaServis {
 			}
 		}
 		if (idValute != -1) {
-			valuta = drzavaRepozitorijum.findByValuta(drzavaRepozitorijum.findOne(idValute));
+			valuta = drzavaRepozitorijum.findByValuta(valutaRepozitorijum.findOne(idValute));
 			d.retainAll(valuta);
 		}
 		Set<Drzava> set = new HashSet<Drzava>();

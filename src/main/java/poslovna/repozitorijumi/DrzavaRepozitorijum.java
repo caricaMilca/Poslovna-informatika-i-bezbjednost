@@ -15,12 +15,12 @@ public interface DrzavaRepozitorijum extends JpaRepository<Drzava, Long> {
 
 	List<Drzava> findByValuta(Valuta v);
 
-	@Query("select d from Drzava d where lower(d.naziv) like ?1 or lower(d.sifra) like ?2")
+/*	@Query("select d from Drzava d where lower(d.naziv) like ?1 or lower(d.sifra) like ?2")
 	List<Drzava> findByNazivLikeOrSifraLike(String naziv, String sifra);
 	
 	@Query("select d from Drzava d where lower(d.naziv) like ?1 or lower(d.sifra) like ?2 or d.valuta = valuta")
 	List<Drzava> findByNazivLikeOrSifraLikeOrValuta(String naziv, String sifra, Valuta valuta);
-
+*/
 	@Query("select d from Drzava d where lower(d.naziv) like %?1%")
 	List<Drzava> findByNaziv(String naziv);
 

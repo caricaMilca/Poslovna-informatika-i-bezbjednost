@@ -11,6 +11,10 @@ app
 						'RacunService',
 						function($rootScope, $scope, $location, ngNotify,
 								racunService) {
+							
+							$rootScope.kojiKursevi = '';
+							$rootScope.kojiKlijenti = 'svi';
+							$rootScope.kojaNM = ''
 							$scope.todays = new Date();
 							$scope.mode = 'nulto';
 							if ($rootScope.kojiRacuni == 'svi') {

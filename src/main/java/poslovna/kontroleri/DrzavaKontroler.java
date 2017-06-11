@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import poslovna.autorizacija.AutorizacijaAnnotation;
 import poslovna.model.Drzava;
-import poslovna.model.Klijent;
 import poslovna.servisi.DrzavaServis;
 
 @RestController

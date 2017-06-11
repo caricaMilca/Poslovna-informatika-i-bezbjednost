@@ -12,6 +12,8 @@ app
 						function($rootScope, $scope, $location, ngNotify,
 								klijentService) {
 
+							$rootScope.kojiKursevi = '';
+							$rootScope.kojaNM = ''
 							$scope.mode = 'nulto';
 							if($rootScope.kojiKlijenti == 'svi'){
 								klijentService.preuzmiKlijente().then(
@@ -164,13 +166,14 @@ app
 							}
 
 							$scope.setSelectedKlijent = function(selected) {
-								$scope.djelatnostKlijenta = -1;
 								$scope.selectedKlijent = selected;
 								$scope.show = 10;
 								$scope.noviKlijent = angular.copy(selected);
 								$scope.mode = 'edit';
-								if (selected.ulogaK == 'POSLOVNO')
+								if (selected.ulogaK == 'POSLOVNO'){
 									$scope.djelatnostKlijenta.sifra = selected.djelatnost.sifra;
+								} else
+									$scope.djelatnostKlijenta = -1;
 							}
 
 							$scope.changeMode = function(tab) {

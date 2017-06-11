@@ -12,6 +12,9 @@ app
 						function($rootScope, $scope, $location, ngNotify,
 								drzavaService) {
 
+							$rootScope.kojiKursevi = '';
+							$rootScope.kojiKlijenti = 'svi';
+							$rootScope.kojaNM = ''
 							$scope.mode = 'nulto';
 							if ($rootScope.kojeDrzave == 'valute') {
 								drzavaService
@@ -37,6 +40,7 @@ app
 								if (response.data) {
 									$scope.valute = response.data;
 									$scope.valutaDrzave = response.data[0];
+									$scope.valutaDrzave.selected = '';
 								}
 							});
 
@@ -103,6 +107,7 @@ app
 															$scope.novaDrzava = response.data;
 															$scope.drzava.id = response.data.id;
 															$scope.mode = 'nulto';
+															$scope.odustani();
 														}
 													});
 								}
@@ -118,7 +123,7 @@ app
 								$scope.show = 10;
 								$scope.novaDrzava = angular.copy(selected);
 								$scope.mode = 'edit';
-								$scope.valutaDrzave.zvanicnSifra = selected.valuta.zvanicnaSifra;
+								$scope.valutaDrzave.zvanicnaSifra = selected.valuta.zvanicnaSifra;
 							}
 
 							$scope.changeMode = function(tab) {
@@ -207,7 +212,7 @@ app
 												});
 							}
 							
-							function refreash() {
+							function refresh() {
 								drzavaService
 								.preuzmiDrzavu()
 								.then(
@@ -228,7 +233,7 @@ app
 								$scope.novaDrzava = null;
 								$scope.show = null;
 								$rootScope.kojeDrzave = 'sve';
-								refreash();
+								refresh();
 							}
 							
 							$scope.nextForm = function() {

@@ -8,6 +8,9 @@ app.controller('valuteController', [
 		'ValuteService',
 		function($rootScope, $scope, $location, ngNotify, valuteService) {
 
+			$rootScope.kojiKursevi = '';
+			$rootScope.kojiKlijenti = 'svi';
+			$rootScope.kojaNM = ''
 			$scope.mode = 'nulto';
 			valuteService.preuzmiV().then(function(response) {
 				if (response.data) {
@@ -15,23 +18,21 @@ app.controller('valuteController', [
 				}
 			});
 
-
 			$scope.regV = function() {
-					if ($scope.mode == 'add')
-					valuteService.regV($scope.novaV).then(
-							function(response) {
-								if (response.data) {
-									ngNotify.set('Uspesno dodavanje', {
-										type : 'success'
-									});
-									$scope.sveV.push(response.data);
-									$scope.novaV = null;
-									$scope.show = null;
-								}
+				if ($scope.mode == 'add')
+					valuteService.regV($scope.novaV).then(function(response) {
+						if (response.data) {
+							ngNotify.set('Uspesno dodavanje', {
+								type : 'success'
 							});
+							$scope.sveV.push(response.data);
+							$scope.novaV = null;
+							$scope.show = null;
+						}
+					});
 				else if ($scope.mode == 'filter') {
-					valuteService.pretraziV($scope.novaV)
-							.then(function(response) {
+					valuteService.pretraziV($scope.novaV).then(
+							function(response) {
 								if (response.data) {
 									ngNotify.set('Uspesna pretraga', {
 										type : 'success'
@@ -66,40 +67,32 @@ app.controller('valuteController', [
 				$scope.show = 10;
 				$scope.novaV = angular.copy(selected);
 				$scope.mode = 'edit';
+				$scope.novaV.domicilna = selected.domicilna;
 			}
 
 			$scope.changeMode = function(tab) {
 				$scope.novaV = null;
 				$scope.mode = tab;
 			}
-			
-			$scope.izbrisiV = function() {
-				valuteService
-						.izbrisiV(
-								$scope.selectedV.id)
-						.then(
-								function(response) {
-									if (response.status == 200) {
-										ngNotify
-												.set(
-														'Uspesno brisanje',
-														{
-															type : 'success'
-														});
-										var index = $scope.sveV
-												.indexOf($scope.selectedV);
-										$scope.sveV
-												.splice(index,
-														1);
-										$scope.novaV = null;
-										$scope.show = null;
-										$scope.selectedV = null;
-									}
 
+			$scope.izbrisiV = function() {
+				valuteService.izbrisiV($scope.selectedV.id).then(
+						function(response) {
+							if (response.status == 200) {
+								ngNotify.set('Uspesno brisanje', {
+									type : 'success'
 								});
+								var index = $scope.sveV
+										.indexOf($scope.selectedV);
+								$scope.sveV.splice(index, 1);
+								$scope.novaV = null;
+								$scope.show = null;
+								$scope.selectedV = null;
+							}
+
+						});
 			}
-			
-			
+
 			$scope.first = function() {
 				$scope.mode = 'edit';
 				$scope.selectedV = $scope.sveV[0];
@@ -117,8 +110,7 @@ app.controller('valuteController', [
 
 			$scope.next = function() {
 				$scope.mode = 'edit';
-				var i = $scope.sveV
-						.indexOf($scope.selectedV);
+				var i = $scope.sveV.indexOf($scope.selectedV);
 				if (i + 1 > $scope.sveV.length - 1)
 					$scope.selectedV = $scope.sveV[0];
 				else
@@ -129,8 +121,7 @@ app.controller('valuteController', [
 
 			$scope.prev = function() {
 				$scope.mode = 'edit';
-				var i = $scope.sveV
-						.indexOf($scope.selectedV);
+				var i = $scope.sveV.indexOf($scope.selectedV);
 				if (i == 0)
 					$scope.selectedV = $scope.sveV[$scope.sveV.length - 1];
 				else
@@ -140,19 +131,15 @@ app.controller('valuteController', [
 			}
 
 			$scope.refreash = function() {
-				valuteService
-						.preuzmiV()
-						.then(
-								function(response) {
-									if (response.data) {
-										$scope.sveV = response.data;
-										$scope.novaV = null;
-										$scope.mode = 'nulto';
-										$scope.selectedV = null;
-									}
-								});
+				valuteService.preuzmiV().then(function(response) {
+					if (response.data) {
+						$scope.sveV = response.data;
+						$scope.novaV = null;
+						$scope.mode = 'nulto';
+						$scope.selectedV = null;
+					}
+				});
 			}
-
 
 			$scope.odustani = function() {
 				$scope.mode = 'edit';
@@ -160,19 +147,19 @@ app.controller('valuteController', [
 				$scope.novaV = null;
 				$scope.show = null;
 			}
-			
+
 			$scope.prikaziDrzave = function() {
 				$('#izaberiNextFormu').modal('hide');
 				$rootScope.kojeDrzave = 'valute';
 				$rootScope.nextFormValuta = $scope.selectedV;
 				$location.path('/Drzava/sveDrzave')
 			}
-			
+
 			$scope.prikaziKurseve = function() {
 				$('#izaberiNextFormu').modal('hide');
 				$rootScope.kojiKursevi = 'valute';
 				$rootScope.nextFormValuta = $scope.selectedV;
 				$location.path('/kursUValuti/kurs')
 			}
-			
+
 		} ]);

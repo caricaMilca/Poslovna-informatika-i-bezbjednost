@@ -11,7 +11,7 @@
 				<img class="dugmici" src="images/search.gif" />
 			</button>
 			<button type="button" class="btn btn-default"
-				ng-click="refresh()">
+				ng-click="refreshTable()">
 				<img class="dugmici" src="images/refresh.gif" />
 			</button>
 			<button type="button" class="btn btn-default"
@@ -113,7 +113,7 @@
 			<div class="form-group" mode=='filter'">
 				<label for="valuta" class="col-sm-3 control-label">Valuta</label>
 				<div class="col-sm-6">
-					<select id="valuta" ng-disabled="mode == 'nulto'" ng-model="valutaDrzave"
+					<select id="valuta" disabled ng-model="valutaDrzave"
 						ng-options="valuta as valuta.zvanicnaSifra for valuta in valute"
 						class="form-control">
 					</select>

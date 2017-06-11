@@ -9,7 +9,10 @@ app.controller('klController', [
 		'KLService',
 		function($rootScope, $scope, $location, ngNotify, klService) {
 
+			$rootScope.kojiKlijenti = 'svi';
+			$rootScope.kojaNM = ''
 			$scope.mode = 'nulto';
+			
 			klService.preuzmiNM().then(function(response) {
 				if (response.data) {
 					$scope.svaNM = response.data;

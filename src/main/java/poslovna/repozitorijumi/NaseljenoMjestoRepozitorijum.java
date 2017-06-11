@@ -10,16 +10,18 @@ import poslovna.model.NaseljenoMjesto;
 
 public interface NaseljenoMjestoRepozitorijum extends JpaRepository<NaseljenoMjesto, Long> {
 
+	@Query("select nm from NaseljenoMjesto nm where lower(nm.pttOznaka) like %?1%")
 	List<NaseljenoMjesto> findByPttOznaka(String pttOznaka);
 
 	List<NaseljenoMjesto> findByDrzava(Drzava findOne);
 	
+	@Query("select nm from NaseljenoMjesto nm where lower(nm.naziv) like %?1%")
 	List<NaseljenoMjesto> findByNaziv(String naziv);
-
-	@Query("select nm from NaseljenoMjesto nm where lower(nm.naziv) like ?1 or lower(nm.pttOznaka) like ?2")
+/*
+	@Query("select nm from NaseljenoMjesto nm where lower(nm.naziv) like %?1% or lower(nm.pttOznaka) like %?2%")
 	List<NaseljenoMjesto> findByNazivLikeOrPttOznakaLike(String naziv, String pttOznaka);
 	
-	@Query("select nm from NaseljenoMjesto nm where lower(nm.naziv) like ?1 or lower(nm.pttOznaka) like ?2 or nm.drzava = ?3")
+	@Query("select nm from NaseljenoMjesto nm where lower(nm.naziv) like %?1% or lower(nm.pttOznaka) like %?2% or nm.drzava = %?3%")
 	List<NaseljenoMjesto> findByNazivLikeOrPttOznakaLikeOrDrzava(String naziv, String pttOznaka, Drzava findOne);
-
+*/
 }

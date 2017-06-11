@@ -1,7 +1,9 @@
 package poslovna.servisiImplementacija;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +29,7 @@ public class ValutaServisImpl implements ValutaServis {
 
 	@Override
 	public ResponseEntity<Valuta> registracijaValuta(Valuta valuta) {
-		if(valutaRepozitorijum.findByZvanicnaSifra(valuta.zvanicnaSifra) != null)
+		if(valutaRepozitorijum.findByZvanicnaSifra(valuta.zvanicnaSifra).size() != 0)
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		return new ResponseEntity<Valuta>(valutaRepozitorijum.save(valuta), HttpStatus.OK);
 	}
@@ -39,9 +41,33 @@ public class ValutaServisImpl implements ValutaServis {
 
 	@Override
 	public ResponseEntity<List<Valuta>> pretraziValute(Valuta valuta) {
+
 		List<Valuta> lista = new ArrayList<Valuta>();
-		/// treba da se implementira
-		return new ResponseEntity<List<Valuta>>(lista, HttpStatus.OK);
+		List<Valuta> v = valutaRepozitorijum.findAll();
+		List<Valuta> naziv = new ArrayList<Valuta>();
+		List<Valuta> zvanicnaSifra = new ArrayList<Valuta>();
+		List<Valuta> domicilna = new ArrayList<Valuta>();
+		if (valuta == null)
+			return new ResponseEntity<List<Valuta>>(lista, HttpStatus.OK);
+		if (valuta != null) {
+			if (valuta.naziv != null) {
+				naziv = valutaRepozitorijum.findByNaziv(valuta.naziv);
+				v.retainAll(naziv);
+			}
+			if (valuta.zvanicnaSifra != null) {
+				zvanicnaSifra = valutaRepozitorijum.findByZvanicnaSifra(valuta.zvanicnaSifra);
+				v.retainAll(zvanicnaSifra);
+			}
+			if(valuta.domicilna != null){
+				domicilna = valutaRepozitorijum.findByDomicilna(valuta.domicilna);
+				v.retainAll(domicilna);
+			}
+		}
+		Set<Valuta> set = new HashSet<Valuta>();
+		set.addAll(v);
+		v.clear();
+		v.addAll(set);
+		return new ResponseEntity<List<Valuta>>(v, HttpStatus.OK);
 	}
 
 	@Override
