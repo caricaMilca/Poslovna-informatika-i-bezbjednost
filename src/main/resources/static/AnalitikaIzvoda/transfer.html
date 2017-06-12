@@ -1,0 +1,88 @@
+<form name="addDepositSlip">
+	<fieldset>
+
+
+		<div class="leftSideOfDepositSlip">
+			<div>
+				<label class="infoLabel"> Nalogodavac:</label> <input type="text"
+					class="form-control bigerLabel" ng-model="nalog.duznik"> </input>
+			</div>
+			<div>
+				<label class="infoLabel"> Svrha uplate:</label> <input type="text"
+					class="form-control bigerLabel" ng-model="nalog.svrhaPlacanja">
+				</input>
+			</div>
+			<div>
+				<label class="infoLabel"> Primalac:</label> <input type="text"
+					class="form-control bigerLabel" ng-model="nalog.povjerilac">
+				</input>
+			</div>
+		</div>
+		<div class="rightSideOfDepositSlip">
+			<div>
+				<label class="infoLabel code3Num"> Valuta</label>
+				<label class="infoLabel labelAfterCode"> Iznos</label>
+				<input type="text" class="form-control code3Num"
+					ng-model="nalog.valuta" /> <input type="number"
+					class="form-control inputAfter3Num" ng-model="nalog.iznos" />
+			</div>
+
+			<div>
+				<label class="infoLabel"> Racun nalogodavca</label>
+				<input type="text" class="form-control"
+					ng-model="nalog.racunDuznika"> </input>
+			</div>
+
+			<div>
+				<label class="infoLabel code3Num"> Model</label>
+				<label class="infoLabel labelAfterCode"> Poziv na broj
+					approval</label>
+				<input type="number" class="form-control code3Num"
+					ng-model="nalog.modelZaduzenja"> </input> <input type="text"
+					class="form-control inputAfter3Num"
+					ng-model="nalog.pozivNaBrojZaduzenja"> </input>
+			</div>
+
+			<div>
+				<label class="infoLabel"> Racun primaoca</label>
+				<input type="text" class="form-control"
+					ng-model="nalog.racunPovjerioca"> </input>
+			</div>
+
+			<div>
+				<label class="infoLabel code3Num"> Model</label>
+				<label class="infoLabel labelAfterCode"> Poziv na broj
+					odobrenja</label>
+				<input type="number" class="form-control code3Num"
+					ng-model="nalog.modelOdobrenja"> </input> <input type="text"
+					class="form-control inputAfter3Num"
+					ng-model="nalog.pozivNaBrojOdobrenja"> </input>
+			</div>
+			<br />
+			<div>
+				<label class="infoLabel"> Hitno </label> <input
+					ng-model="nalog.hitno" type="checkbox" value="1" name="" />
+			</div>
+		</div>
+
+	</fieldset>
+	<div class="dates">
+		<div class="depositSlipDateDiv">
+			<label class="infoLabel"> Datum primanja</label>
+			<input type="date" class="form-control"
+				ng-model="nalog.datumPrimanja">
+		</div>
+		<div class="currencySlipDateDiv">
+			<label class="infoLabel"> Datum valute</label>
+			<input type="date" class="form-control" ng-model="nalog.datumValute">
+		</div>
+	</div>
+
+	<div class="buttonsDepositSlip">
+		<button class="btn btn-primary" ng-click="kreiraj()">Posalji
+		</button>
+		<button class="btn btn-primary" ng-click="odustani()">
+			Odustani</button>
+	</div>
+
+</form>

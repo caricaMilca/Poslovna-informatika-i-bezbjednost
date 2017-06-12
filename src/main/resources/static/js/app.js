@@ -45,5 +45,14 @@ app.config(function($routeProvider, $locationProvider) {
 	}).when('/DnevnoStanjeRacuna/dnevnaStanjaRacuna',{
 		templateUrl: 'DnevnoStanjeRacuna/dsr.html',
 		controller: 'dsrController'
+	}).when('/AnalitikaIzvoda/uplata',{
+		templateUrl: 'AnalitikaIzvoda/uplata.html',
+		controller: 'analitikaIzvodaController'
+	}).when('/AnalitikaIzvoda/isplata',{
+		templateUrl: 'AnalitikaIzvoda/isplata.html',
+		controller: 'analitikaIzvodaController'
+	}).when('/AnalitikaIzvoda/transfer',{
+		templateUrl: 'AnalitikaIzvoda/transfer.html',
+		controller: 'analitikaIzvodaController'
 	})
 });

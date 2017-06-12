@@ -32,12 +32,16 @@
 <script type="text/javascript" src="kursnaLista/klService.js"></script>
 <script type="text/javascript" src="DnevnoStanjeRacuna/dsrController.js"></script>
 <script type="text/javascript" src="DnevnoStanjeRacuna/dsrService.js"></script>
-<script type="text/javascript" src="AnalitikaIzvoda/analitikaIzvodaController.js"></script>
-<script type="text/javascript" src="AnalitikaIzvoda/analitikaIzvodaService.js"></script>
+<script type="text/javascript"
+	src="AnalitikaIzvoda/analitikaIzvodaController.js"></script>
+<script type="text/javascript"
+	src="AnalitikaIzvoda/analitikaIzvodaService.js"></script>
 <script type="text/javascript" src="/Djelatnost/djelatnostController.js"></script>
 <script type="text/javascript" src="/Djelatnost/djelatnostService.js"></script>
-<script type="text/javascript" src="/VrstaPlacanja/vrstaPlacanjaController.js"></script>
-<script type="text/javascript" src="/VrstaPlacanja/vrstaPlacanjaService.js"></script>
+<script type="text/javascript"
+	src="/VrstaPlacanja/vrstaPlacanjaController.js"></script>
+<script type="text/javascript"
+	src="/VrstaPlacanja/vrstaPlacanjaService.js"></script>
 <script type="text/javascript" src="/Racun/racunController.js"></script>
 <script type="text/javascript" src="/Racun/racunService.js"></script>
 <script type="text/javascript" src="js/moment.min.js"></script>
@@ -72,21 +76,33 @@
 									<ul class="dropdown-menu" role="menu">
 										<li><a href="/#!/Klijent/klijenti">Klijenti</a></li>
 										<li><a href="/#!/Drzava/sveDrzave">Drzave</a></li>
-										<li><a href="/#!/nm/svaNM">Naseljena mesta</a></li>										
+										<li><a href="/#!/nm/svaNM">Naseljena mesta</a></li>
 										<li><a href="/#!/valuta/valute">Valute</a></li>
 										<li><a href="/#!/kursUValuti/kurs">Kurs u valuti</a></li>
 										<li><a href="/#!/kursnaLista/lista">Kursne liste</a></li>
 										<li><a href="/#!/Djelatnost/sveDjelatnosti">Djelatnosti</a></li>
-										<li><a href="/#!/VrstaPlacanja/vrstePlacanja">Vrste placanja</a></li>
+										<li><a href="/#!/VrstaPlacanja/vrstePlacanja">Vrste
+												placanja</a></li>
 										<li><a href="/#!/Racun/racuni">Racuni</a></li>
-										<li><a href="/#!/AnalitikaIzvoda/analitike">Analitika izvoda</a></li>
-										<li><a href="/#!/DnevnoStanjeRacuna/dnevnaStanjaRacuna">Dnevno stanje racuna</a>
+										<li><a href="/#!/AnalitikaIzvoda/analitike">Analitika
+												izvoda</a></li>
+										<li><a href="/#!/DnevnoStanjeRacuna/dnevnaStanjaRacuna">Dnevno
+												stanje racuna</a></li>
+									</ul></li>
+								<li class="dropdown"><a href="" class="dropdown-toggle"
+									data-toggle="dropdown" role="button" aria-expanded="false">Kreiraj
+										nalog <span class="caret"></span>
+								</a>
+									<ul class="dropdown-menu" role="menu">
+										<li><a href="/#!/AnalitikaIzvoda/uplata">Uplata</a></li>
+										<li><a href="/#!/AnalitikaIzvoda/isplata">Isplata</a></li>
+										<li><a href="/#!/AnalitikaIzvoda/transfer">Transfer</a></li>
 									</ul></li>
 							</ul>
 							<div id="signin" class="navbar-form navbar-right" role="form">
 								<a href="#!/changePassword">Podesavanja</a>
 								<button type="submit" class="btn btn-primary"
-									ng-click="logout()">Logout</button>
+									ng-click="logout()">Izloguj se</button>
 
 							</div>
 						</div>
@@ -97,18 +113,19 @@
 									<span class="input-group-addon"><i
 										class="glyphicon glyphicon-user"></i></span> <input id="username"
 										type="text" class="form-control" name="username" value=""
-										ng-Model="logovanje.korisnickoIme" placeholder="Username"
-										required>
+										ng-Model="logovanje.korisnickoIme"
+										placeholder="Korisnicko ime" required>
 								</div>
 
 								<div class="input-group">
 									<span class="input-group-addon"><i
 										class="glyphicon glyphicon-lock"></i></span> <input id="password"
 										type="password" class="form-control" name="password" value=""
-										ng-Model="logovanje.lozinka" placeholder="Password" required>
+										ng-Model="logovanje.lozinka" placeholder="Lozinka" required>
 								</div>
 								<button type="submit" ng-disabled="signin.$invalid"
-									class="btn btn-primary" ng-click="submitLogin()">Login</button>
+									class="btn btn-primary" ng-click="submitLogin()">Uloguj
+									se</button>
 							</form>
 						</div>
 
