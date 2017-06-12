@@ -39,5 +39,11 @@ app.config(function($routeProvider, $locationProvider) {
 	}).when('/Racun/racuni', {
 		templateUrl: '/Racun/racuni.html',
 		controller: 'racunController'
+	}).when('/AnalitikaIzvoda/analitike',{
+		templateUrl: '/AnalitikaIzvoda/analitikaIzvoda.html',
+		controller: 'analitikaIzvodaController'
+	}).when('/DnevnoStanjeRacuna/dnevnaStanjaRacuna',{
+		templateUrl: 'DnevnoStanjeRacuna/dsr.html',
+		controller: 'dsrController'
 	})
 });

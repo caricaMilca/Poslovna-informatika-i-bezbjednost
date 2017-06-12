@@ -1,0 +1,490 @@
+<div ng-controller="analitikaIzvodaController">
+	<h1 id="header" class="page-header">Sve analitike izvoda</h1>
+	<p>
+	<div class="container">
+		<div class="table-responsive">
+			<table class="table">
+				<tr>
+					<div class="btn-group">
+						<button type="button" class="btn btn-default"
+							ng-click="changeMode('filter')">
+							<img class="dugmici" src="images/search.gif" />
+						</button>
+						<button type="button" class="btn btn-default"
+							ng-click="refreshTable()">
+							<img class="dugmici" src="images/refresh.gif" />
+						</button>
+						<button type="button" class="btn btn-default"
+							ng-click="changeMode(3)">
+							<img class="dugmici" src="images/zoom-pickup.gif" />
+						</button>
+						<button type="button" class="btn btn-default"
+							ng-click="changeMode(4)">
+							<img class="dugmici" src="images/help.gif" />
+						</button>
+						<button type="button" class="btn btn-default"
+							ng-click="changeMode(5)">
+							<img class="dugmici" src="images/zoom-pickup.gif" />
+						</button>
+					</div>
+					<div class="btn-group">
+						<button type="button" class="btn btn-default" ng-click="first()">
+							<img class="dugmici" src="images/first.gif" />
+						</button>
+						<button type="button" ng-disabled="!selectedNM"
+							class="btn btn-default" ng-click="prev()">
+							<img class="dugmici" src="images/prev.gif" />
+						</button>
+						<button type="button" ng-disabled="!selectedNM"
+							class="btn btn-default" ng-click="next()">
+							<img class="dugmici" src="images/next.gif" />
+						</button>
+						<button type="button" class="btn btn-default" ng-click="last()">
+							<img class="dugmici" src="images/last.gif" />
+						</button>
+					</div>
+					<div class="btn-group">
+						<button type="button" class="btn btn-default"
+							ng-click="changeMode('add')">
+							<img class="dugmici" src="images/add.gif" />
+						</button>
+						<button type="button" class="btn btn-default"
+							ng-disabled="!selectedNM" ng-click="izbrisiNM()"
+							ng-confirm-click="Da li zelite da izbrisete selektovano naseljeno mesto? Potvrda brisanja nosi sve podatke zavisne od njega.">
+							<img class="dugmici" src="images/remove.gif" />
+						</button>
+					</div>
+					<div class="btn-group">
+						<button type="button" class="btn btn-default"
+							ng-click="changeMode(13)" ng-disabled="!selectedDrzava">
+							<img class="dugmici" src="images/nextform.gif" />
+						</button>
+						</p>
+					</div>
+					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+					Trenutni mod : {{mode}}
+				</tr>
+				<thead>
+					<tr>
+						<th>Duznik</th>
+						<th>Poverilac</th>
+						<th>Svrha placanja</th>
+						<th>Datum primanja</th>
+						<th>Datum valute</th>
+						<th>Racun duznika</th>
+						<th>Racun poverenika</th>
+						<th>Model zaduzenja</th>
+						<th>Poziv na broj zaduzenja</th>
+						<th>Poziv na broj odobrenja</th>
+						<th>Model odobrenja</th>
+						<th>Hitno</th>
+						<th>Iznos</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="izvod in sviIzvodi track by izvod.id"
+						ng-click="setSelectedIzvod(izvod)"
+						ng-class="{'info' : selectedIzvod.id === izvod.id}">
+						<td>{{izvod.duznik}}</td>
+						<td>{{izvod.povjerilac}}</td>
+						<td>{{izvod.svrhaPlacanja}}</td>
+						<td>{{izvod.datumPrimanja}}</td>
+						<td>{{izvod.datumValute}}</td>
+						<td>{{izvod.racunDuznika}}</td>
+						<td>{{izvod.racunPovjerioca}}</td>
+						<td>{{izvod.modelZaduzenja}}</td>
+						<td>{{izvod.pozivNaBrojZaduzenja}}</td>
+						<td>{{izvod.pozivNaBrojOdobrenja}}</td>
+						<td>{{izvod.modelOdobrenja}}</td>
+						<td>{{izvod.hitno}}</td>
+						<td>{{izvod.iznos}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<br />
+	</div>
+	<div class="container" id="razmak">
+		<form class="form-horizontal" role="blabla" name="myForm" novalidate>
+			
+			
+			<div class="form-group">
+				<label for="duznik" class="col-sm-3 control-label">Duznik</label>
+				<div class="col-sm-9">
+					<input type="text" id="duznik" class="form-control"
+						placeholder="Unesi duznika" name="duznik"
+						ng-Model="noviIzvod.duznik" ng-disabled="mode == 'nulto'"
+						autofocus>
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<label for="poverilac" class="col-sm-3 control-label">Poverilac</label>
+				<div class="col-sm-9">
+					<input type="text" id="poverilac" class="form-control"
+						placeholder="Unesi poverioca" name="poverilac"
+						ng-Model="noviIzvod.povjerilac" ng-disabled="mode == 'nulto'">
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<label for="svrhaPlacanja" class="col-sm-3 control-label">Svrha
+					placanja</label>
+				<div class="col-sm-9">
+					<input type="text" id="svrhaPlacanja" class="form-control"
+						placeholder="Unesi svrhu placanja" name="svrhaPlacanja"
+						ng-Model="noviIzvod.svrhaPlacanja" ng-disabled="mode == 'nulto'">
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<label for="datumPrimanja" class="col-sm-3 control-label">Datum
+					primanja</label>
+				<div class="col-sm-9">
+					<input type="date" id="datumPrimanja"
+						ng-Model="noviIzvod.datumPrimanja" class="form-control"
+						ng-disabled="mode == 'nulto'" autofocus>
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<label for="datumValute" class="col-sm-3 control-label">Datum
+					valute</label>
+				<div class="col-sm-9">
+					<input type="date" id="datumValute"
+						ng-Model="noviIzvod.datumValute" class="form-control"
+						ng-disabled="mode == 'nulto'" autofocus>
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<label for="racunDuznika" class="col-sm-3 control-label">Racun
+					duznika</label>
+				<div class="col-sm-9">
+					<input type="text" id="racunDuznika" class="form-control"
+						placeholder="Unesi racun duznika" name="racunDuznika"
+						ng-Model="noviIzvod.racunDuznika" ng-disabled="mode == 'nulto'">
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<label for="racunPoverenika" class="col-sm-3 control-label">Racun
+					poverenika</label>
+				<div class="col-sm-9">
+					<input type="text" id="racunPoverenika" class="form-control"
+						placeholder="Unesi racun poverenika" name="racunPoverenika"
+						ng-Model="noviIzvod.racunPovjerioca" ng-disabled="mode == 'nulto'">
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<label for="modelZaduzenja" class="col-sm-3 control-label">Model
+					zaduzenja</label>
+				<div class="col-sm-9">
+					<input type="text" id="modelZaduzenja" class="form-control"
+						placeholder="Unesi model zaduzenja" name="modelZaduzenja"
+						ng-Model="noviIzvod.modelZaduzenja" ng-disabled="mode == 'nulto'">
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<label for="pozivNaBrojZaduzenja" class="col-sm-3 control-label">Poziv
+					na broj zaduzenja</label>
+				<div class="col-sm-9">
+					<input type="text" id="pozivNaBrojZaduzenja" class="form-control"
+						placeholder="Unesi poziv na broj zaduzenja"
+						name="pozivNaBrojZaduzenja"
+						ng-Model="noviIzvod.pozivNaBrojZaduzenja"
+						ng-disabled="mode == 'nulto'">
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<label for="pozivNaBrojOdobrenja" class="col-sm-3 control-label">Poziv
+					na broj odobrenja</label>
+				<div class="col-sm-9">
+					<input type="text" id="pozivNaBrojOdobrenja" class="form-control"
+						placeholder="Unesi poziv na broj odobrenja"
+						name="pozivNaBrojOdobrenja"
+						ng-Model="noviIzvod.pozivNaBrojOdobrenja"
+						ng-disabled="mode == 'nulto'">
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<label for="modelOdobrenja" class="col-sm-3 control-label">Model
+					odobrenja</label>
+				<div class="col-sm-9">
+					<input type="text" id="modelOdobrenja" class="form-control"
+						placeholder="Unesi model odobrenja" name="modelOdobrenja"
+						ng-Model="noviIzvod.modelOdobrenja" ng-disabled="mode == 'nulto'">
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<label for="iznos" class="col-sm-3 control-label">Iznos</label>
+				<div class="col-sm-9">
+					<input type="text" id="iznos" class="form-control"
+						placeholder="Unesi iznos" name="iznos" ng-Model="noviIzvod.iznos"
+						ng-disabled="mode == 'nulto'">
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<div class="form-group">
+					<label class="control-label col-sm-3">Hitno</label>
+					<div class="col-sm-6">
+						<div class="row">
+							<div class="col-sm-6">
+								<label class="radio-inline"> <input type="radio"
+									id="daRadio" selected ng-value="da" ng-Model="noviIzvod.hitno"
+									ng-disabled="mode == 'nulto'" ng-required="mode == 'add'">Da
+								</label>
+							</div>
+							<div class="col-sm-6">
+								<label class="radio-inline"> <input type="radio"
+									id="neRadio" ng-value="false" ng-Model="noviIzvod.hitno"
+									ng-disabled="mode == 'nulto'" ng-required="mode == 'add'">Ne
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="form-group" mode=="filter">
+				<label for="mestoPlacanja" class="col-sm-3 control-label">Mesto
+					placanja</label>
+				<div class="col-sm-6">
+					<select id="mestoPlacanja" disabled ng-model="mestoPlacanjaIzvoda"
+						ng-options="dsr as dsr.naziv for dsr in mestaPlacanja"
+						class="form-control">
+					</select>
+				</div>
+				<div>
+					<button type="button" ng-disabled="mode == 'nulto'" id="izaberi"
+						class="btn btn-default" data-toggle="modal"
+						data-target="#izaberiMestoPlacanja">Izaberi</button>
+				</div>
+			</div>
+
+
+			<div class="form-group" mode=="filter">
+				<label for="dnevnoStanjeRacuna" class="col-sm-3 control-label">Dnevno
+					stanje racuna</label>
+				<div class="col-sm-6">
+					<select id="dnevnoStanjeRacunaIzvoda" disabled
+						ng-model="dnevnoStanjeRacunaIzvoda"
+						ng-options="dsr as dsr.id for dsr in dnevnaStanjaRacuna"
+						class="form-control">
+					</select>
+				</div>
+				<div>
+					<button type="button" ng-disabled="mode == 'nulto'" id="izaberi"
+						class="btn btn-default" data-toggle="modal"
+						data-target="#izaberiDnevnoStanjeRacuna">Izaberi</button>
+				</div>
+			</div>
+
+
+			<div class="form-group" mode=="filter">
+				<label for="vrstaPlacanja" class="col-sm-3 control-label">Vrsta
+					placanja</label>
+				<div class="col-sm-6">
+					<select id="vrstaPlacanja" disabled ng-model="vrstaPlacanjaIzvoda"
+						ng-options="vp as vp.id for vp in vrstePlacanja"
+						class="form-control">
+					</select>
+				</div>
+				<div>
+					<button type="button" ng-disabled="mode == 'nulto'" id="izaberi"
+						class="btn btn-default" data-toggle="modal"
+						data-target="#izaberiVrstuPlacanja">Izaberi</button>
+				</div>
+			</div>
+
+
+			<div class="form-group" mode=="filter">
+				<label for="valuta" class="col-sm-3 control-label">Valuta</label>
+				<div class="col-sm-6">
+					<select id="valuta" disabled ng-model="valutaIzvoda"
+						ng-options="v as v.id for v in valute" class="form-control">
+					</select>
+				</div>
+				<div>
+					<button type="button" ng-disabled="mode == 'nulto'" id="izaberi"
+						class="btn btn-default" data-toggle="modal"
+						data-target="#izaberiValutu">Izaberi</button>
+				</div>
+			</div>
+
+			<!-- /.form-group -->
+
+			<div class="form-group">
+				<div class="col-sm-9 col-sm-offset-3">
+					<button type="submit" ng-Click="regIzvod()"
+						ng-disabled="myForm.$invalid" class="btn btn-primary btn-block">Potvrdi</button>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-9 col-sm-offset-3">
+					<button type="submit" ng-Click="odustani()"
+						class="btn btn-primary btn-block">Odustani</button>
+				</div>
+			</div>
+		</form>
+		
+		<!-- /form -->
+	</div>
+
+	<!-- ./container -->
+
+	<!-- Modalni za mesto placanja -->
+	<div id="izaberiMestoPlacanja" class="modal fade" role="dialog"
+		style="color: black;">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Izaberi naseljeno mesto</h4>
+				</div>
+				<div class="modal-body">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Naziv</th>
+								<th>PTT oznaka</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="dsr in mestaPlacanja"
+								ng-click="setSelectedMP(dsr)"
+								ng-class="{'info' : drzavaNM===drz}">
+								<td>{{dsr.naziv}}</td>
+								<td>{{dsr.pttOznaka}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modalni za dnevno stanje racuna -->
+	<div id="izaberiDnevnoStanjeRacuna" class="modal fade" role="dialog"
+		style="color: black;">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Izaberi dnevno stanje racuna</h4>
+				</div>
+				<div class="modal-body">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Broj racuna</th>
+								<th>Prethodno stanje</th>
+								<th>Promet na teret</th>
+								<th>Promet na korist</th>
+								<th>Novo stanje</th>
+								<th>Datum prometa</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="dsr in dnevnaStanjaRacuna"
+								ng-click="setSelectedDSR(dsr)"
+								ng-class="{'info' : dnevnoStanjeRacunaIzvoda===dsr}">
+								<td>{{dsr.racun.brojRacuna}}</td>
+								<td>{{dsr.prethodnoStanje}}</td>
+								<td>{{dsr.prometNaTeret}}</td>
+								<td>{{dsr.prometNaKorist}}</td>
+								<td>{{dsr.novoStanje}}</td>
+								<td>{{dsr.datumPrometa}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Modalni za vrstu placanja-->
+	<div id="izaberiVrstuPlacanja" class="modal fade" role="dialog"
+		style="color: black;">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Izaberi vrstu placanja</h4>
+				</div>
+				<div class="modal-body">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Naziv</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="vp in vrstePlacanja" ng-click="setSelectedVP(vp)"
+								ng-class="{'info' : vrstaPlacanjaIzvoda===vp}">
+								<td>{{vp.naziv}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Modalni za valutu-->
+	<div id="izaberiValutu" class="modal fade" role="dialog"
+		style="color: black;">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Izaberi valutu</h4>
+				</div>
+				<div class="modal-body">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Zvanicna sifra</th>
+								<th>Naziv</th>
+								<th>Domicilna</th>
+							</tr>
+						</thead>
+						<tbody>
+
+							<tr ng-repeat="v in valute" ng-click="setSelectedV(v)"
+								ng-class="{'info' : valutaIzvoda === v}">
+								<td>{{v.zvanicnaSifra}}</td>
+								<td>{{v.naziv}}</td>
+								<td>{{v.domicilna}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
