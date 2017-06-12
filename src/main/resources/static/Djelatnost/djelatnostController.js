@@ -15,7 +15,7 @@ app
 							$rootScope.kojiKursevi = '';
 							$rootScope.kojiKlijenti = 'svi';
 							$rootScope.kojaNM = ''
-							$scope.mode = 'nulto';
+							$scope.mode = 'Pregled';
 							djelatnostService
 									.sveDjelatnosti()
 									.then(
@@ -26,7 +26,7 @@ app
 											});
 
 							$scope.regDjelatnost = function() {
-								if ($scope.mode == 'add')
+								if ($scope.mode == 'Dodavanje')
 									djelatnostService
 											.regDjelatnost($scope.djelatnost)
 											.then(
@@ -41,11 +41,11 @@ app
 															$scope.sveDjelatnosti
 																	.push(response.data);
 															$scope.djelatnost = null;
-															$scope.mode = 'nulto';
+															$scope.mode = 'Pregled';
 															$scope.selectedDjelatnost = null;
 														}
 													});
-								else if ($scope.mode == 'filter') {
+								else if ($scope.mode == 'Pretraga') {
 									djelatnostService
 											.pretraziDjelatnosti(
 													$scope.djelatnost)
@@ -60,11 +60,11 @@ app
 																			});
 															$scope.sveDjelatnosti = response.data;
 															$scope.djelatnost = null;
-															$scope.mode = 'nulto';
+															$scope.mode = 'Pregled';
 															$scope.selectedDjelatnost = null;
 														}
 													});
-								} else if ($scope.mode == 'edit') {
+								} else if ($scope.mode == 'Izmena') {
 									djelatnostService
 											.izmjeniDjelatnost(
 													$scope.djelatnost)
@@ -108,7 +108,7 @@ app
 																.splice(index,
 																		1);
 														$scope.djelatnost = null;
-														$scope.mode = 'nulto';
+														$scope.mode = 'Pregled';
 														$scope.selectedDjelatnost = null;
 
 													}
@@ -120,25 +120,25 @@ app
 								$scope.selectedDjelatnost = selected;
 								$scope.show = 10;
 								$scope.djelatnost = angular.copy(selected);
-								$scope.mode = 'edit';
+								$scope.mode = 'Izmena';
 							}
 
 							$scope.changeMode = function(tab) {
 								$scope.djelatnost = null;
 								$scope.mode = tab;
-								if(tab == 'add')
+								if(tab == 'Dodavanje')
 									$scope.selectedDjelatnost = null;
 							}
 
 							$scope.first = function() {
-								$scope.mode = 'edit';
+								$scope.mode = 'Izmena';
 								$scope.selectedDjelatnost = $scope.sveDjelatnosti[0];
 								$scope.d = $scope.selectedDjelatnost;
 								$scope.djelatnost = $scope.selectedDjelatnost;
 							}
 
 							$scope.last = function() {
-								$scope.mode = 'edit';
+								$scope.mode = 'Izmena';
 								var i = $scope.sveDjelatnosti.length - 1;
 								$scope.selectedDjelatnost = $scope.sveDjelatnosti[i];
 								$scope.d = $scope.selectedDjelatnost;
@@ -146,7 +146,7 @@ app
 							}
 
 							$scope.next = function() {
-								$scope.mode = 'edit';
+								$scope.mode = 'Izmena';
 								var i = $scope.sveDjelatnosti
 										.indexOf($scope.selectedDjelatnost);
 								if (i + 1 > $scope.sveDjelatnosti.length - 1)
@@ -158,7 +158,7 @@ app
 							}
 
 							$scope.prev = function() {
-								$scope.mode = 'edit';
+								$scope.mode = 'Izmena';
 								var i = $scope.sveDjelatnosti
 										.indexOf($scope.selectedDjelatnost);
 								if (i == 0)
@@ -177,14 +177,14 @@ app
 													if (response.data) {
 														$scope.sveDjelatnosti = response.data;
 														$scope.djelatnost = null;
-														$scope.mode = 'nulto';
+														$scope.mode = 'Pregled';
 														$scope.selectedDjelatnost = null;
 													}
 												});
 							}
 
 							$scope.odustani = function() {
-								$scope.mode = 'nulto';
+								$scope.mode = 'Pregled';
 								$scope.selectedDjelatnost = null;
 								$scope.djelatnost = null;
 							}

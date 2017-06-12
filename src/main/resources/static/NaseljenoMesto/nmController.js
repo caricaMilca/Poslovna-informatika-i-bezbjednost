@@ -10,7 +10,7 @@ app.controller('nmController', [
 
 			$rootScope.kojiKursevi = '';
 			$rootScope.kojiKlijenti = 'svi';
-			$scope.mode = 'nulto';
+			$scope.mode = 'Pregled';
 
 			if ($rootScope.kojaNM == 'drzave') {
 				nmService.svaNMDrzave($rootScope.nextFormDrzava.id).then(
@@ -42,7 +42,7 @@ app.controller('nmController', [
 					id = -1;
 				else
 					id = $scope.drzavaNM.id;
-				if ($scope.mode == 'add')
+				if ($scope.mode == 'Dodavanje')
 					nmService.regNM($scope.novoNM, $scope.drzavaNM.id).then(
 							function(response) {
 								if (response.data) {
@@ -54,7 +54,7 @@ app.controller('nmController', [
 									$scope.show = null;
 								}
 							});
-				else if ($scope.mode == 'filter') {
+				else if ($scope.mode == 'Pregled') {
 					nmService.pretraziNM($scope.novoNM, id).then(
 							function(response) {
 								if (response.data) {
@@ -66,7 +66,7 @@ app.controller('nmController', [
 									$scope.show = null;
 								}
 							});
-				} else if ($scope.mode == 'edit') {
+				} else if ($scope.mode == 'Izmena') {
 					nmService.izmeniNM($scope.novoNM, $scope.drzavaNM.id).then(
 							function(response) {
 								if (response.data) {
@@ -79,7 +79,7 @@ app.controller('nmController', [
 									$scope.svaNM[index] = response.data;
 									$scope.novoNM = response.data;
 									$scope.nm.id = response.data.id;
-									$scope.mode = 'nulto';
+									$scope.mode = 'Pregled';
 								}
 							});
 				}
@@ -94,14 +94,14 @@ app.controller('nmController', [
 				$scope.selectedNM = selected;
 				$scope.show = 10;
 				$scope.novoNM = angular.copy(selected);
-				$scope.mode = 'edit';
+				$scope.mode = 'Izmena';
 				$scope.drzavaNM.sifra = selected.drzava.sifra;
 			}
 
 			$scope.changeMode = function(tab) {
 				$scope.novoNM = null;
 				$scope.mode = tab;
-				if (tab == 'filter')
+				if (tab == 'Pregled')
 					$scope.drzavaNM = -1;
 			}
 
@@ -124,14 +124,14 @@ app.controller('nmController', [
 			}
 
 			$scope.first = function() {
-				$scope.mode = 'edit';
+				$scope.mode = 'Izmena';
 				$scope.selectedNM = $scope.svaNM[0];
 				$scope.nm = $scope.selectedNM;
 				$scope.novoNM = $scope.selectedNM;
 			}
 
 			$scope.last = function() {
-				$scope.mode = 'edit';
+				$scope.mode = 'Izmena';
 				var i = $scope.svaNM.length - 1;
 				$scope.selectedNM = $scope.svaNM[i];
 				$scope.nm = $scope.selectedNM;
@@ -139,7 +139,7 @@ app.controller('nmController', [
 			}
 
 			$scope.next = function() {
-				$scope.mode = 'edit';
+				$scope.mode = 'Izmena';
 				var i = $scope.svaNM.indexOf($scope.selectedNM);
 				if (i + 1 > $scope.svaNM.length - 1)
 					$scope.selectedNM = $scope.svaNM[0];
@@ -150,7 +150,7 @@ app.controller('nmController', [
 			}
 
 			$scope.prev = function() {
-				$scope.mode = 'edit';
+				$scope.mode = 'Izmena';
 				var i = $scope.svaNM.indexOf($scope.selectedNM);
 				if (i == 0)
 					$scope.selectedNM = $scope.svaNM[$scope.svaNM.length - 1];
@@ -165,14 +165,14 @@ app.controller('nmController', [
 					if (response.data) {
 						$scope.svaNM = response.data;
 						$scope.novoNM = null;
-						$scope.mode = 'nulto';
+						$scope.mode = 'Pregled';
 						$scope.selectedNM = null;
 					}
 				});
 			}
 
 			$scope.odustani = function() {
-				$scope.mode = 'nulto';
+				$scope.mode = 'Pregled';
 				$scope.selectedNM = null;
 				$scope.novoNM = null;
 				$scope.show = null;

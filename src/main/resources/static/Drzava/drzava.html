@@ -7,7 +7,7 @@
 				<tr>
 				<div class="btn-group">
 			<button type="button" class="btn btn-default"
-				ng-click="changeMode('filter')">
+				ng-click="changeMode('Pretraga')">
 				<img class="dugmici" src="images/search.gif" />
 			</button>
 			<button type="button" class="btn btn-default"
@@ -47,7 +47,7 @@
 		</div>
 		<div class="btn-group">
 			<button type="button" class="btn btn-default"
-				ng-click="changeMode('add')">
+				ng-click="changeMode('Dodavanje')">
 				<img class="dugmici" src="images/add.gif" />
 			</button>
 			<button type="button" class="btn btn-default"
@@ -91,7 +91,7 @@
 				<label for="naziv" class="col-sm-3 control-label">Naziv</label>
 				<div class="col-sm-9">
 					<input type="text" id="naziv" class="form-control"
-						placeholder="Unesi naziv" name = "naziv" ng-Model="novaDrzava.naziv" ng-disabled="mode == 'nulto'"
+						placeholder="Unesi naziv" name = "naziv" ng-Model="novaDrzava.naziv" ng-disabled="mode == 'Pregled'"
 						pattern="^[A-Z][a-z A-Z]*" autofocus>
 				</div>
 			</div>
@@ -103,7 +103,7 @@
 				<label for="sifra" class="col-sm-3 control-label">Oznaka</label>
 				<div class="col-sm-9">
 					<input type="text" id="oznaka" class="form-control"
-						placeholder="Unesi oznaku" name = "oznaka" ng-Model="novaDrzava.sifra" ng-disabled="mode == 'nulto'"
+						placeholder="Unesi oznaku" name = "oznaka" ng-Model="novaDrzava.sifra" ng-disabled="mode == 'Pregled'"
 						pattern="^[A-Z][a-z A-Z]*">
 				</div>
 			</div>
@@ -111,7 +111,7 @@
 				<span class="error" ng-show="myForm.sifra.$error.pattern">
 					Primjer sa svim dozvoljenim slovima : "Sasa_da nekaNsda" !</span>
 			</div>
-			<div class="form-group" mode=='filter'">
+			<div class="form-group" mode=='Pretraga'">
 				<label for="valuta" class="col-sm-3 control-label">Valuta</label>
 				<div class="col-sm-6">
 					<select id="valuta" disabled ng-model="valutaDrzave"
@@ -120,7 +120,7 @@
 					</select>
 				</div>
 				<div>
-					<button type="button" id="izaberi" ng-disabled="mode == 'nulto'" class="btn btn-default" data-toggle="modal"
+					<button type="button" id="izaberi" ng-disabled="mode == 'Pregled'" class="btn btn-default" data-toggle="modal"
 						data-target="#izaberiValutu">Izaberi</button>
 				</div>
 			</div>

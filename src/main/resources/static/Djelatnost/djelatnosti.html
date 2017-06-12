@@ -7,7 +7,7 @@
 				<tr>
 					<div class="btn-group">
 						<button type="button" class="btn btn-default"
-							ng-click="changeMode('filter')">
+							ng-click="changeMode('Pretraga')">
 							<img class="dugmici" src="images/search.gif" />
 						</button>
 						<button type="button" class="btn btn-default"
@@ -42,7 +42,7 @@
 					</div>
 					<div class="btn-group">
 						<button type="button" class="btn btn-default"
-							ng-click="changeMode('add')"
+							ng-click="changeMode('Dodavanje')"
 							ng-disabled="$parent.korisnik.ulogaZ != 'Administrator'">
 							<img class="dugmici" src="images/add.gif" />
 						</button>
@@ -87,8 +87,8 @@
 				<div class="col-sm-9">
 					<input type="text" id="naziv" class="form-control"
 						placeholder="Unesi naziv " ng-Model="djelatnost.naziv"
-						ng-disabled="mode == 'nulto'" pattern="^[A-Z][a-z A-Z]*"
-						ng-required="mode == 'add'" autofocus>
+						ng-disabled="mode == 'Pregled'" pattern="^[A-Z][a-z A-Z]*"
+						ng-required="mode == 'Dodavanje'" autofocus>
 				</div>
 			</div>
 			<div role="alert" style="color: red">
@@ -100,8 +100,8 @@
 				<div class="col-sm-9">
 					<input type="text" id="sifra" class="form-control"
 						placeholder="Unesi sifru - 4slova VELIKA"
-						ng-Model="djelatnost.sifra" ng-disabled="mode == 'nulto'"
-						pattern="^[A-Z]*" ng-required="mode=='add'" ng-maxlength="4"
+						ng-Model="djelatnost.sifra" ng-disabled="mode == 'Pregled'"
+						pattern="^[A-Z]*" ng-required="mode=='Dodavanje'" ng-maxlength="4"
 						ng-minlength="4">
 				</div>
 			</div>
@@ -112,7 +112,7 @@
 			<div class="form-group">
 				<div class="col-sm-9 col-sm-offset-3">
 					<button type="submit" ng-Click="regDjelatnost()"
-						ng-disabled="myForm.$invalid || mode == 'nulto' || $parent.korisnik.ulogaZ != 'Administrator' && mode != 'filter'"
+						ng-disabled="myForm.$invalid || mode == 'Pregled' || $parent.korisnik.ulogaZ != 'Administrator' && mode != 'Pretraga'"
 						class="btn btn-primary btn-block">Potvrdi</button>
 				</div>
 			</div>

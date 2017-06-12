@@ -14,7 +14,7 @@ app
 
 							$rootScope.kojiKursevi = '';
 							$rootScope.kojaNM = ''
-							$scope.mode = 'nulto';
+							$scope.mode = 'Pregled';
 							if($rootScope.kojiKlijenti == 'svi'){
 								klijentService.preuzmiKlijente().then(
 										function(response) {
@@ -68,7 +68,7 @@ app
 												type : 'info'
 											});
 								}
-								if ($scope.mode == 'add') {
+								if ($scope.mode == 'Dodavanje') {
 									klijentService
 											.regKlijenta(
 													$scope.noviKlijent,
@@ -85,11 +85,11 @@ app
 															$scope.sviKlijenti
 																	.push(response.data);
 															$scope.noviKlijent = null;
-															$scope.mode = 'nulto';
+															$scope.mode = 'Pregled';
 															$scope.selectedKlijent = null;
 														}
 													});
-								} else if ($scope.mode == 'filter') {
+								} else if ($scope.mode == 'Pretraga') {
 									klijentService
 											.pretraziKlijente(
 													$scope.noviKlijent, id)
@@ -104,11 +104,11 @@ app
 																			});
 															$scope.sviKlijenti = response.data;
 															$scope.noviKlijent = null;
-															$scope.mode = 'nulto';
+															$scope.mode = 'Pregled';
 															$scope.selectedKlijent = null;
 														}
 													});
-								} else if ($scope.mode == 'edit') {
+								} else if ($scope.mode == 'Izmena') {
 									klijentService
 											.izmjeniKlijenta(
 													$scope.noviKlijent,
@@ -153,7 +153,7 @@ app
 																.splice(index,
 																		1);
 														$scope.noviKlijent = null;
-														$scope.mode = 'nulto';
+														$scope.mode = 'Pregled';
 														$scope.selectedKlijent = null;
 
 													}
@@ -169,7 +169,7 @@ app
 								$scope.selectedKlijent = selected;
 								$scope.show = 10;
 								$scope.noviKlijent = angular.copy(selected);
-								$scope.mode = 'edit';
+								$scope.mode = 'Izmena';
 								if (selected.ulogaK == 'POSLOVNO'){
 									$scope.djelatnostKlijenta.sifra = selected.djelatnost.sifra;
 								} else
@@ -180,9 +180,9 @@ app
 								$scope.djelatnostKlijenta = -1;
 								$scope.noviKlijent = null;
 								$scope.mode = tab;
-								if (tab == 'filter')
+								if (tab == 'Pretraga')
 									$scope.djelatnostKlijenta = -1;
-								if(tab == 'add') { 
+								if(tab == 'Dodavanje') { 
 									$scope.selectedKlijent = null;
 									if($rootScope.kojiKlijenti == 'svi')
 									$scope.djelatnostKlijenta = $scope.djelatnosti[0];
@@ -191,14 +191,14 @@ app
 							}
 
 							$scope.first = function() {
-								$scope.mode = 'edit';
+								$scope.mode = 'Izmena';
 								$scope.selectedKlijent = $scope.sviKlijenti[0];
 								$scope.k = $scope.selectedKlijent;
 								$scope.noviKlijent = $scope.selectedKlijent;
 							}
 
 							$scope.last = function() {
-								$scope.mode = 'edit';
+								$scope.mode = 'Izmena';
 								var i = $scope.sviKlijenti.length - 1;
 								$scope.selectedKlijent = $scope.sviKlijenti[i];
 								$scope.k = $scope.selectedKlijent;
@@ -206,7 +206,7 @@ app
 							}
 
 							$scope.next = function() {
-								$scope.mode = 'edit';
+								$scope.mode = 'Izmena';
 								var i = $scope.sviKlijenti
 										.indexOf($scope.selectedKlijent);
 								if (i + 1 > $scope.sviKlijenti.length - 1)
@@ -218,7 +218,7 @@ app
 							}
 
 							$scope.prev = function() {
-								$scope.mode = 'edit';
+								$scope.mode = 'Izmena';
 								var i = $scope.sviKlijenti
 										.indexOf($scope.selectedKlijent);
 								if (i == 0)
@@ -236,7 +236,7 @@ app
 												if (response.data) {
 													$scope.sviKlijenti = response.data;
 													$scope.noviKlijent = null;
-													$scope.mode = 'nulto';
+													$scope.mode = 'Pregled';
 													$scope.selectedKlijent = null;
 												}
 											});
@@ -246,7 +246,7 @@ app
 												if (response.data) {
 													$scope.sviKlijenti = response.data;
 													$scope.noviKlijent = null;
-													$scope.mode = 'nulto';
+													$scope.mode = 'Pregled';
 													$scope.selectedKlijent = null;
 													$scope.djelatnostKlijenta = $rootScope.nextFormDjelatnost;
 												}
@@ -256,7 +256,7 @@ app
 							}
 
 							$scope.odustani = function() {
-								$scope.mode = 'nulto';
+								$scope.mode = 'Pregled';
 								$scope.selectedKlijent = null;
 								$scope.noviKlijent = null;
 							}

@@ -8,7 +8,7 @@
 				<tr>
 					<div class="btn-group">
 						<button type="button" class="btn btn-default"
-							ng-click="changeMode('filter')">
+							ng-click="changeMode('Pretraga')">
 							<img class="dugmici" src="images/search.gif" />
 						</button>
 						<button type="button" class="btn btn-default"
@@ -44,7 +44,7 @@
 					<div class="btn-group">
 						<button type="button" class="btn btn-default"
 							ng-disabled="korisnik.ulogaZ != 'Salterusa'"
-							ng-click="changeMode('add')">
+							ng-click="changeMode('Dodavanje')">
 							<img class="dugmici" src="images/add.gif" />
 						</button>
 						<button type="button" class="btn btn-default"
@@ -100,7 +100,7 @@
 				<div class="col-sm-9">
 					<input type="text" id="ime" class="form-control"
 						placeholder="Unesi ime" name="ime" ng-Model="noviKlijent.ime"
-						ng-disabled="mode == 'nulto'" pattern="^[A-Z][a-z A-Z]*" autofocus>
+						ng-disabled="mode == 'Pregled'" pattern="^[A-Z][a-z A-Z]*" autofocus>
 				</div>
 			</div>
 			<div role="alert" style="color: red">
@@ -112,7 +112,7 @@
 				<div class="col-sm-9">
 					<input type="text" id="prezime" class="form-control"
 						placeholder="Unesi prezime" name="prezime"
-						ng-Model="noviKlijent.prezime" ng-disabled="mode == 'nulto'"
+						ng-Model="noviKlijent.prezime" ng-disabled="mode == 'Pregled'"
 						pattern="^[A-Z][a-z A-Z]*">
 				</div>
 			</div>
@@ -126,15 +126,15 @@
 				<div class="col-sm-9">
 					<input type="text" id="korisnickoIme" class="form-control"
 						placeholder="Unesi korisnicko ime" name="korisnickoIme"
-						ng-Model="noviKlijent.korisnickoIme" ng-required="mode=='add'"
-						ng-disabled="mode == 'nulto'">
+						ng-Model="noviKlijent.korisnickoIme" ng-required="mode=='Dodavanje'"
+						ng-disabled="mode == 'Pregled'">
 				</div>
 			</div>
 			<div role="alert" style="color: red">
 				<span class="error" ng-show="myForm.korisnickoIme.$error.pattern">
 					Primjer sa svim dozvoljenim slovima : "Sasa_da nekaNsda" !</span>
 			</div>
-			<div class="form-group" ng-if="mode=='add'">
+			<div class="form-group" ng-if="mode=='Dodavanje'">
 				<label for="lozinka" class="col-sm-3 control-label">Lozinka</label>
 				<div class="col-sm-9">
 					<input type="password" id="lozinka" placeholder="Unesite lozinku"
@@ -150,16 +150,16 @@
 								<label class="radio-inline"> <input type="radio"
 									id="fizickoRadio" ng-value="'FIZICKO'"
 									ng-Model="noviKlijent.ulogaK"
-									ng-disabled="mode != 'add' && mode != 'filter' || kojiKlijenti != 'svi'"
-									ng-required="mode == 'add' && kojiKlijenti == 'svi'">Fizicko
+									ng-disabled="mode != 'Dodavanje' && mode != 'Pretraga' || kojiKlijenti != 'svi'"
+									ng-required="mode == 'Dodavanje' && kojiKlijenti == 'svi'">Fizicko
 								</label>
 							</div>
 							<div class="col-sm-6">
 								<label class="radio-inline"> <input type="radio"
 									id="poslovnoRadio" ng-value="'POSLOVNO'"
 									ng-Model="noviKlijent.ulogaK"
-									ng-disabled="mode != 'add' && mode != 'filter' || kojiKlijenti != 'svi'"
-									ng-required="mode == 'add' && kojiKlijenti == 'svi'">Poslovno
+									ng-disabled="mode != 'Dodavanje' && mode != 'Pretraga' || kojiKlijenti != 'svi'"
+									ng-required="mode == 'Dodavanje' && kojiKlijenti == 'svi'">Poslovno
 								</label>
 							</div>
 						</div>
@@ -187,7 +187,7 @@
 			<div class="form-group">
 				<div class="col-sm-9 col-sm-offset-3">
 					<button type="submit" ng-Click="regKlijenta()"
-						ng-disabled="myForm.$invalid || mode == 'nulto' || korisnik.ulogaZ != 'Salterusa' && mode != 'filter'"
+						ng-disabled="myForm.$invalid || mode == 'Pregled' || korisnik.ulogaZ != 'Salterusa' && mode != 'Pretraga'"
 						class="btn btn-primary btn-block">Potvrdi</button>
 				</div>
 			</div>

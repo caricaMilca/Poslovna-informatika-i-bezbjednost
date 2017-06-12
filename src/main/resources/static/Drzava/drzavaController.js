@@ -15,7 +15,7 @@ app
 							$rootScope.kojiKursevi = '';
 							$rootScope.kojiKlijenti = 'svi';
 							$rootScope.kojaNM = ''
-							$scope.mode = 'nulto';
+							$scope.mode = 'Pregled';
 							if ($rootScope.kojeDrzave == 'valute') {
 								drzavaService
 										.preuzmiDrzaveValute($rootScope.nextFormValuta.id)
@@ -50,7 +50,7 @@ app
 									id = -1;
 								else
 									id = $scope.valutaDrzave.id;
-								if ($scope.mode == 'add')
+								if ($scope.mode == 'Dodavanje')
 									drzavaService
 											.regDrzavu($scope.novaDrzava,
 													$scope.valutaDrzave.id)
@@ -69,7 +69,7 @@ app
 															$scope.show = null;
 														}
 													});
-								else if ($scope.mode == 'filter') {
+								else if ($scope.mode == 'Pretraga') {
 									drzavaService
 											.pretraziDrzave($scope.novaDrzava,
 													id)
@@ -87,7 +87,7 @@ app
 															$scope.show = null;
 														}
 													});
-								} else if ($scope.mode == 'edit') {
+								} else if ($scope.mode == 'Izmena') {
 									drzavaService
 											.izmeniDrzavu($scope.novaDrzava,
 													$scope.valutaDrzave.id)
@@ -106,7 +106,7 @@ app
 															$scope.sveDrzave[index] = response.data;
 															$scope.novaDrzava = response.data;
 															$scope.drzava.id = response.data.id;
-															$scope.mode = 'nulto';
+															$scope.mode = 'Pregled';
 															$scope.odustani();
 														}
 													});
@@ -122,14 +122,14 @@ app
 								$scope.selectedDrzava = selected;
 								$scope.show = 10;
 								$scope.novaDrzava = angular.copy(selected);
-								$scope.mode = 'edit';
+								$scope.mode = 'Izmena';
 								$scope.valutaDrzave.zvanicnaSifra = selected.valuta.zvanicnaSifra;
 							}
 
 							$scope.changeMode = function(tab) {
 								$scope.novaDrzava = null;
 								$scope.mode = tab;
-								if (tab == 'filter')
+								if (tab == 'Pretraga')
 									$scope.valutaDrzave = -1;
 							}
 
@@ -159,14 +159,14 @@ app
 							}
 
 							$scope.first = function() {
-								$scope.mode = 'edit';
+								$scope.mode = 'Izmena';
 								$scope.selectedDrzava = $scope.sveDrzave[0];
 								$scope.drzava = $scope.selectedDrzava;
 								$scope.novaDrzava = $scope.selectedDrzava;
 							}
 
 							$scope.last = function() {
-								$scope.mode = 'edit';
+								$scope.mode = 'Izmena';
 								var i = $scope.sveDrzave.length - 1;
 								$scope.selectedDrzava = $scope.sveDrzave[i];
 								$scope.drzava = $scope.selectedDrzava;
@@ -174,7 +174,7 @@ app
 							}
 
 							$scope.next = function() {
-								$scope.mode = 'edit';
+								$scope.mode = 'Izmena';
 								var i = $scope.sveDrzave
 										.indexOf($scope.selectedDrzava);
 								if (i + 1 > $scope.sveDrzave.length - 1)
@@ -186,7 +186,7 @@ app
 							}
 
 							$scope.prev = function() {
-								$scope.mode = 'edit';
+								$scope.mode = 'Izmena';
 								var i = $scope.sveDrzave
 										.indexOf($scope.selectedDrzava);
 								if (i == 0)
@@ -205,7 +205,7 @@ app
 													if (response.data) {
 														$scope.sveDrzave = response.data;
 														$scope.novaDrzava = null;
-														$scope.mode = 'nulto';
+														$scope.mode = 'Pregled';
 														$scope.selectedDrzava = null;
 														$rootScope.kojeDrzave = 'sve';
 													}
@@ -220,7 +220,7 @@ app
 											if (response.data) {
 												$scope.sveDrzave = response.data;
 												$scope.novaDrzava = null;
-												$scope.mode = 'nulto';
+												$scope.mode = 'Pregled';
 												$scope.selectedDrzava = null;
 												$rootScope.kojeDrzave = 'sve';
 											}
@@ -228,7 +228,7 @@ app
 							}
 
 							$scope.odustani = function() {
-								$scope.mode = 'nulto';
+								$scope.mode = 'Pregled';
 								$scope.selectedDrzava = null;
 								$scope.novaDrzava = null;
 								$scope.show = null;
