@@ -1,9 +1,11 @@
 package poslovna.servisiImplementacija;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import javax.servlet.http.HttpSession;
@@ -38,14 +40,35 @@ public class RacunServisImpl implements RacunServis {
 	@Autowired
 	RacunRepozitorijum racunRepozitorijum;
 
+	
 	@Override
-	public ResponseEntity<Racun> registracijaRacuna(Racun racun, Long idKlijenta, Long idValute) {
+	public ResponseEntity<Racun> registracijaRacuna(Long idKlijenta, Long idValute) {
 
 		Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
 		Banka b = z.banka;
+		Racun racun = new Racun();
 		racun.banka = b;
 		racun.klijent = klijentRepozitorijum.findOne(idKlijenta);
 		racun.valuta = valutaRepozitorijum.findOne(idValute);
+		racun.datumOtvaranja = new Date();
+		
+		String dozvoljeneCifre = "1234567890";
+		StringBuilder bilder = new StringBuilder();
+		Random rnd = new Random();
+		while (bilder.length() < 13) { // length of the random string.
+			int index = (int) (rnd.nextFloat() * dozvoljeneCifre.length());
+			bilder.append(dozvoljeneCifre.charAt(index));
+		}
+		String racunGlavniDio = bilder.toString();
+		
+		BigInteger bigInt = new BigInteger(b.banka_3kod + racunGlavniDio);
+
+		BigInteger checksum = new BigInteger("98")
+				.subtract(bigInt.multiply(new BigInteger("100")).remainder(new BigInteger("97")));
+	
+		racun.brojRacuna = b.banka_3kod + "-" + racunGlavniDio + "-" + checksum ;
+		if(racunRepozitorijum.findByBrojRacuna(racun.brojRacuna) != null)
+			return new ResponseEntity<>(HttpStatus.OK);
 		return new ResponseEntity<Racun>(racunRepozitorijum.save(racun), HttpStatus.CREATED);
 	}
 
@@ -139,7 +162,7 @@ public class RacunServisImpl implements RacunServis {
 		Racun r = racunRepozitorijum.findOne(racun.id);
 		r.datumZatvaranja = new Date();
 		r.vazeci = false;
-		r.racunPrenosa = racun.racunPrenosa;
+		r.racunPrenosa = racun.racunPrenosa.substring(0, 3) + "-" + racun.racunPrenosa.substring(3, 16) + "-" + racun.racunPrenosa.substring(16);
 		return new ResponseEntity<Racun>(racunRepozitorijum.save(r), HttpStatus.OK);
 	}
 

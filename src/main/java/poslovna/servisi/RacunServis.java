@@ -8,7 +8,7 @@ import poslovna.model.Racun;
 
 public interface RacunServis {
 
-	ResponseEntity<Racun> registracijaRacuna(Racun racun, Long idKlijenta, Long idValute);
+	ResponseEntity<Racun> registracijaRacuna(Long idKlijenta, Long idValute);
 
 	ResponseEntity<List<Racun>> sviRacuni();
 

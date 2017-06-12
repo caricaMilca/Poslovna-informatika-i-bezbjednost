@@ -88,6 +88,7 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 	public ResponseEntity<List<AnalitikaIzvoda>> pretraziAnalitikeIzvoda(AnalitikaIzvoda analitikaIzvoda,
 			Long idDnevnogStanjaRacuna, Long idValute, Long idTipaPlacanja) {
 		Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
+		// ko bude sredjivao pretragu nek doda i za tip uplate
 		Banka b = z.banka;
 		List<AnalitikaIzvoda> lista = new ArrayList<AnalitikaIzvoda>();
 		if (analitikaIzvoda != null) {
@@ -117,8 +118,6 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 				lista.addAll(analitikaIzvodaRepozitorijum.findByRacunDuznika(analitikaIzvoda.racunDuznika, b));
 			if (analitikaIzvoda.racunPovjerioca != null)
 				lista.addAll(analitikaIzvodaRepozitorijum.findByRacunPovjerioca(analitikaIzvoda.racunPovjerioca, b));
-			if (analitikaIzvoda.status != null)
-				lista.addAll(analitikaIzvodaRepozitorijum.findByStatus(analitikaIzvoda.status, b));
 			if (analitikaIzvoda.svrhaPlacanja != null)
 				lista.addAll(analitikaIzvodaRepozitorijum.findBySvrhaPlacanja(analitikaIzvoda.svrhaPlacanja, b));
 			if (analitikaIzvoda.tipGreske != null)

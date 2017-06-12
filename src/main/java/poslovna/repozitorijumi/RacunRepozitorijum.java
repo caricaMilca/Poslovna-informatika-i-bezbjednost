@@ -28,6 +28,8 @@ public interface RacunRepozitorijum extends JpaRepository<Racun, Long> {
 
 	List<Racun> findByValuta(Valuta findOne);
 
+	Racun findByBrojRacuna(String brojRacuna);
+
 	
 
 }

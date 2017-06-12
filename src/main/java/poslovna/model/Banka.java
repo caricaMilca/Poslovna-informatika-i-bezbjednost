@@ -23,6 +23,8 @@ public class Banka {
 	public Integer sifra;
 
 	public Integer pib;
+	
+	public String banka_3kod;
 
 	public String adresa;
 

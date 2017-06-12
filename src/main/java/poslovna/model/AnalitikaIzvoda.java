@@ -51,11 +51,12 @@ public class AnalitikaIzvoda {
 	public Boolean hitno = true;
 	
 	public Double iznos;
-	
-	public Integer status;
-	
+
 	@Enumerated(EnumType.STRING)
 	public TipGreske tipGreske;
+	
+	@Enumerated(EnumType.STRING)
+	public TipTransakcije tipTransakcije;
 	
 	@ManyToOne
 	public DnevnoStanjeRacuna dnevnoStanjeRacuna;

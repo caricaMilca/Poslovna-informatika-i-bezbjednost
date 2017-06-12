@@ -1,4 +1,4 @@
-insert into Banka(sifra, pib, adresa, naziv, email, web, telefon, fax, banka) values (21, 213,'bankaAdresa', 'BankaA', 'banka@gmail.com','banka.com', '0650650650', 'banka.fax', true);
+insert into Banka(sifra, pib, adresa, naziv, email, web, telefon, fax, banka, banka_3kod) values (21, 213,'bankaAdresa', 'BankaA', 'banka@gmail.com','banka.com', '0650650650', 'banka.fax', true, '123');
 
 insert into Korisnik(korisnicko_ime, lozinka, uloga, banka_id) values ('ceks', 'ceks', 'Zaposleni', 1);
 insert into Korisnik(korisnicko_ime, lozinka, uloga, banka_id) values ('ceks1', 'ceks', 'Zaposleni', 1);
@@ -33,7 +33,7 @@ insert into Racun(broj_racuna, datum_otvaranja, vazeci, klijent_id, banka_id, va
 
 insert into Dnevno_stanje_racuna(prethodno_stanje, promet_na_teret, promet_na_korist, novo_stanje, datum_prometa, racun_id) values (0, 0, 0, 0, '11-11-11', 1);
 
-insert into Analitika_izvoda(duznik, povjerilac, svrha_placanja, datum_primanja, datum_valute, racun_duznika, racun_povjerioca, model_zaduzenja, poziv_na_broj_zaduzenja,poziv_na_broj_odobrenja, model_odobrenja, hitno, iznos, status, tip_greske, dnevno_stanje_racuna_id, vrsta_placanja_id, valuta_id) values ('aa', 'aa', 'aa', '11-11-11', '11-11-11', 'aa','aa',1,'aa','aa',2,false, 2, 1, 'JEDAN', 1, 1, 1); 
+insert into Analitika_izvoda(duznik, povjerilac, svrha_placanja, datum_primanja, datum_valute, racun_duznika, racun_povjerioca, model_zaduzenja, poziv_na_broj_zaduzenja,poziv_na_broj_odobrenja, model_odobrenja, hitno, iznos, tip_transakcije, tip_greske, dnevno_stanje_racuna_id, vrsta_placanja_id, valuta_id) values ('aa', 'aa', 'aa', '11-11-11', '11-11-11', 'aa','aa',1,'aa','aa',2,false, 2, 'UPLATA', 'JEDAN', 1, 1, 1); 
 
 insert into Drzava(naziv, sifra, valuta_id) values ('Bosna i hercegovina', 'BiH', 3);
 insert into Drzava(naziv, sifra, valuta_id) values ('Srbija', 'RS', 2);

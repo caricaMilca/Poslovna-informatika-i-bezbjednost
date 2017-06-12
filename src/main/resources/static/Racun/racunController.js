@@ -165,6 +165,10 @@ app
 																		{
 																			type : 'success'
 																		});
+														response.data.datumZatvaranja = moment(
+																response.data.datumZatvaranja)
+																.format(
+																		'YYYY-MM-DD');
 														var index = $scope.sviRacuni
 																.indexOf($scope.selectedRacun);
 														$scope.sviRacuni[index] = response.data;

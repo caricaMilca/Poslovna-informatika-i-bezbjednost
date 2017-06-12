@@ -3,7 +3,6 @@ package poslovna.kontroleri;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +30,9 @@ public class RacunKontroler {
 	
 	@AutorizacijaAnnotation(imeMetode = "registracijaRacuna")
 	@PostMapping(path = "/registracijaRacuna/{idKlijenta}/{idValute}")
-	public ResponseEntity<Racun> registracijaRacuna(@Valid @RequestBody Racun racun,
+	public ResponseEntity<Racun> registracijaRacuna(
 			@PathVariable("idKlijenta") Long idKlijenta, @PathVariable("idValute") Long idValute) {
-		return racunServis.registracijaRacuna(racun, idKlijenta, idValute);
+		return racunServis.registracijaRacuna(idKlijenta, idValute);
 
 	}
 

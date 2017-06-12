@@ -57,9 +57,6 @@ public interface AnalitikaIzvodaRepozitorijum extends JpaRepository<AnalitikaIzv
 	@Query("select k from AnalitikaIzvoda k inner join k.dnevnoStanjeRacuna dn inner join dn.racun r where r.banka=?2 and k.racunPovjerioca = ?1")
 	List<AnalitikaIzvoda> findByRacunPovjerioca(String racunPovjerioca, Banka b);
 
-	@Query("select k from AnalitikaIzvoda k inner join k.dnevnoStanjeRacuna dn inner join dn.racun r where r.banka=?2 and k.status = ?1")
-	List<AnalitikaIzvoda> findByStatus(Integer status, Banka b);
-
 	@Query("select k from AnalitikaIzvoda k inner join k.dnevnoStanjeRacuna dn inner join dn.racun r where r.banka=?2 and k.tipGreske = ?1")
 	List<AnalitikaIzvoda> findByTipGreske(TipGreske tipGreske, Banka b);
 

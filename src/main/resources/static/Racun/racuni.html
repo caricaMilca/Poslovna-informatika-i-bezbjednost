@@ -60,7 +60,8 @@
 						</button>
 						</p>
 					</div>
-					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Trenutni mod : {{mode}}
+					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+					Trenutni mod : {{mode}}
 				</tr>
 				<thead>
 					<tr>
@@ -95,31 +96,6 @@
 	</div>
 	<div class="container" id="razmak">
 		<form class="form-horizontal" role="blabla" name="myForm" novalidate>
-			<div class="form-group">
-				<label for="ime" class="col-sm-3 control-label">Broj racuna</label>
-				<div class="col-sm-9">
-					<input type="text" id="ime" class="form-control"
-						placeholder="Unesi broj racuna" name="ime"
-						ng-Model="noviRacun.brojRacuna" ng-required="mode=='add'"
-						ng-disabled="mode == 'nulto' || mode == 'edit'" pattern="^[0-9]*"
-						ng-maxlength="18" ng-minlength="18" autofocus>
-				</div>
-			</div>
-			<div role="alert" style="color: red">
-				<span class="error" ng-show="myForm.ime.$error.pattern">
-					Primjer : "123456789012345678" !</span>
-			</div>
-			<div class="form-group">
-				<label for="prezime" class="col-sm-3 control-label">Datum
-					otvaranja</label>
-				<div class="col-sm-9">
-					<input type="date" ng-Model="noviRacun.datumOtvaranja"
-						value="{{date | date:yyyy-MM-dd}}" validatedateformat min="todays"
-						ng-disabled="mode == 'nulto' || mode == 'edit'"
-						ng-required="mode=='add'" class="form-control"
-						placeholder="Unesite datum otvaranja racuna" />
-				</div>
-			</div>
 			<div class="form-group" ng-if="mode=='add'">
 				<label for="delatnost" class="col-sm-3 control-label">Vlasnik
 					racuna</label>
@@ -151,8 +127,30 @@
 						ng-disabled="kojiRacuni == 'valuta'">Izaberi</button>
 				</div>
 			</div>
-			<!-- /.form-group -->
 			<div ng-if="mode == 'filter'">
+				<div class="form-group">
+					<label for="ime" class="col-sm-3 control-label">Broj racuna</label>
+					<div class="col-sm-9">
+						<input type="text" id="ime" class="form-control"
+							placeholder="Unesi broj racuna" name="ime"
+							ng-Model="noviRacun.brojRacuna" autofocus>
+					</div>
+				</div>
+				<div role="alert" style="color: red">
+					<span class="error" ng-show="myForm.ime.$error.pattern">
+						Primjer : "123456789012345678" !</span>
+				</div>
+				<div class="form-group">
+					<label for="prezime" class="col-sm-3 control-label">Datum
+						otvaranja</label>
+					<div class="col-sm-9">
+						<input type="date" ng-Model="noviRacun.datumOtvaranja"
+							value="{{date | date:yyyy-MM-dd}}" validatedateformat
+							min="todays" class="form-control"
+							placeholder="Unesite datum otvaranja racuna" />
+					</div>
+				</div>
+				<!-- /.form-group -->
 				<div class="form-group">
 					<label for="ime2" class="col-sm-3 control-label">Racun
 						prenosa</label>
@@ -309,17 +307,17 @@
 					<h4 class="modal-title">Zatvori racun</h4>
 				</div>
 				<div class="modal-body">
-					<form class="form-horizontal" role="blabla" name="$parent.myFormClose"
-						novalidate>
+					<form class="form-horizontal" role="blabla"
+						name="$parent.myFormClose" novalidate>
 						<label for="ime3" class="col-sm-3 control-label">Racun
 							prenosa</label>
 						<div class="col-sm-9">
-							<input type="text" ng-Model="$parent.racunPrenosa" pattern="^[0-9]*"
-								ng-maxlength="18" ng-minlength="18" autofocus>
+							<input type="text" ng-Model="$parent.racunPrenosa" required
+								pattern="^[0-9]*" ng-maxlength="18" ng-minlength="18" autofocus>
 						</div>
 						<div class="col-sm-9 col-sm-offset-3">
 							<button type="submit" ng-Click="zatvoriRacun()"
-								 class="btn btn-primary btn-block">Zatvori</button>
+								class="btn btn-primary btn-block" ng-disabled="myFormClose.$invalid">Zatvori</button>
 						</div>
 					</form>
 				</div>
