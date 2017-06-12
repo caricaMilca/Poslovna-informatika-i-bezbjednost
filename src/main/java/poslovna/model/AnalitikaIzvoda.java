@@ -65,6 +65,9 @@ public class AnalitikaIzvoda {
 	
 	@ManyToOne
 	public Valuta valuta;
+	
+	@ManyToOne
+	public NaseljenoMjesto mestoPlacanja;
 
 	public AnalitikaIzvoda() {
 		super();
