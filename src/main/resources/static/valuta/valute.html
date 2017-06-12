@@ -7,7 +7,7 @@
 				<tr>
 					<div class="btn-group">
 						<button type="button" class="btn btn-default"
-							ng-click="changeMode('filter')">
+							ng-click="changeMode('Pretraga')">
 							<img class="dugmici" src="images/search.gif" />
 						</button>
 						<button type="button" class="btn btn-default"
@@ -45,7 +45,7 @@
 					</div>
 					<div class="btn-group">
 						<button type="button" class="btn btn-default"
-							ng-click="changeMode('add')">
+							ng-click="changeMode('Dodavanje')">
 							<img class="dugmici" src="images/add.gif" />
 						</button>
 						<button type="button" class="btn btn-default"
@@ -120,13 +120,13 @@
 								<label class="radio-inline"> <input type="radio"
 									id="daRadio" selected ng-value="true"
 									ng-Model="novaV.domicilna" ng-disabled="mode == 'nulto'"
-									ng-required="mode == 'add' && kojiKlijenti == 'svi'">Da
+									ng-required="mode == 'Dodavanje' && kojiKlijenti == 'svi'">Da
 								</label>
 							</div>
 							<div class="col-sm-6">
 								<label class="radio-inline"> <input type="radio"
 									id="neRadio" ng-value="false" ng-Model="novaV.domicilna"
-									ng-disabled="mode == 'nulto'" ng-required="mode == 'add'">Ne
+									ng-disabled="mode == 'nulto'" ng-required="mode == 'Dodavanje'">Ne
 								</label>
 							</div>
 						</div>

@@ -16,7 +16,7 @@ app
 							$rootScope.kojiKlijenti = 'svi';
 							$rootScope.kojaNM = ''
 							$scope.todays = new Date();
-							$scope.mode = 'nulto';
+							$scope.mode = 'Pregled';
 							if ($rootScope.kojiRacuni == 'svi') {
 								racunService
 										.preuzmiRacune()
@@ -99,7 +99,7 @@ app
 														type : 'info'
 													});
 								}
-								if ($scope.mode == 'add') {
+								if ($scope.mode == 'Dodavanje') {
 									racunService
 											.regRacuna($scope.noviRacun, k_id,
 													v_id)
@@ -124,11 +124,11 @@ app
 															$scope.sviRacuni
 																	.push(response.data);
 															$scope.noviRacun = null;
-															$scope.mode = 'nulto';
+															$scope.mode = 'Pregled';
 															$scope.selectedRacun = null;
 														}
 													});
-								} else if ($scope.mode == 'filter') {
+								} else if ($scope.mode == 'Pretraga') {
 									racunService
 											.pretraziRacune($scope.noviRacun,
 													k_id, v_id)
@@ -143,7 +143,7 @@ app
 																			});
 															$scope.sviRacuni = response.data;
 															$scope.noviRacun = null;
-															$scope.mode = 'nulto';
+															$scope.mode = 'Pregled';
 															$scope.selectedRacun = null;
 														}
 													});
@@ -173,7 +173,7 @@ app
 																.indexOf($scope.selectedRacun);
 														$scope.sviRacuni[index] = response.data;
 														$scope.noviRacun = null;
-														$scope.mode = 'nulto';
+														$scope.mode = 'Pregled';
 														$scope.selectedRacun = null;
 													}
 
@@ -193,7 +193,7 @@ app
 								$scope.noviRacun = angular.copy(selected);
 								$scope.noviRacun.datumOtvaranja = new Date(
 										selected.datumOtvaranja);
-								$scope.mode = 'edit';
+								$scope.mode = 'Izmena';
 								$scope.vlasnikRacuna.korisnickoIme = selected.klijent.korisnickoIme;
 								$scope.valutaRacuna.zvanicnaSifra = selected.valuta.zvanicnaSifra;
 							}
@@ -201,11 +201,11 @@ app
 							$scope.changeMode = function(tab) {
 								$scope.noviRacun = null;
 								$scope.mode = tab;
-								if (tab == 'filter') {
+								if (tab == 'Pretraga') {
 									$scope.vlasnikRacuna = -1;
 									$scope.valutaRacuna = -1;
 								}
-								if (tab == 'add') {
+								if (tab == 'Dodavanje') {
 									$scope.selectedRacun = null;
 									if ($rootScope.kojiRacuni == 'svi') {
 										$scope.vlasnikRacuna = $scope.sviKlijenti[0];
@@ -222,14 +222,14 @@ app
 							}
 
 							$scope.first = function() {
-								$scope.mode = 'edit';
+								$scope.mode = 'Izmena';
 								$scope.selectedRacun = $scope.sviRacuni[0];
 								$scope.k = $scope.selectedRacun;
 								$scope.noviRacun = $scope.selectedRacun;
 							}
 
 							$scope.last = function() {
-								$scope.mode = 'edit';
+								$scope.mode = 'Izmena';
 								var i = $scope.sviRacuni.length - 1;
 								$scope.selectedRacun = $scope.sviRacuni[i];
 								$scope.k = $scope.selectedRacun;
@@ -237,7 +237,7 @@ app
 							}
 
 							$scope.next = function() {
-								$scope.mode = 'edit';
+								$scope.mode = 'Izmena';
 								var i = $scope.sviRacuni
 										.indexOf($scope.selectedRacun);
 								if (i + 1 > $scope.sviRacuni.length - 1)
@@ -249,7 +249,7 @@ app
 							}
 
 							$scope.prev = function() {
-								$scope.mode = 'edit';
+								$scope.mode = 'Izmena';
 								var i = $scope.sviRacuni
 										.indexOf($scope.selectedRacun);
 								if (i == 0)
@@ -269,7 +269,7 @@ app
 														if (response.data) {
 															$scope.sviRacuni = response.data;
 															$scope.noviRacun = null;
-															$scope.mode = 'nulto';
+															$scope.mode = 'Pregled';
 															$scope.selectedRacun = null;
 														}
 													});
@@ -282,7 +282,7 @@ app
 														if (response.data) {
 															$scope.sviRacuni = response.data;
 															$scope.noviRacun = null;
-															$scope.mode = 'nulto';
+															$scope.mode = 'Pregled';
 															$scope.selectedRacun = null;
 															$scope.vlasnikRacuna = $rootScope.nextFormKlijent;
 														}
@@ -296,7 +296,7 @@ app
 														if (response.data) {
 															$scope.sviRacuni = response.data;
 															$scope.noviRacun = null;
-															$scope.mode = 'nulto';
+															$scope.mode = 'Pregled';
 															$scope.selectedRacun = null;
 															$scope.valutaRacuna = $rootScope.nextFormValuta;
 														}
@@ -306,7 +306,7 @@ app
 							}
 
 							$scope.odustani = function() {
-								$scope.mode = 'nulto';
+								$scope.mode = 'Pregled';
 								$scope.selectedRacun = null;
 								$scope.noviRacun = null;
 							}

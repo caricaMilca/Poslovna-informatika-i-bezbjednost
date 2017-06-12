@@ -7,7 +7,7 @@
 				<tr>
 					<div class="btn-group">
 						<button type="button" class="btn btn-default"
-							ng-click="changeMode('filter')">
+							ng-click="changeMode('Pretraga')">
 							<img class="dugmici" src="images/search.gif" />
 						</button>
 						<button type="button" class="btn btn-default"
@@ -45,7 +45,7 @@
 					</div>
 					<div class="btn-group">
 						<button type="button" class="btn btn-default"
-							ng-click="changeMode('add')">
+							ng-click="changeMode('Dodavanje')">
 							<img class="dugmici" src="images/add.gif" />
 						</button>
 						<button type="button" class="btn btn-default"
@@ -97,7 +97,7 @@
 				<div class="col-sm-9">
 					<input type="text" id="kupovni" class="form-control"
 						placeholder="kupovni" name="sifra" ng-Model="novaV.kupovni"
-						ng-disabled="mode == 'nulto'" pattern="[0-9]*" autofocus>
+						ng-disabled="mode == 'Pregled'" pattern="[0-9]*" autofocus>
 				</div>
 			</div>
 			<div role="alert" style="color: red">
@@ -109,7 +109,7 @@
 				<div class="col-sm-9">
 					<input type="text" id="srednji" class="form-control"
 						placeholder="srednji" name="naziv" ng-Model="novaV.srednji"
-						ng-disabled="mode == 'nulto'" pattern="[0-9]*">
+						ng-disabled="mode == 'Pregled'" pattern="[0-9]*">
 				</div>
 			</div>
 			<div role="alert" style="color: red">
@@ -121,7 +121,7 @@
 				<div class="col-sm-9">
 					<input type="text" id="prodajni" class="form-control"
 						placeholder="prodajni" name="naziv" ng-Model="novaV.prodajni"
-						ng-disabled="mode == 'nulto'" pattern="[0-9]*">
+						ng-disabled="mode == 'Pregled'" pattern="[0-9]*">
 				</div>
 			</div>
 			<div role="alert" style="color: red">

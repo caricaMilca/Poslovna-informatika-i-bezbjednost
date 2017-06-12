@@ -8,7 +8,7 @@
 				<tr>
 					<div class="btn-group">
 						<button type="button" class="btn btn-default"
-							ng-click="changeMode('filter')">
+							ng-click="changeMode('Pregled')">
 							<img class="dugmici" src="images/search.gif" />
 						</button>
 						<button type="button" class="btn btn-default"
@@ -44,7 +44,7 @@
 					<div class="btn-group">
 						<button type="button" class="btn btn-default"
 							ng-disabled="korisnik.ulogaZ != 'Salterusa'"
-							ng-click="changeMode('add')">
+							ng-click="changeMode('Dodavanje')">
 							<img class="dugmici" src="images/add.gif" />
 						</button>
 						<button type="button" class="btn btn-default"
@@ -96,7 +96,7 @@
 	</div>
 	<div class="container" id="razmak">
 		<form class="form-horizontal" role="blabla" name="myForm" novalidate>
-			<div class="form-group" ng-if="mode=='add'">
+			<div class="form-group" ng-if="mode=='Dodavanje'">
 				<label for="delatnost" class="col-sm-3 control-label">Vlasnik
 					racuna</label>
 				<div class="col-sm-6">
@@ -112,7 +112,7 @@
 				</div>
 			</div>
 
-			<div class="form-group" ng-if="mode=='add'">
+			<div class="form-group" ng-if="mode=='Dodavanje'">
 				<label for="delatnost" class="col-sm-3 control-label">Valuta
 					racuna</label>
 				<div class="col-sm-6">
@@ -127,7 +127,7 @@
 						ng-disabled="kojiRacuni == 'valuta'">Izaberi</button>
 				</div>
 			</div>
-			<div ng-if="mode == 'filter'">
+			<div ng-if="mode == 'Pretraga'">
 				<div class="form-group">
 					<label for="ime" class="col-sm-3 control-label">Broj racuna</label>
 					<div class="col-sm-9">

@@ -15,7 +15,7 @@ app
 							$rootScope.kojiKursevi = '';
 							$rootScope.kojiKlijenti = 'svi';
 							$rootScope.kojaNM = ''
-							$scope.mode = 'nulto';
+							$scope.mode = 'Pregled';
 							vrstaPlacanjaService
 									.sveVrstePlacanja()
 									.then(
@@ -26,7 +26,7 @@ app
 											});
 
 							$scope.regVrstaPlacanja = function() {
-								if ($scope.mode == 'add')
+								if ($scope.mode == 'Dodavanje')
 									vrstaPlacanjaService
 											.regVrstaPlacanja(
 													$scope.vrstaPlacanja)
@@ -42,11 +42,11 @@ app
 															$scope.sveVrstePlacanja
 																	.push(response.data);
 															$scope.vrstaPlacanja = null;
-															$scope.mode = 'nulto';
+															$scope.mode = 'Pregled';
 															$scope.selectedVrstaPlacanja = null;
 														}
 													});
-								else if ($scope.mode == 'edit') {
+								else if ($scope.mode == 'Izmena') {
 									vrstaPlacanjaService
 											.izmjeniVrstuPlacanja(
 													$scope.vrstaPlacanja)
@@ -90,7 +90,7 @@ app
 																.splice(index,
 																		1);
 														$scope.vrstaPlacanja = null;
-														$scope.mode = 'nulto';
+														$scope.mode = 'Pregled';
 														$scope.selectedVrstaPlacanja = null;
 
 													}
@@ -101,7 +101,7 @@ app
 							$scope.setSelectedVrstaPlacanja = function(selected) {
 								$scope.selectedVrstaPlacanja = selected;
 								$scope.vrstaPlacanja = angular.copy(selected);
-								$scope.mode = 'edit';
+								$scope.mode = 'Izmena';
 							}
 
 							$scope.changeMode = function(tab) {
@@ -110,14 +110,14 @@ app
 							}
 
 							$scope.first = function() {
-								$scope.mode = 'edit';
+								$scope.mode = 'Izmena';
 								$scope.selectedVrstaPlacanja = $scope.sveVrstePlacanja[0];
 								$scope.d = $scope.selectedVrstaPlacanja;
 								$scope.vrstaPlacanja = $scope.selectedVrstaPlacanja;
 							}
 
 							$scope.last = function() {
-								$scope.mode = 'edit';
+								$scope.mode = 'Izmena';
 								var i = $scope.sveVrstePlacanja.length - 1;
 								$scope.selectedVrstaPlacanja = $scope.sveVrstePlacanja[i];
 								$scope.d = $scope.selectedVrstaPlacanja;
@@ -125,7 +125,7 @@ app
 							}
 
 							$scope.next = function() {
-								$scope.mode = 'edit';
+								$scope.mode = 'Izmena';
 								var i = $scope.sveVrstePlacanja
 										.indexOf($scope.selectedVrstaPlacanja);
 								if (i + 1 > $scope.sveVrstePlacanja.length - 1)
@@ -137,7 +137,7 @@ app
 							}
 
 							$scope.prev = function() {
-								$scope.mode = 'edit';
+								$scope.mode = 'Izmena';
 								var i = $scope.sveVrstePlacanja
 										.indexOf($scope.selectedVrstaPlacanja);
 								if (i == 0)
@@ -149,7 +149,7 @@ app
 							}
 
 							$scope.odustani = function() {
-								$scope.mode = 'nulto';
+								$scope.mode = 'Pregled';
 								$scope.selectedVrstaPlacanja = null;
 								$scope.vrstaPlacanja = null;
 							}

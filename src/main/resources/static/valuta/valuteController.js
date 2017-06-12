@@ -11,7 +11,7 @@ app.controller('valuteController', [
 			$rootScope.kojiKursevi = '';
 			$rootScope.kojiKlijenti = 'svi';
 			$rootScope.kojaNM = ''
-			$scope.mode = 'nulto';
+			$scope.mode = 'Pregled';
 			valuteService.preuzmiV().then(function(response) {
 				if (response.data) {
 					$scope.sveV = response.data;
@@ -19,7 +19,7 @@ app.controller('valuteController', [
 			});
 
 			$scope.regV = function() {
-				if ($scope.mode == 'add')
+				if ($scope.mode == 'Dodavanje')
 					valuteService.regV($scope.novaV).then(function(response) {
 						if (response.data) {
 							ngNotify.set('Uspesno dodavanje', {
@@ -30,7 +30,7 @@ app.controller('valuteController', [
 							$scope.show = null;
 						}
 					});
-				else if ($scope.mode == 'filter') {
+				else if ($scope.mode == 'Pretraga') {
 					valuteService.pretraziV($scope.novaV).then(
 							function(response) {
 								if (response.data) {
@@ -42,7 +42,7 @@ app.controller('valuteController', [
 									$scope.show = null;
 								}
 							});
-				} else if ($scope.mode == 'edit') {
+				} else if ($scope.mode == 'Izmena') {
 					valuteService.izmeniV($scope.novaV).then(
 							function(response) {
 								if (response.data) {
@@ -55,7 +55,7 @@ app.controller('valuteController', [
 									$scope.sveV[index] = response.data;
 									$scope.novaV = response.data;
 									$scope.v.id = response.data.id;
-									$scope.mode = 'nulto';
+									$scope.mode = 'Pregled';
 								}
 							});
 				}
@@ -66,7 +66,7 @@ app.controller('valuteController', [
 				$scope.selectedV = selected;
 				$scope.show = 10;
 				$scope.novaV = angular.copy(selected);
-				$scope.mode = 'edit';
+				$scope.mode = 'Izmena';
 				$scope.novaV.domicilna = selected.domicilna;
 			}
 
@@ -94,14 +94,14 @@ app.controller('valuteController', [
 			}
 
 			$scope.first = function() {
-				$scope.mode = 'edit';
+				$scope.mode = 'Izmena';
 				$scope.selectedV = $scope.sveV[0];
 				$scope.v = $scope.selectedV;
 				$scope.novaV = $scope.selectedV;
 			}
 
 			$scope.last = function() {
-				$scope.mode = 'edit';
+				$scope.mode = 'Izmena';
 				var i = $scope.sveV.length - 1;
 				$scope.selectedV = $scope.sveV[i];
 				$scope.v = $scope.selectedV;
@@ -109,7 +109,7 @@ app.controller('valuteController', [
 			}
 
 			$scope.next = function() {
-				$scope.mode = 'edit';
+				$scope.mode = 'Izmena';
 				var i = $scope.sveV.indexOf($scope.selectedV);
 				if (i + 1 > $scope.sveV.length - 1)
 					$scope.selectedV = $scope.sveV[0];
@@ -120,7 +120,7 @@ app.controller('valuteController', [
 			}
 
 			$scope.prev = function() {
-				$scope.mode = 'edit';
+				$scope.mode = 'Izmena';
 				var i = $scope.sveV.indexOf($scope.selectedV);
 				if (i == 0)
 					$scope.selectedV = $scope.sveV[$scope.sveV.length - 1];
@@ -135,14 +135,14 @@ app.controller('valuteController', [
 					if (response.data) {
 						$scope.sveV = response.data;
 						$scope.novaV = null;
-						$scope.mode = 'nulto';
+						$scope.mode = 'Pregled';
 						$scope.selectedV = null;
 					}
 				});
 			}
 
 			$scope.odustani = function() {
-				$scope.mode = 'edit';
+				$scope.mode = 'Pregled';
 				$scope.selectedV = null;
 				$scope.novaV = null;
 				$scope.show = null;
