@@ -66,38 +66,22 @@
 				</tr>
 				<thead>
 					<tr>
-						<th>Duznik</th>
-						<th>Poverilac</th>
-						<th>Svrha placanja</th>
 						<th>Datum primanja</th>
-						<th>Datum valute</th>
 						<th>Racun duznika</th>
 						<th>Racun poverenika</th>
-						<th>Model zaduzenja</th>
-						<th>Poziv na broj zaduzenja</th>
-						<th>Poziv na broj odobrenja</th>
-						<th>Model odobrenja</th>
-						<th>Hitno</th>
 						<th>Iznos</th>
+						<th>Tip transakcije</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-repeat="izvod in sviIzvodi track by izvod.id"
 						ng-click="setSelectedIzvod(izvod)"
 						ng-class="{'info' : selectedIzvod.id === izvod.id}">
-						<td>{{izvod.duznik}}</td>
-						<td>{{izvod.povjerilac}}</td>
-						<td>{{izvod.svrhaPlacanja}}</td>
 						<td>{{izvod.datumPrimanja}}</td>
-						<td>{{izvod.datumValute}}</td>
 						<td>{{izvod.racunDuznika}}</td>
 						<td>{{izvod.racunPovjerioca}}</td>
-						<td>{{izvod.modelZaduzenja}}</td>
-						<td>{{izvod.pozivNaBrojZaduzenja}}</td>
-						<td>{{izvod.pozivNaBrojOdobrenja}}</td>
-						<td>{{izvod.modelOdobrenja}}</td>
-						<td>{{izvod.hitno}}</td>
 						<td>{{izvod.iznos}}</td>
+						<td>{{izvod.tipTransakcije}}</td>
 					</tr>
 				</tbody>
 			</table>
