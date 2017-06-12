@@ -29,7 +29,7 @@ public class ValutaServisImpl implements ValutaServis {
 
 	@Override
 	public ResponseEntity<Valuta> registracijaValuta(Valuta valuta) {
-		if(valutaRepozitorijum.findByZvanicnaSifra(valuta.zvanicnaSifra).size() != 0)
+		if(valutaRepozitorijum.findByZvanicnaSifra(valuta.zvanicnaSifra) != null)
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		return new ResponseEntity<Valuta>(valutaRepozitorijum.save(valuta), HttpStatus.OK);
 	}
@@ -55,7 +55,7 @@ public class ValutaServisImpl implements ValutaServis {
 				v.retainAll(naziv);
 			}
 			if (valuta.zvanicnaSifra != null) {
-				zvanicnaSifra = valutaRepozitorijum.findByZvanicnaSifra(valuta.zvanicnaSifra);
+				zvanicnaSifra = valutaRepozitorijum.findByZvanicnaSifraLike(valuta.zvanicnaSifra);
 				v.retainAll(zvanicnaSifra);
 			}
 			if(valuta.domicilna != null){

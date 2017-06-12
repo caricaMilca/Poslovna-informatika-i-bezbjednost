@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -38,8 +37,7 @@ public class Banka {
 
 	public String fax;
 
-	@Column(columnDefinition = "boolean default true", insertable = true)
-	public Boolean banka = true;
+	public String obracunskiRacun;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "banka", cascade = CascadeType.ALL)
 	@JsonIgnore

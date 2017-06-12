@@ -21,7 +21,7 @@ public class Valuta {
 	public Long id;
 
 	@Column(nullable = false, unique = true)
-	public Integer zvanicnaSifra;
+	public String zvanicnaSifra;
 
 	@Column(nullable = false)
 	public String naziv;

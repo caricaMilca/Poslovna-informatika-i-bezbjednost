@@ -1,4 +1,4 @@
-insert into Banka(sifra, pib, adresa, naziv, email, web, telefon, fax, banka, banka_3kod) values (21, 213,'bankaAdresa', 'BankaA', 'banka@gmail.com','banka.com', '0650650650', 'banka.fax', true, '123');
+insert into Banka(sifra, pib, adresa, naziv, email, web, telefon, fax, obracunski_racun, banka_3kod) values (21, 213,'bankaAdresa', 'BankaA', 'banka@gmail.com','banka.com', '0650650650', 'banka.fax', '1321321', '123');
 
 insert into Korisnik(korisnicko_ime, lozinka, uloga, banka_id) values ('ceks', 'ceks', 'Zaposleni', 1);
 insert into Korisnik(korisnicko_ime, lozinka, uloga, banka_id) values ('ceks1', 'ceks', 'Zaposleni', 1);
@@ -88,7 +88,7 @@ insert into Privilege(name) values ('registracijaDnevnogStanjaRacuna');--43
 insert into Privilege(name) values ('svaDnevnaStanjaRacuna');--44
 insert into Privilege(name) values ('svaDnevnaStanjaRacunaDatog');--45
 insert into Privilege(name) values ('pretraziDnevnaStanjeRacuna');--46
-insert into Privilege(name) values ('registracijaAnalitikeIzvoda');--47
+insert into Privilege(name) values ('transakcija');--47
 insert into Privilege(name) values ('sveAnalitikeIzvoda');--48
 insert into Privilege(name) values ('sveAnalitikeIzvodaDnevnog');--49
 insert into Privilege(name) values ('sveAnalitikeIzvodaValute');--50

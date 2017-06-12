@@ -16,12 +16,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import poslovna.model.AnalitikaIzvoda;
 import poslovna.model.Banka;
 import poslovna.model.Racun;
 import poslovna.model.Zaposleni;
 import poslovna.repozitorijumi.KlijentRepozitorijum;
 import poslovna.repozitorijumi.RacunRepozitorijum;
 import poslovna.repozitorijumi.ValutaRepozitorijum;
+import poslovna.repozitorijumi.VrstaPlacanjaRepozitorijum;
+import poslovna.servisi.AnalitikaIzvodaServis;
 import poslovna.servisi.RacunServis;
 
 @Service
@@ -33,12 +36,18 @@ public class RacunServisImpl implements RacunServis {
 
 	@Autowired
 	KlijentRepozitorijum klijentRepozitorijum;
+	
+	@Autowired
+	VrstaPlacanjaRepozitorijum vrstaPlacanjaRepozitorijum;
 
 	@Autowired
 	ValutaRepozitorijum valutaRepozitorijum;
 
 	@Autowired
 	RacunRepozitorijum racunRepozitorijum;
+	
+	@Autowired
+	AnalitikaIzvodaServis analitikaIzvodaServis;
 
 	
 	@Override
@@ -163,6 +172,12 @@ public class RacunServisImpl implements RacunServis {
 		r.datumZatvaranja = new Date();
 		r.vazeci = false;
 		r.racunPrenosa = racun.racunPrenosa.substring(0, 3) + "-" + racun.racunPrenosa.substring(3, 16) + "-" + racun.racunPrenosa.substring(16);
+		AnalitikaIzvoda ai = new AnalitikaIzvoda();
+		ai.datumPrimanja = r.datumZatvaranja;
+		ai.datumValute = r.datumZatvaranja;
+		ai.racunDuznika = r.brojRacuna;
+		ai.racunPovjerioca = r.racunPrenosa;
+		analitikaIzvodaServis.transferSredstava(ai, r.valuta.zvanicnaSifra, (long) 1); 
 		return new ResponseEntity<Racun>(racunRepozitorijum.save(r), HttpStatus.OK);
 	}
 

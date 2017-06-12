@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import poslovna.autorizacija.AutorizacijaAnnotation;
 import poslovna.model.AnalitikaIzvoda;
+import poslovna.model.TipTransakcije;
 import poslovna.servisi.AnalitikaIzvodaServis;
 
 @RestController
@@ -29,15 +30,16 @@ public class AnalitikaIzvodaKontroler {
 	@Autowired
 	AnalitikaIzvodaServis analitikaIzvodaServis;
 
-	@AutorizacijaAnnotation(imeMetode = "registracijaAnalitikeIzvoda")
-	@PostMapping(path = "/registracijaAnalitikeIzvoda/{idDnevnogStanjaRacuna}/{idValute}/{idTipaPlacanja}")
-	public ResponseEntity<AnalitikaIzvoda> registracijaAnalitikeIzvoda(
-			@Valid @RequestBody AnalitikaIzvoda analitikaIzvoda,
-			@PathVariable("idDnevnogStanjaRacuna") Long idDnevnogStanjaRacuna, @PathVariable("idValute") Long idValute,
-			@PathVariable("idTipaPlacanja") Long idTipaPlacanja) {
-		return analitikaIzvodaServis.registracijaAnalitikeIzvoda(analitikaIzvoda, idDnevnogStanjaRacuna, idValute,
-				idTipaPlacanja);
-
+	@AutorizacijaAnnotation(imeMetode = "transakcija")
+	@PostMapping(path = "/transakcija/{sifraValute}/{idTipaPlacanja}")
+	public ResponseEntity<AnalitikaIzvoda> transakcija(@Valid @RequestBody AnalitikaIzvoda analitikaIzvoda,
+			@PathVariable("sifraValute") String sifraValute, @PathVariable("idTipaPlacanja") Long idTipaPlacanja) {
+		if (analitikaIzvoda.tipTransakcije == TipTransakcije.UPLATA)
+			return analitikaIzvodaServis.uplataNaRacun(analitikaIzvoda, sifraValute, idTipaPlacanja);
+		else if (analitikaIzvoda.tipTransakcije == TipTransakcije.ISPLATA)
+			return analitikaIzvodaServis.isplataSaRacuna(analitikaIzvoda, sifraValute, idTipaPlacanja);
+		else
+			return analitikaIzvodaServis.transferSredstava(analitikaIzvoda, sifraValute, idTipaPlacanja);
 	}
 
 	@AutorizacijaAnnotation(imeMetode = "sveAnalitikeIzvoda")
@@ -52,11 +54,10 @@ public class AnalitikaIzvodaKontroler {
 			@PathVariable("idDnevnogStanjaRacuna") Long idDnevnogStanjaRacuna) {
 		return analitikaIzvodaServis.sveAnalitikeIzvodaDnevnog(idDnevnogStanjaRacuna);
 	}
-	
+
 	@AutorizacijaAnnotation(imeMetode = "sveAnalitikeIzvodaValute")
 	@GetMapping(path = "/sveAnalitikeIzvodaValute/{idValute}")
-	public ResponseEntity<List<AnalitikaIzvoda>> sveAnalitikeIzvodaValute(
-			@PathVariable("idValute") Long idValute) {
+	public ResponseEntity<List<AnalitikaIzvoda>> sveAnalitikeIzvodaValute(@PathVariable("idValute") Long idValute) {
 		return analitikaIzvodaServis.sveAnalitikeIzvodaValute(idValute);
 	}
 
@@ -67,11 +68,10 @@ public class AnalitikaIzvodaKontroler {
 		return analitikaIzvodaServis.sveAnalitikeIzvodaTipaPlacanja(idTipaPlacanja);
 	}
 
-	
 	@AutorizacijaAnnotation(imeMetode = "pretraziAnalitikeIzvoda")
 	@PutMapping(path = "/pretraziAnalitikeIzvoda/{idDnevnogStanjaRacuna}/{idValute}/{idTipaPlacanja}")
 	public ResponseEntity<List<AnalitikaIzvoda>> pretraziAnalitikeIzvoda(
-			@Valid @RequestBody (required = false) AnalitikaIzvoda analitikaIzvoda,
+			@Valid @RequestBody(required = false) AnalitikaIzvoda analitikaIzvoda,
 			@PathVariable("idDnevnogStanjaRacuna") Long idDnevnogStanjaRacuna, @PathVariable("idValute") Long idValute,
 			@PathVariable("idTipaPlacanja") Long idTipaPlacanja) {
 		return analitikaIzvodaServis.pretraziAnalitikeIzvoda(analitikaIzvoda, idDnevnogStanjaRacuna, idValute,

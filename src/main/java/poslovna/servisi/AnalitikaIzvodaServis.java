@@ -8,9 +8,6 @@ import poslovna.model.AnalitikaIzvoda;
 
 public interface AnalitikaIzvodaServis {
 
-	ResponseEntity<AnalitikaIzvoda> registracijaAnalitikeIzvoda(AnalitikaIzvoda analitikaIzvoda,
-			Long idDnevnogStanjaRacuna, Long idValute, Long idTipaPlacanja);
-
 	ResponseEntity<List<AnalitikaIzvoda>> sveAnalitikeIzvoda();
 
 	ResponseEntity<List<AnalitikaIzvoda>> sveAnalitikeIzvodaDnevnog(Long idDnevnogStanjaRacuna);
@@ -21,5 +18,14 @@ public interface AnalitikaIzvodaServis {
 
 	ResponseEntity<List<AnalitikaIzvoda>> pretraziAnalitikeIzvoda(AnalitikaIzvoda analitikaIzvoda, Long idDnevnogStanjaRacuna,
 			Long idValute, Long idTipaPlacanja);
+
+	ResponseEntity<AnalitikaIzvoda> uplataNaRacun(AnalitikaIzvoda analitikaIzvoda, String sifraValute,
+			Long idTipaPlacanja);
+
+	ResponseEntity<AnalitikaIzvoda> isplataSaRacuna(AnalitikaIzvoda analitikaIzvoda, String sifraValute,
+			Long idTipaPlacanja);
+
+	ResponseEntity<AnalitikaIzvoda> transferSredstava(AnalitikaIzvoda analitikaIzvoda, String sifraValute,
+			Long idTipaPlacanja);
 
 }

@@ -58,14 +58,23 @@ public class AnalitikaIzvoda {
 	@Enumerated(EnumType.STRING)
 	public TipTransakcije tipTransakcije;
 	
+	@Enumerated(EnumType.STRING)
+	public SmijerTransakcije smijer;
+	
 	@ManyToOne
 	public DnevnoStanjeRacuna dnevnoStanjeRacuna;
+	
+	@ManyToOne
+	public DnevnoStanjeRacuna dnevnoStanjeRacunaTransfer;
 	
 	@ManyToOne
 	public VrstaPlacanja vrstaPlacanja;
 	
 	@ManyToOne
 	public Valuta valuta;
+	
+	@ManyToOne
+	public MedjubankarskiPrenos medjubankarskiPrenos;
 	
 	@ManyToOne
 	public NaseljenoMjesto mestoPlacanja;

@@ -9,8 +9,10 @@ import poslovna.model.Valuta;
 
 public interface ValutaRepozitorijum extends JpaRepository<Valuta, Long> {
 
-	@Query("select v from Valuta v where v.zvanicnaSifra like ?1")
-	List<Valuta> findByZvanicnaSifra(Integer zvanicnaSifra);
+	@Query("select v from Valuta v where lower(v.zvanicnaSifra) like %?1%")
+	List<Valuta> findByZvanicnaSifraLike(String zvanicnaSifra);
+	
+	
 	
 	@Query("select v from Valuta v where lower(v.naziv) like %?1%")
 	List<Valuta> findByNaziv(String naziv);
@@ -32,5 +34,9 @@ public interface ValutaRepozitorijum extends JpaRepository<Valuta, Long> {
 	
 	@Query("select v from Valuta v where lower(v.naziv) like %?1%")
 	List<Valuta> findByNazivLike(String naziv);
+
+
+
+	Valuta findByZvanicnaSifra(String zvanicnaSifra);
 
 }
