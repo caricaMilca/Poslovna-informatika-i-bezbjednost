@@ -2,6 +2,7 @@ package poslovna.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -61,7 +62,7 @@ public class AnalitikaIzvoda {
 	@Enumerated(EnumType.STRING)
 	public SmijerTransakcije smijer;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	public DnevnoStanjeRacuna dnevnoStanjeRacuna;
 	
 	@ManyToOne
@@ -70,7 +71,7 @@ public class AnalitikaIzvoda {
 	@ManyToOne
 	public VrstaPlacanja vrstaPlacanja;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	public Valuta valuta;
 	
 	@ManyToOne

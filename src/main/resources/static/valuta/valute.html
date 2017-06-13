@@ -92,12 +92,12 @@
 					<input type="text" id="sifra" class="form-control"
 						placeholder="Unesite sifru" name="sifra"
 						ng-Model="novaV.zvanicnaSifra" ng-disabled="mode == 'nulto'"
-						pattern="^[0-9]*" autofocus>
+						pattern="^[a-z]{3,3}" autofocus>
 				</div>
 			</div>
 			<div role="alert" style="color: red">
 				<span class="error" ng-show="myForm.sifra.$error.pattern">
-					Sifra mora da se sastoji samo od cifara !</span>
+					Sifra mora da se sastoji od tri mala slova !</span>
 			</div>
 			<div class="form-group">
 				<label for="naziv" class="col-sm-3 control-label">Naziv</label>

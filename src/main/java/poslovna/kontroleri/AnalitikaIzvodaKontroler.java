@@ -34,6 +34,8 @@ public class AnalitikaIzvodaKontroler {
 	@PostMapping(path = "/transakcija/{sifraValute}/{idTipaPlacanja}")
 	public ResponseEntity<AnalitikaIzvoda> transakcija(@Valid @RequestBody AnalitikaIzvoda analitikaIzvoda,
 			@PathVariable("sifraValute") String sifraValute, @PathVariable("idTipaPlacanja") Long idTipaPlacanja) {
+		
+		System.out.println(analitikaIzvoda.tipTransakcije);
 		if (analitikaIzvoda.tipTransakcije == TipTransakcije.UPLATA)
 			return analitikaIzvodaServis.uplataNaRacun(analitikaIzvoda, sifraValute, idTipaPlacanja);
 		else if (analitikaIzvoda.tipTransakcije == TipTransakcije.ISPLATA)

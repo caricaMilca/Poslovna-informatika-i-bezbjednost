@@ -8,8 +8,7 @@ app.controller('nmController', [
 		'NMService',
 		function($rootScope, $scope, $location, ngNotify, nmService) {
 
-			$rootScope.kojiKursevi = '';
-			$rootScope.kojiKlijenti = 'svi';
+
 			$scope.mode = 'Pregled';
 
 			if ($rootScope.kojaNM == 'drzave') {
@@ -54,7 +53,7 @@ app.controller('nmController', [
 									$scope.show = null;
 								}
 							});
-				else if ($scope.mode == 'Pregled') {
+				else if ($scope.mode == 'Pretraga') {
 					nmService.pretraziNM($scope.novoNM, id).then(
 							function(response) {
 								if (response.data) {

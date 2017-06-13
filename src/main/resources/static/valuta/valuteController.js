@@ -161,5 +161,12 @@ app.controller('valuteController', [
 				$rootScope.nextFormValuta = $scope.selectedV;
 				$location.path('/kursUValuti/kurs')
 			}
+			
+			$scope.prikaziAnalitike = function() {
+				$('#izaberiNextFormu').modal('hide');
+				$rootScope.kojeAnalitike = 'valute';
+				$rootScope.nextFormValuta = $scope.selectedV;
+				$location.path('/AnalitikaIzvoda/analitike')
+			}
 
 		} ]);

@@ -8,9 +8,6 @@ app.controller('kvController', [
 		'KvService',
 		function($rootScope, $scope, $location, ngNotify, kvService) {
 
-			$rootScope.kojiKursevi = '';
-			$rootScope.kojiKlijenti = 'svi';
-			$rootScope.kojaNM = ''
 			$scope.mode = 'Pregled';
 			if ($rootScope.kojiKursevi == 'valute') {
 				kvService.preuzmiV2($rootScope.nextFormValuta.id).then(function(response) {
@@ -196,6 +193,7 @@ app.controller('kvController', [
 						$scope.novaV = null;
 						$scope.mode = 'Pregled';
 						$scope.selectedV = null;
+						$rootScope.kojiKursevi = 'sve';
 					}
 				});
 			}

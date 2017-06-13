@@ -27,6 +27,6 @@ public interface DnevnoStanjeRacunaRepozitorijum extends JpaRepository<DnevnoSta
 	
 	List<DnevnoStanjeRacuna> findByPrometNaTeret(Double prometNaTeret);
 
-	DnevnoStanjeRacuna findByDatumPrometaAndRacun(Date datumPrimanja, String racunDuznika);
+	DnevnoStanjeRacuna findByDatumPrometaAndRacun(Date datumPrimanja, Racun r);
 
 }

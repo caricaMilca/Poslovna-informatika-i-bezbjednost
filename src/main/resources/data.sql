@@ -12,9 +12,9 @@ insert into Vrsta_placanja(naziv) values ('kes');
 insert into Kursna_lista(datum, primjenjuje_se_od, broj, banka_id) values ('11-11-11', '11-11-09', 98, 1);
 insert into Kursna_lista(datum, primjenjuje_se_od, broj, banka_id) values ('11-01-11', '01-11-09', 58, 1);
 
-insert into Valuta(naziv, zvanicna_sifra, domicilna) values ('Euro', 1, true);
-insert into Valuta(naziv, zvanicna_sifra, domicilna) values ('Dinar', 2, true);
-insert into Valuta(naziv, zvanicna_sifra, domicilna) values ('Marka', 3, true);
+insert into Valuta(naziv, zvanicna_sifra, domicilna) values ('Euro', 'eur', true);
+insert into Valuta(naziv, zvanicna_sifra, domicilna) values ('Dinar', 'rsd', true);
+insert into Valuta(naziv, zvanicna_sifra, domicilna) values ('Marka', 'mar', true);
 
 insert into KursUValuti(kupovni, prodajni, srednji, osnovna_valuta_id, prema_valuti_id, kursna_lista_id) values (6, 5, 3, 1, 2, 1);
 insert into KursUValuti(kupovni, prodajni, srednji, osnovna_valuta_id, prema_valuti_id, kursna_lista_id) values (6, 7, 4, 3, 2, 2);
@@ -28,12 +28,12 @@ insert into Zaposleni(id, ulogaZ) values (3, 'Administrator');
 insert into Klijent(id, ulogaK) values (4, 'FIZICKO');
 insert into Klijent(id, ulogaK, djelatnost_id) values (5, 'POSLOVNO', 1);
 
-insert into Racun(broj_racuna, datum_otvaranja, vazeci, klijent_id, banka_id, valuta_id) values ('skajdsa', '11-11-11', true, 4, 1, 1);
-insert into Racun(broj_racuna, datum_otvaranja, vazeci, klijent_id, banka_id, valuta_id) values ('skajdsadsa', '11-11-11', true, 5, 1, 2);
+insert into Racun(broj_racuna, datum_otvaranja, vazeci, klijent_id, banka_id, valuta_id) values ('123-123123123123-123', '11-11-11', true, 4, 1, 1);
+insert into Racun(broj_racuna, datum_otvaranja, vazeci, klijent_id, banka_id, valuta_id) values ('123-333444555334-312', '11-11-11', true, 5, 1, 2);
 
 insert into Dnevno_stanje_racuna(prethodno_stanje, promet_na_teret, promet_na_korist, novo_stanje, datum_prometa, racun_id) values (0, 0, 0, 0, '11-11-11', 1);
 
-insert into Analitika_izvoda(duznik, povjerilac, svrha_placanja, datum_primanja, datum_valute, racun_duznika, racun_povjerioca, model_zaduzenja, poziv_na_broj_zaduzenja,poziv_na_broj_odobrenja, model_odobrenja, hitno, iznos, tip_transakcije, tip_greske, dnevno_stanje_racuna_id, vrsta_placanja_id, valuta_id) values ('aa', 'aa', 'aa', '11-11-11', '11-11-11', 'aa','aa',1,'aa','aa',2,false, 2, 'UPLATA', 'JEDAN', 1, 1, 1); 
+insert into Analitika_izvoda(duznik, povjerilac, svrha_placanja, datum_primanja, datum_valute, racun_duznika, racun_povjerioca, model_zaduzenja, poziv_na_broj_zaduzenja,poziv_na_broj_odobrenja, model_odobrenja, hitno, iznos, tip_transakcije, dnevno_stanje_racuna_id, vrsta_placanja_id, valuta_id) values ('aa', 'aa', 'aa', '11-11-11', '11-11-11', '123-123123123123-123','123-333444555334-312',1,'aa','aa',2,false, 2, 'UPLATA', 1, 1, 1); 
 
 insert into Drzava(naziv, sifra, valuta_id) values ('Bosna i hercegovina', 'BiH', 3);
 insert into Drzava(naziv, sifra, valuta_id) values ('Srbija', 'RS', 2);

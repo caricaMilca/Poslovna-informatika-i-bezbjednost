@@ -63,18 +63,23 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 		Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
 		Banka banka = zaposleni.banka;
 		if (analitikaIzvoda.racunPovjerioca == null)
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);	
+		
 		analitikaIzvoda.dnevnoStanjeRacuna = kreirajDnevnoStanje(analitikaIzvoda.racunPovjerioca,
 				analitikaIzvoda.datumPrimanja);
 		analitikaIzvoda.smijer = SmijerTransakcije.NA_KORIST;
 		if (racunRepozitorijum.findByBrojRacuna(analitikaIzvoda.racunPovjerioca) == null
 				|| valutaRepozitorijum.findByZvanicnaSifra(sifraValute) == null) {
 			analitikaIzvoda.tipGreske = TipGreske.NEVALIDAN_RACUN;
-		} else if (racunRepozitorijum.findByBrojRacunaAndBanka(analitikaIzvoda.racunPovjerioca, banka) != null) {// nije
-																													// medjubankarski
+
+		} else if (racunRepozitorijum.findByBrojRacunaAndBanka(analitikaIzvoda.racunPovjerioca, banka) != null) {// nije																								// medjubankarski
 			analitikaIzvoda.dnevnoStanjeRacuna.prethodnoStanje = analitikaIzvoda.dnevnoStanjeRacuna.novoStanje;
-			analitikaIzvoda.dnevnoStanjeRacuna.novoStanje = analitikaIzvoda.dnevnoStanjeRacuna.novoStanje
+			try { 
+				analitikaIzvoda.dnevnoStanjeRacuna.novoStanje = analitikaIzvoda.dnevnoStanjeRacuna.novoStanje
 					+ analitikaIzvoda.iznos;
+			} catch(Exception e){
+				analitikaIzvoda.dnevnoStanjeRacuna.novoStanje =  analitikaIzvoda.iznos;
+			}
 			analitikaIzvoda.dnevnoStanjeRacuna.prometNaKorist += analitikaIzvoda.iznos;
 			analitikaIzvoda.tipGreske = TipGreske.PROCESIRAN;
 			dnevnoStanjeRacunaRepozitorijum.save(analitikaIzvoda.dnevnoStanjeRacuna);
@@ -97,6 +102,7 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 			mp.izvodi.add(analitikaIzvoda);
 		}
 		analitikaIzvoda.vrstaPlacanja = vrstaPlacanjaRepozitorijum.findOne(idTipaPlacanja);
+		analitikaIzvoda.valuta = valutaRepozitorijum.findByZvanicnaSifra(sifraValute);
 		return new ResponseEntity<AnalitikaIzvoda>(analitikaIzvodaRepozitorijum.save(analitikaIzvoda),
 				HttpStatus.CREATED);
 	}
@@ -106,7 +112,7 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 			Long idTipaPlacanja) {
 		Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
 		Banka banka = zaposleni.banka;
-		if (analitikaIzvoda.racunPovjerioca == null)
+		if (analitikaIzvoda.racunDuznika == null)
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		analitikaIzvoda.smijer = SmijerTransakcije.NA_TERET;
 		if (racunRepozitorijum.findByBrojRacuna(analitikaIzvoda.racunDuznika) == null
@@ -152,6 +158,7 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 			}
 		}
 		analitikaIzvoda.vrstaPlacanja = vrstaPlacanjaRepozitorijum.findOne(idTipaPlacanja);
+		analitikaIzvoda.valuta = valutaRepozitorijum.findByZvanicnaSifra(sifraValute);
 		return new ResponseEntity<AnalitikaIzvoda>(analitikaIzvodaRepozitorijum.save(analitikaIzvoda),
 				HttpStatus.CREATED);
 	}
@@ -233,6 +240,7 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 			}
 		}
 		analitikaIzvoda.vrstaPlacanja = vrstaPlacanjaRepozitorijum.findOne(idTipaPlacanja);
+		analitikaIzvoda.valuta = valutaRepozitorijum.findByZvanicnaSifra(sifraValute);
 		return new ResponseEntity<AnalitikaIzvoda>(analitikaIzvodaRepozitorijum.save(analitikaIzvoda),
 				HttpStatus.CREATED);
 
@@ -240,9 +248,9 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 
 	@Override
 	public ResponseEntity<List<AnalitikaIzvoda>> sveAnalitikeIzvoda() {
-		Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
-		Banka b = z.banka;
-		return new ResponseEntity<List<AnalitikaIzvoda>>(analitikaIzvodaRepozitorijum.izvodiBanke(b), HttpStatus.OK);
+		//Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
+		//Banka b = z.banka;
+		return new ResponseEntity<List<AnalitikaIzvoda>>(analitikaIzvodaRepozitorijum.findAll(), HttpStatus.OK);
 	}
 
 	@Override
@@ -325,7 +333,8 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 
 	public DnevnoStanjeRacuna kreirajDnevnoStanje(String brojRacuna, Date datum) {
 		DnevnoStanjeRacuna dsr;
-		if (dnevnoStanjeRacunaRepozitorijum.findByDatumPrometaAndRacun(datum, brojRacuna) == null) {
+		Racun r = racunRepozitorijum.findByBrojRacuna(brojRacuna);
+		if (dnevnoStanjeRacunaRepozitorijum.findByDatumPrometaAndRacun(datum, r) == null) {
 			dsr = new DnevnoStanjeRacuna();
 			dsr.racun = racunRepozitorijum.findByBrojRacuna(brojRacuna);
 			dsr.prethodnoStanje = (double) 0;
@@ -333,7 +342,7 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 			dsr.prometNaTeret = (double) 0;
 			dsr.datumPrometa = datum;
 		} else {
-			dsr = dnevnoStanjeRacunaRepozitorijum.findByDatumPrometaAndRacun(datum, brojRacuna);
+			dsr = dnevnoStanjeRacunaRepozitorijum.findByDatumPrometaAndRacun(datum, r);
 		}
 		return dsr;
 	}
