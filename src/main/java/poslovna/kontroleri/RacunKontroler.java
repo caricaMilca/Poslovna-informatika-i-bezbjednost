@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import poslovna.autorizacija.AutorizacijaAnnotation;
+import poslovna.model.AnalitikaIzvoda;
 import poslovna.model.Racun;
 import poslovna.servisi.RacunServis;
 
@@ -33,7 +34,6 @@ public class RacunKontroler {
 	public ResponseEntity<Racun> registracijaRacuna(
 			@PathVariable("idKlijenta") Long idKlijenta, @PathVariable("idValute") Long idValute) {
 		return racunServis.registracijaRacuna(idKlijenta, idValute);
-
 	}
 
 	@AutorizacijaAnnotation(imeMetode = "sviRacuni")
@@ -52,6 +52,13 @@ public class RacunKontroler {
 	@GetMapping(path = "/sviRacuniKlijenta/{idKlijenta}")
 	public ResponseEntity<List<Racun>> sviRacuniKlijenta(@PathVariable("idKlijenta") Long idKlijenta) {
 		return racunServis.sviRacuniKlijenta(idKlijenta);
+	}
+	
+	@AutorizacijaAnnotation(imeMetode = "sveAnalitikeRacuna")
+	@GetMapping(path = "/sveAnalitikeRacuna/{idRacuna}")
+	public ResponseEntity<List<AnalitikaIzvoda>> sveAnalitikeRacuna(@PathVariable("idRacuna") Long idRacuna) {
+			System.out.println("safasfasfasfas");
+		return racunServis.sveAnalitikeRacuna(idRacuna);
 	}
 
 	@AutorizacijaAnnotation(imeMetode = "pretraziRacune")

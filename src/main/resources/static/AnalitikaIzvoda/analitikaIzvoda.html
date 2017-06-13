@@ -48,8 +48,8 @@
 							ng-click="changeMode('Dodavanje')">
 							<img class="dugmici" src="images/add.gif" />
 						</button>
-						<button type="button" class="btn btn-default"
-							ng-disabled="true" ng-click="izbrisiNM()"
+						<button type="button" class="btn btn-default" ng-disabled="true"
+							ng-click="izbrisiNM()"
 							ng-confirm-click="Da li ste sigurni da zelite da izbrisete? Potvrda brisanja nosi sve podatke zavisne od njega.">
 							<img class="dugmici" src="images/remove.gif" />
 						</button>
@@ -117,13 +117,14 @@
 				</div>
 
 
-				<div class="form-group">
+				<div class="form-group" ng-if="mode!='Pretraga'">
 					<label for="svrhaPlacanja" class="col-sm-3 control-label">Svrha
 						placanja</label>
 					<div class="col-sm-9">
 						<input type="text" id="svrhaPlacanja" class="form-control"
 							placeholder="Unesi svrhu placanja" name="svrhaPlacanja"
-							ng-Model="noviIzvod.svrhaPlacanja" ng-disabled="mode == 'Pregled'">
+							ng-Model="noviIzvod.svrhaPlacanja"
+							ng-disabled="mode == 'Pregled'">
 					</div>
 				</div>
 
@@ -139,7 +140,7 @@
 				</div>
 
 
-				<div class="form-group">
+				<div class="form-group" ng-if="mode!='Pretraga'">
 					<label for="datumValute" class="col-sm-3 control-label">Datum
 						valute</label>
 					<div class="col-sm-9">
@@ -173,18 +174,19 @@
 				</div>
 
 
-				<div class="form-group">
+				<div class="form-group" ng-if="mode!='Pretraga'">
 					<label for="modelZaduzenja" class="col-sm-3 control-label">Model
 						zaduzenja</label>
 					<div class="col-sm-9">
 						<input type="text" id="modelZaduzenja" class="form-control"
 							placeholder="Unesi model zaduzenja" name="modelZaduzenja"
-							ng-Model="noviIzvod.modelZaduzenja" ng-disabled="mode == 'Pregled'">
+							ng-Model="noviIzvod.modelZaduzenja"
+							ng-disabled="mode == 'Pregled'">
 					</div>
 				</div>
 
 
-				<div class="form-group">
+				<div class="form-group" ng-if="mode!='Pretraga'">
 					<label for="pozivNaBrojZaduzenja" class="col-sm-3 control-label">Poziv
 						na broj zaduzenja</label>
 					<div class="col-sm-9">
@@ -196,8 +198,18 @@
 					</div>
 				</div>
 
+				<div class="form-group" ng-if="mode!='Pretraga'">
+					<label for="modelOdobrenja" class="col-sm-3 control-label">Model
+						odobrenja</label>
+					<div class="col-sm-9">
+						<input type="text" id="modelOdobrenja" class="form-control"
+							placeholder="Unesi model odobrenja" name="modelOdobrenja"
+							ng-Model="noviIzvod.modelOdobrenja"
+							ng-disabled="mode == 'Pregled'">
+					</div>
+				</div>
 
-				<div class="form-group">
+				<div class="form-group" ng-if="mode!='Pretraga'">
 					<label for="pozivNaBrojOdobrenja" class="col-sm-3 control-label">Poziv
 						na broj odobrenja</label>
 					<div class="col-sm-9">
@@ -209,18 +221,6 @@
 					</div>
 				</div>
 
-
-				<div class="form-group">
-					<label for="modelOdobrenja" class="col-sm-3 control-label">Model
-						odobrenja</label>
-					<div class="col-sm-9">
-						<input type="text" id="modelOdobrenja" class="form-control"
-							placeholder="Unesi model odobrenja" name="modelOdobrenja"
-							ng-Model="noviIzvod.modelOdobrenja" ng-disabled="mode == 'Pregled'">
-					</div>
-				</div>
-
-
 				<div class="form-group">
 					<label for="iznos" class="col-sm-3 control-label">Iznos</label>
 					<div class="col-sm-9">
@@ -230,8 +230,7 @@
 					</div>
 				</div>
 
-
-				<div class="form-group">
+				<div class="form-group" ng-if="mode!='Pretraga'">
 					<div class="form-group">
 						<label class="control-label col-sm-3">Hitno</label>
 						<div class="col-sm-6">
@@ -239,84 +238,19 @@
 								<div class="col-sm-6">
 									<label class="radio-inline"> <input type="radio"
 										id="daRadio" selected ng-value="da" ng-Model="noviIzvod.hitno"
-										ng-disabled="mode == 'Pregled'" ng-required="mode == 'Dodavanje'">Da
+										ng-disabled="mode == 'Pregled'"
+										ng-required="mode == 'Dodavanje'">Da
 									</label>
 								</div>
 								<div class="col-sm-6">
 									<label class="radio-inline"> <input type="radio"
 										id="neRadio" ng-value="false" ng-Model="noviIzvod.hitno"
-										ng-disabled="mode == 'pregled'" ng-required="mode == 'Dodavanje'">Ne
+										ng-disabled="mode == 'pregled'"
+										ng-required="mode == 'Dodavanje'">Ne
 									</label>
 								</div>
 							</div>
 						</div>
-					</div>
-				</div>
-
-
-				<div class="form-group" mode=="Pretraga">
-					<label for="mestoPlacanja" class="col-sm-3 control-label">Mesto
-						placanja</label>
-					<div class="col-sm-6">
-						<select id="mestoPlacanja" disabled ng-model="mestoPlacanjaIzvoda"
-							ng-options="dsr as dsr.naziv for dsr in mestaPlacanja"
-							class="form-control">
-						</select>
-					</div>
-					<div>
-						<button type="button" ng-disabled="mode == 'Pregled'" id="izaberi"
-							class="btn btn-default" data-toggle="modal"
-							data-target="#izaberiMestoPlacanja">Izaberi</button>
-					</div>
-				</div>
-
-
-				<div class="form-group" mode=="Pretraga">
-					<label for="dnevnoStanjeRacuna" class="col-sm-3 control-label">Dnevno
-						stanje racuna</label>
-					<div class="col-sm-6">
-						<select id="dnevnoStanjeRacunaIzvoda" disabled
-							ng-model="dnevnoStanjeRacunaIzvoda"
-							ng-options="dsr as dsr.id for dsr in dnevnaStanjaRacuna"
-							class="form-control">
-						</select>
-					</div>
-					<div>
-						<button type="button" ng-disabled="mode == 'Pregled'" id="izaberi"
-							class="btn btn-default" data-toggle="modal"
-							data-target="#izaberiDnevnoStanjeRacuna">Izaberi</button>
-					</div>
-				</div>
-
-
-				<div class="form-group" mode=="Pretraga">
-					<label for="vrstaPlacanja" class="col-sm-3 control-label">Vrsta
-						placanja</label>
-					<div class="col-sm-6">
-						<select id="vrstaPlacanja" disabled ng-model="vrstaPlacanjaIzvoda"
-							ng-options="vp as vp.naziv for vp in vrstePlacanja"
-							class="form-control">
-						</select>
-					</div>
-					<div>
-						<button type="button" ng-disabled="mode == 'Pregled'" id="izaberi"
-							class="btn btn-default" data-toggle="modal"
-							data-target="#izaberiVrstuPlacanja">Izaberi</button>
-					</div>
-				</div>
-
-
-				<div class="form-group" mode=="Pretraga">
-					<label for="valuta" class="col-sm-3 control-label">Valuta</label>
-					<div class="col-sm-6">
-						<select id="valuta" disabled ng-model="valutaIzvoda"
-							ng-options="v as v.naziv for v in valute" class="form-control">
-						</select>
-					</div>
-					<div>
-						<button type="button" ng-disabled="mode == 'Pregled'" id="izaberi"
-							class="btn btn-default" data-toggle="modal"
-							data-target="#izaberiValutu">Izaberi</button>
 					</div>
 				</div>
 			</div>
@@ -432,7 +366,8 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat="vp in vrstePlacanja" ng-click="setSelectedVrsta(vp)"
+							<tr ng-repeat="vp in vrstePlacanja"
+								ng-click="setSelectedVrsta(vp)"
 								ng-class="{'info' : vrstaPlacanjaIzvoda===vp}">
 								<td>{{vp.naziv}}</td>
 							</tr>

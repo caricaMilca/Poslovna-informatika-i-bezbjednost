@@ -18,6 +18,10 @@ app.factory('analitikaIzvodaService', function analitikaIzvodaService($http) {
 	analitikaIzvodaService.sveVrstePlacanja = function(){
 		return $http.get("/vrstaPlacanja/sveVrstePlacanja");
 	}
+	/*
+	drzavaService.pretraziAnalitike = function(drzava, idValute, idVrste){
+		return $http.put("/drzava/pretraziDrzave/" + idValute, drzava);
+	}*/
 	
 	analitikaIzvodaService.kreiraj = function(nalog){
 		return $http.post("/analitikaIzvoda/transakcija/" + nalog.valuta.zvanicnaSifra +"/" + 1, nalog);

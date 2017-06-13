@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
+import poslovna.model.AnalitikaIzvoda;
 import poslovna.model.Racun;
 
 public interface RacunServis {
@@ -19,5 +20,7 @@ public interface RacunServis {
 	ResponseEntity<List<Racun>> pretraziRacune(Racun racun, Long idKlijenta, Long idValute);
 
 	ResponseEntity<Racun> zatvoriRacun(Racun racun);
+
+	ResponseEntity<List<AnalitikaIzvoda>> sveAnalitikeRacuna(Long idRacuna);
 
 }

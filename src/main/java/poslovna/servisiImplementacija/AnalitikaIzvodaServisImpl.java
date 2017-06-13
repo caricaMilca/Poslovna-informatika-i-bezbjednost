@@ -456,10 +456,6 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 		double praviIznos = 0;
 		KursUValuti kuv = null;
 		for (int i = 0; i < kl.size(); i++) {
-			// System.out.println(datumValute.before(kl.get(i).datum) + " aaaa "
-			// + datumValute.after(kl.get(i).primjenjujeSeOd) + " bbbb " +
-			// datumValute.equals(kl.get(i).primjenjujeSeOd) + " ccc " +
-			// datumValute.equals(kl.get(i).datum));
 			if ((datumValute.before(kl.get(i).datum) && datumValute.after(kl.get(i).primjenjujeSeOd))
 					|| datumValute.equals(kl.get(i).primjenjujeSeOd) || datumValute.equals(kl.get(i).datum))
 				kuv = kursUValutiRepozitorijum.findByOsnovnaValutaAndPremaValutiAndKursnaLista(izValute, uValutu,

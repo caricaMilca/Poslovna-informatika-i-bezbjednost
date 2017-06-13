@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import poslovna.model.AnalitikaIzvoda;
 import poslovna.model.Banka;
+import poslovna.model.DnevnoStanjeRacuna;
 import poslovna.model.Racun;
 import poslovna.model.Zaposleni;
 import poslovna.repozitorijumi.KlijentRepozitorijum;
@@ -105,6 +107,20 @@ public class RacunServisImpl implements RacunServis {
 	}
 
 	@Override
+	public ResponseEntity<List<AnalitikaIzvoda>> sveAnalitikeRacuna(Long idRacuna) {
+		// TODO Auto-generated method stub
+		List<AnalitikaIzvoda> analitike = new ArrayList<AnalitikaIzvoda>();
+		Racun racun = racunRepozitorijum.findOne(idRacuna);
+		if(racun.dnevnaStanja == null)
+			racun.dnevnaStanja = new HashSet<DnevnoStanjeRacuna>();
+		Iterator<DnevnoStanjeRacuna> iter = racun.dnevnaStanja.iterator();
+		while (iter.hasNext()) {
+		    analitike.addAll(iter.next().izvodi);
+		}
+		return new ResponseEntity<List<AnalitikaIzvoda>>(analitike, HttpStatus.OK);
+	}
+	
+	@Override
 	public ResponseEntity<List<Racun>> sviRacuniKlijenta(Long idKlijenta) {
 
 		Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
@@ -180,5 +196,7 @@ public class RacunServisImpl implements RacunServis {
 		analitikaIzvodaServis.transferSredstava(ai, r.valuta.zvanicnaSifra, (long) 1); 
 		return new ResponseEntity<Racun>(racunRepozitorijum.save(r), HttpStatus.OK);
 	}
+
+	
 
 }

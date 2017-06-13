@@ -11,7 +11,7 @@ app
 						'RacunService',
 						function($rootScope, $scope, $location, ngNotify,
 								racunService) {
-							
+
 							$rootScope.kojiKursevi = '';
 							$rootScope.kojiKlijenti = 'svi';
 							$rootScope.kojaNM = ''
@@ -210,7 +210,7 @@ app
 									if ($rootScope.kojiRacuni == 'svi') {
 										$scope.vlasnikRacuna = $scope.sviKlijenti[0];
 										$scope.valutaRacuna.zvanicnaSifra = $scope.valute[0].zvanicnaSifra;
-									} else if($rootScope.kojiRacuni == 'klijenta'){
+									} else if ($rootScope.kojiRacuni == 'klijenta') {
 										$scope.vlasnikRacuna.korisnickoIme = $rootScope.nextFormKlijent.korisnickoIme;
 										$scope.valutaRacuna.zvanicnaSifra = $scope.valute[0].zvanicnaSifra;
 									} else {
@@ -309,6 +309,19 @@ app
 								$scope.mode = 'Pregled';
 								$scope.selectedRacun = null;
 								$scope.noviRacun = null;
+							}
+
+							$scope.prikaziAnalitike = function() {
+								racunService
+										.sveAnalitikeRacuna(
+												$scope.selectedRacun.id)
+										.then(
+												function(response) {
+													if (response.data) {
+														$scope.sveAnalitike = response.data;
+													}
+												});
+
 							}
 
 						} ]);
