@@ -198,10 +198,10 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 		Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
 		Banka banka = zaposleni.banka;
 		analitikaIzvoda.smijer = SmijerTransakcije.NA_TERET;
-		
+
 		AnalitikaIzvoda izvodPovjerioca = new AnalitikaIzvoda();
-		izvodPovjerioca.racunDuznika = analitikaIzvoda.racunPovjerioca;
-		izvodPovjerioca.racunPovjerioca = analitikaIzvoda.racunDuznika;
+		izvodPovjerioca.racunDuznika = analitikaIzvoda.racunDuznika;
+		izvodPovjerioca.racunPovjerioca = analitikaIzvoda.racunPovjerioca;
 		izvodPovjerioca.datumPrimanja = analitikaIzvoda.datumPrimanja;
 		izvodPovjerioca.tipTransakcije = analitikaIzvoda.tipTransakcije;
 		if (analitikaIzvoda.datumValute != null)
@@ -216,7 +216,7 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 		izvodPovjerioca.pozivNaBrojOdobrenja = analitikaIzvoda.pozivNaBrojZaduzenja;
 		izvodPovjerioca.pozivNaBrojZaduzenja = analitikaIzvoda.pozivNaBrojOdobrenja;
 		izvodPovjerioca.smijer = SmijerTransakcije.NA_KORIST;
-		
+
 		if (analitikaIzvoda.racunPovjerioca == null || analitikaIzvoda.racunDuznika == null
 				|| valutaRepozitorijum.findByZvanicnaSifra(sifraValute) == null)
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -282,7 +282,7 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 							MedjubankarskiPrenos mp = kreirajMedjubankarskiPrenos(duznik.banka, povjerilac.banka,
 									analitikaIzvoda.datumPrimanja);
 							analitikaIzvoda.tipPoruke = TipPoruke.MT103;
-							izvodPovjerioca.tipPoruke = TipPoruke.MT102;
+							izvodPovjerioca.tipPoruke = TipPoruke.MT103;
 							mp.iznos += analitikaIzvoda.iznos;
 							mp.izvodi.add(analitikaIzvoda);
 							mp.izvodi.add(izvodPovjerioca);
@@ -309,7 +309,9 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 							analitikaIzvoda.dnevnoStanjeRacuna.prethodnoStanje = analitikaIzvoda.dnevnoStanjeRacuna.novoStanje;
 							analitikaIzvoda.dnevnoStanjeRacuna.novoStanje -= analitikaIzvoda.iznos;
 							analitikaIzvoda.dnevnoStanjeRacuna.prometNaTeret += analitikaIzvoda.iznos;
-						}
+						} else
+							analitikaIzvoda.tipGreske = TipGreske.NEPROCESIRAN;
+
 						mp.izvodi.add(analitikaIzvoda);
 						mp.izvodi.add(izvodPovjerioca);
 						medjubankarskiPrenosRepozitorijum.save(mp);
