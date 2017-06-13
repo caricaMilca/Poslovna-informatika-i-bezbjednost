@@ -1,23 +1,44 @@
 insert into Banka(sifra, pib, adresa, naziv, email, web, telefon, fax, obracunski_racun, banka_3kod) values (21, 213,'bankaAdresa', 'BankaA', 'banka@gmail.com','banka.com', '0650650650', 'banka.fax', '1321321', '123');
+insert into Banka(sifra, pib, adresa, naziv, email, web, telefon, fax, obracunski_racun, banka_3kod) values (21, 215,'bankaAdresa', 'BankaB', 'banka@gmail.com','banka.com', '0650650650', 'banka.fax', '1321381', '126');
+insert into Banka(sifra, pib, adresa, naziv, email, web, telefon, fax, obracunski_racun, banka_3kod) values (21, 654,'bankaAdresa', 'BankaC', 'banka@gmail.com','banka.com', '0650650650', 'banka.fax', '1321881', '120');
+
 
 insert into Korisnik(korisnicko_ime, lozinka, uloga, banka_id) values ('ceks', 'ceks', 'Zaposleni', 1);
 insert into Korisnik(korisnicko_ime, lozinka, uloga, banka_id) values ('ceks1', 'ceks', 'Zaposleni', 1);
 insert into Korisnik(korisnicko_ime, lozinka, uloga, banka_id) values ('ceks2', 'ceks', 'Zaposleni', 1);
 insert into Korisnik(korisnicko_ime, lozinka, uloga, banka_id) values ('ceks3', 'ceks', 'Klijent', 1);
 insert into Korisnik(korisnicko_ime, lozinka, uloga, banka_id) values ('ceks4', 'ceks', 'Klijent', 1);
+insert into Korisnik(korisnicko_ime, lozinka, uloga, banka_id) values ('ceks5', 'ceks', 'Klijent', 1);
+insert into Korisnik(korisnicko_ime, lozinka, uloga, banka_id) values ('ceks6', 'ceks', 'Klijent', 2);
+insert into Korisnik(korisnicko_ime, lozinka, uloga, banka_id) values ('ceks7', 'ceks', 'Klijent', 3);
+insert into Korisnik(korisnicko_ime, lozinka, uloga, banka_id) values ('ceks8', 'ceks', 'Klijent', 2);
+
 
 insert into Vrsta_placanja(naziv) values ('karticom');
 insert into Vrsta_placanja(naziv) values ('kes');
 
-insert into Kursna_lista(datum, primjenjuje_se_od, broj, banka_id) values ('11-11-11', '11-11-09', 98, 1);
-insert into Kursna_lista(datum, primjenjuje_se_od, broj, banka_id) values ('11-01-11', '01-11-09', 58, 1);
+insert into Kursna_lista(datum, primjenjuje_se_od, broj, banka_id) values ('20-11-20', '11-11-15', 98, 1);
+insert into Kursna_lista(datum, primjenjuje_se_od, broj, banka_id) values ('22-11-20', '11-08-15', 95, 2);
+insert into Kursna_lista(datum, primjenjuje_se_od, broj, banka_id) values ('20-11-20', '11-09-15', 90, 3);
+insert into Kursna_lista(datum, primjenjuje_se_od, broj, banka_id) values ('21-01-20', '11-11-16', 58, 1);
+insert into Kursna_lista(datum, primjenjuje_se_od, broj, banka_id) values ('24-01-20', '11-11-16', 59, 2);
+insert into Kursna_lista(datum, primjenjuje_se_od, broj, banka_id) values ('20-01-20', '11-11-16', 56, 3);
+insert into Kursna_lista(datum, primjenjuje_se_od, broj, banka_id) values ('11-11-15', '11-11-13', 91, 1);
+
+
 
 insert into Valuta(naziv, zvanicna_sifra, domicilna) values ('Euro', 'eur', true);
 insert into Valuta(naziv, zvanicna_sifra, domicilna) values ('Dinar', 'rsd', true);
 insert into Valuta(naziv, zvanicna_sifra, domicilna) values ('Marka', 'mar', true);
 
-insert into KursUValuti(kupovni, prodajni, srednji, osnovna_valuta_id, prema_valuti_id, kursna_lista_id) values (6, 5, 3, 1, 2, 1);
-insert into KursUValuti(kupovni, prodajni, srednji, osnovna_valuta_id, prema_valuti_id, kursna_lista_id) values (6, 7, 4, 3, 2, 2);
+insert into KursUValuti(kupovni, prodajni, srednji, osnovna_valuta_id, prema_valuti_id, kursna_lista_id) values (119.742, 125.129, 122.435, 1, 2, 1);
+insert into KursUValuti(kupovni, prodajni, srednji, osnovna_valuta_id, prema_valuti_id, kursna_lista_id) values (119.742, 125.129, 122.435, 1, 2, 2);
+insert into KursUValuti(kupovni, prodajni, srednji, osnovna_valuta_id, prema_valuti_id, kursna_lista_id) values (119.742, 125.129, 122.435, 1, 2, 3);
+insert into KursUValuti(kupovni, prodajni, srednji, osnovna_valuta_id, prema_valuti_id, kursna_lista_id) values (60.910, 64.290, 62.600, 3, 2, 4);
+insert into KursUValuti(kupovni, prodajni, srednji, osnovna_valuta_id, prema_valuti_id, kursna_lista_id) values (60.910, 64.290, 62.600, 3, 2, 5);
+insert into KursUValuti(kupovni, prodajni, srednji, osnovna_valuta_id, prema_valuti_id, kursna_lista_id) values (60.910, 64.290, 62.600, 3, 2, 6);
+insert into KursUValuti(kupovni, prodajni, srednji, osnovna_valuta_id, prema_valuti_id, kursna_lista_id) values (40.742, 40.129, 40.435, 1, 2, 7);
+
 
 insert into Djelatnost(naziv, sifra) values ('Vodoinstalater', 'VVVV');
 insert into Djelatnost(naziv, sifra) values ('Elektricar', 'EEEE');
@@ -27,9 +48,17 @@ insert into Zaposleni(id, ulogaZ) values (2, 'Salterusa');
 insert into Zaposleni(id, ulogaZ) values (3, 'Administrator');
 insert into Klijent(id, ulogaK) values (4, 'FIZICKO');
 insert into Klijent(id, ulogaK, djelatnost_id) values (5, 'POSLOVNO', 1);
+insert into Klijent(id, ulogaK) values (6, 'FIZICKO');
+insert into Klijent(id, ulogaK, djelatnost_id) values (7, 'POSLOVNO', 2);
+insert into Klijent(id, ulogaK) values (8, 'FIZICKO');
+
 
 insert into Racun(broj_racuna, datum_otvaranja, vazeci, klijent_id, banka_id, valuta_id) values ('123-123123123123-123', '11-11-11', true, 4, 1, 1);
 insert into Racun(broj_racuna, datum_otvaranja, vazeci, klijent_id, banka_id, valuta_id) values ('123-333444555334-312', '11-11-11', true, 5, 1, 2);
+insert into Racun(broj_racuna, datum_otvaranja, vazeci, klijent_id, banka_id, valuta_id) values ('123-545444555334-312', '11-11-11', true, 6, 1, 2);
+insert into Racun(broj_racuna, datum_otvaranja, vazeci, klijent_id, banka_id, valuta_id) values ('126-333444555334-312', '11-11-11', true, 7, 3, 2);
+insert into Racun(broj_racuna, datum_otvaranja, vazeci, klijent_id, banka_id, valuta_id) values ('120-333444555334-312', '11-11-11', true, 8, 2, 2);
+
 
 insert into Dnevno_stanje_racuna(prethodno_stanje, promet_na_teret, promet_na_korist, novo_stanje, datum_prometa, racun_id) values (0, 0, 0, 0, '11-11-11', 1);
 

@@ -18,14 +18,19 @@ import org.springframework.transaction.annotation.Transactional;
 import poslovna.model.AnalitikaIzvoda;
 import poslovna.model.Banka;
 import poslovna.model.DnevnoStanjeRacuna;
+import poslovna.model.KursUValuti;
+import poslovna.model.KursnaLista;
 import poslovna.model.MedjubankarskiPrenos;
 import poslovna.model.Racun;
 import poslovna.model.SmijerTransakcije;
 import poslovna.model.TipGreske;
 import poslovna.model.TipPoruke;
+import poslovna.model.Valuta;
 import poslovna.model.Zaposleni;
 import poslovna.repozitorijumi.AnalitikaIzvodaRepozitorijum;
 import poslovna.repozitorijumi.DnevnoStanjeRacunaRepozitorijum;
+import poslovna.repozitorijumi.KursUValutiRepozitorijum;
+import poslovna.repozitorijumi.KursnaListaRepozitorijum;
 import poslovna.repozitorijumi.MedjubankarskiPrenosRepozitorijum;
 import poslovna.repozitorijumi.RacunRepozitorijum;
 import poslovna.repozitorijumi.ValutaRepozitorijum;
@@ -57,54 +62,65 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 	@Autowired
 	MedjubankarskiPrenosRepozitorijum medjubankarskiPrenosRepozitorijum;
 
+	@Autowired
+	KursUValutiRepozitorijum kursUValutiRepozitorijum;
+
+	@Autowired
+	KursnaListaRepozitorijum kursnaListaRepozitorijum;
+
 	@Override
 	public ResponseEntity<AnalitikaIzvoda> uplataNaRacun(AnalitikaIzvoda analitikaIzvoda, String sifraValute,
 			Long idTipaPlacanja) {
 		Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
 		Banka banka = zaposleni.banka;
 		if (analitikaIzvoda.racunPovjerioca == null)
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);	
-		
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		analitikaIzvoda.dnevnoStanjeRacuna = kreirajDnevnoStanje(analitikaIzvoda.racunPovjerioca,
 				analitikaIzvoda.datumPrimanja);
 		analitikaIzvoda.smijer = SmijerTransakcije.NA_KORIST;
-		if (racunRepozitorijum.findByBrojRacuna(analitikaIzvoda.racunPovjerioca) == null
-				|| valutaRepozitorijum.findByZvanicnaSifra(sifraValute) == null) {
-			analitikaIzvoda.tipGreske = TipGreske.NEVALIDAN_RACUN;
+		analitikaIzvoda.vrstaPlacanja = vrstaPlacanjaRepozitorijum.findOne(idTipaPlacanja);
+		if (valutaRepozitorijum.findByZvanicnaSifra(sifraValute) == null)
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-		} else if (racunRepozitorijum.findByBrojRacunaAndBanka(analitikaIzvoda.racunPovjerioca, banka) != null) {// nije																								// medjubankarski
-			analitikaIzvoda.dnevnoStanjeRacuna.prethodnoStanje = analitikaIzvoda.dnevnoStanjeRacuna.novoStanje;
-			try { 
-				analitikaIzvoda.dnevnoStanjeRacuna.novoStanje = analitikaIzvoda.dnevnoStanjeRacuna.novoStanje
-					+ analitikaIzvoda.iznos;
-			} catch(Exception e){
-				analitikaIzvoda.dnevnoStanjeRacuna.novoStanje =  analitikaIzvoda.iznos;
-			}
-			analitikaIzvoda.dnevnoStanjeRacuna.prometNaKorist += analitikaIzvoda.iznos;
-			analitikaIzvoda.tipGreske = TipGreske.PROCESIRAN;
-			dnevnoStanjeRacunaRepozitorijum.save(analitikaIzvoda.dnevnoStanjeRacuna);
-		} else { // medjubankarski prenos
-			Racun racunDrugeBanke = racunRepozitorijum.findByBrojRacuna(analitikaIzvoda.racunPovjerioca);
-			MedjubankarskiPrenos mp = kreirajMedjubankarskiPrenos(banka, racunDrugeBanke.banka,
-					analitikaIzvoda.datumPrimanja);
-			if (analitikaIzvoda.iznos >= 250000) { // odmah se procesira
+		if (racunRepozitorijum.findByBrojRacuna(analitikaIzvoda.racunPovjerioca) == null) {
+			analitikaIzvoda.tipGreske = TipGreske.NEVALIDAN_RACUN;
+			analitikaIzvodaRepozitorijum.save(analitikaIzvoda);
+
+		} else {
+			analitikaIzvoda.valuta = valutaRepozitorijum.findByZvanicnaSifra(sifraValute);
+			Racun racun = racunRepozitorijum.findByBrojRacuna(analitikaIzvoda.racunPovjerioca);
+			if (analitikaIzvoda.datumValute == null)
+				analitikaIzvoda.datumValute = new Date();
+			analitikaIzvoda.iznos = konvertujNovac(analitikaIzvoda.valuta, racun.valuta, analitikaIzvoda.datumValute,
+					analitikaIzvoda.iznos, racun.banka);
+			analitikaIzvoda.valuta = racun.valuta;
+			if (racun.banka.id == banka.id || analitikaIzvoda.iznos >= 250000) {// nije
 				analitikaIzvoda.dnevnoStanjeRacuna.prethodnoStanje = analitikaIzvoda.dnevnoStanjeRacuna.novoStanje;
-				analitikaIzvoda.dnevnoStanjeRacuna.novoStanje += analitikaIzvoda.iznos;
+				analitikaIzvoda.dnevnoStanjeRacuna.novoStanje = analitikaIzvoda.dnevnoStanjeRacuna.novoStanje
+						+ analitikaIzvoda.iznos;
 				analitikaIzvoda.dnevnoStanjeRacuna.prometNaKorist += analitikaIzvoda.iznos;
 				analitikaIzvoda.tipGreske = TipGreske.PROCESIRAN;
-				mp.tipPoruke = TipPoruke.MT103;
-				mp.iznos += analitikaIzvoda.iznos;
-			} else { // ide u kliring
-				mp.tipPoruke = TipPoruke.MT102;
+				if (racun.banka.id != banka.id) {// medjubank
+					MedjubankarskiPrenos mp = kreirajMedjubankarskiPrenos(banka, racun.banka,
+							analitikaIzvoda.datumPrimanja);
+					analitikaIzvoda.tipPoruke = TipPoruke.MT103;
+					mp.iznos += analitikaIzvoda.iznos;
+					mp.izvodi.add(analitikaIzvoda);
+					medjubankarskiPrenosRepozitorijum.save(mp);
+				} else {
+					analitikaIzvodaRepozitorijum.save(analitikaIzvoda);
+				}
+			} else { // medjubankarski prenos
+				MedjubankarskiPrenos mp = kreirajMedjubankarskiPrenos(banka, racun.banka,
+						analitikaIzvoda.datumPrimanja);
+				analitikaIzvoda.tipPoruke = TipPoruke.MT102;
 				analitikaIzvoda.tipGreske = TipGreske.NEPROCESIRAN;
 				mp.iznos += analitikaIzvoda.iznos;
+				mp.izvodi.add(analitikaIzvoda);
+				medjubankarskiPrenosRepozitorijum.save(mp);
 			}
-			mp.izvodi.add(analitikaIzvoda);
 		}
-		analitikaIzvoda.vrstaPlacanja = vrstaPlacanjaRepozitorijum.findOne(idTipaPlacanja);
-		analitikaIzvoda.valuta = valutaRepozitorijum.findByZvanicnaSifra(sifraValute);
-		return new ResponseEntity<AnalitikaIzvoda>(analitikaIzvodaRepozitorijum.save(analitikaIzvoda),
-				HttpStatus.CREATED);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
 	@Override
@@ -120,47 +136,60 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 			analitikaIzvoda.tipGreske = TipGreske.NEVALIDAN_RACUN;
 		} else {
 			Racun duznik = racunRepozitorijum.findByBrojRacuna(analitikaIzvoda.racunDuznika);
+			if (analitikaIzvoda.datumValute == null)
+				analitikaIzvoda.datumValute = new Date();
+			analitikaIzvoda.valuta = valutaRepozitorijum.findByZvanicnaSifra(sifraValute);
+			analitikaIzvoda.iznos = konvertujNovac(analitikaIzvoda.valuta, duznik.valuta, analitikaIzvoda.datumValute,
+					analitikaIzvoda.iznos, duznik.banka);
 			List<DnevnoStanjeRacuna> stanja = dnevnoStanjeRacunaRepozitorijum.findByRacun(duznik);
-			DnevnoStanjeRacuna dsr = stanja.get(stanja.size() - 1);
-			if (dsr.novoStanje < analitikaIzvoda.iznos) { // nema dovoljno
-															// stanja na racunu
-															// da uradi isplatu
+			if (stanja.isEmpty()) {
 				analitikaIzvoda.tipGreske = TipGreske.NELIKVIDAN_KORISNIK;
+				analitikaIzvodaRepozitorijum.save(analitikaIzvoda);
 			} else {
-				dsr = kreirajDnevnoStanje(analitikaIzvoda.racunDuznika, analitikaIzvoda.datumPrimanja);
-				analitikaIzvoda.dnevnoStanjeRacuna = dsr;
-				if (duznik.banka != banka) {// nije
-					// medjubankarski
-					analitikaIzvoda.dnevnoStanjeRacuna.prethodnoStanje = analitikaIzvoda.dnevnoStanjeRacuna.novoStanje;
-					analitikaIzvoda.dnevnoStanjeRacuna.novoStanje = analitikaIzvoda.dnevnoStanjeRacuna.novoStanje
-							- analitikaIzvoda.iznos;
-					analitikaIzvoda.dnevnoStanjeRacuna.prometNaTeret += analitikaIzvoda.iznos;
-					analitikaIzvoda.tipGreske = TipGreske.PROCESIRAN;
-					dnevnoStanjeRacunaRepozitorijum.save(analitikaIzvoda.dnevnoStanjeRacuna);
-				} else { // medjubankarski prenos
-					MedjubankarskiPrenos mp = kreirajMedjubankarskiPrenos(banka, duznik.banka,
-							analitikaIzvoda.datumPrimanja);
-					if (analitikaIzvoda.iznos >= 250000) { // rtgs
+				DnevnoStanjeRacuna dsr = stanja.get(stanja.size() - 1);
+				if (dsr.novoStanje < analitikaIzvoda.iznos) { // nema dovoljno
+																// stanja na
+																// racunu
+																// da uradi
+																// isplatu
+					analitikaIzvoda.tipGreske = TipGreske.NELIKVIDAN_KORISNIK;
+					analitikaIzvodaRepozitorijum.save(analitikaIzvoda);
+				} else {
+					dsr = kreirajDnevnoStanje(analitikaIzvoda.racunDuznika, analitikaIzvoda.datumPrimanja);
+					analitikaIzvoda.dnevnoStanjeRacuna = dsr;
+					analitikaIzvoda.valuta = duznik.valuta;
+					if (duznik.banka.id == banka.id || analitikaIzvoda.iznos >= 250000) {// odmah
+						// procesira
 						analitikaIzvoda.dnevnoStanjeRacuna.prethodnoStanje = analitikaIzvoda.dnevnoStanjeRacuna.novoStanje;
-						analitikaIzvoda.dnevnoStanjeRacuna.novoStanje -= analitikaIzvoda.iznos;
+						analitikaIzvoda.dnevnoStanjeRacuna.novoStanje = analitikaIzvoda.dnevnoStanjeRacuna.novoStanje
+								- analitikaIzvoda.iznos;
 						analitikaIzvoda.dnevnoStanjeRacuna.prometNaTeret += analitikaIzvoda.iznos;
 						analitikaIzvoda.tipGreske = TipGreske.PROCESIRAN;
 						dnevnoStanjeRacunaRepozitorijum.save(analitikaIzvoda.dnevnoStanjeRacuna);
-						mp.tipPoruke = TipPoruke.MT103;
-						mp.iznos += analitikaIzvoda.iznos;
-					} else { // kliring
-						mp.tipPoruke = TipPoruke.MT102;
+						if (duznik.banka.id != banka.id) {// medjubankarski
+							MedjubankarskiPrenos mp = kreirajMedjubankarskiPrenos(banka, duznik.banka,
+									analitikaIzvoda.datumPrimanja);
+							analitikaIzvoda.tipPoruke = TipPoruke.MT103;
+							mp.iznos += analitikaIzvoda.iznos;
+							mp.izvodi.add(analitikaIzvoda);
+							medjubankarskiPrenosRepozitorijum.save(mp);
+						} else {
+							analitikaIzvodaRepozitorijum.save(analitikaIzvoda);
+						}
+					} else { // medjubankarski prenos
+						MedjubankarskiPrenos mp = kreirajMedjubankarskiPrenos(banka, duznik.banka,
+								analitikaIzvoda.datumPrimanja);
+						analitikaIzvoda.tipPoruke = TipPoruke.MT102;
 						analitikaIzvoda.tipGreske = TipGreske.NEPROCESIRAN;
 						mp.iznos += analitikaIzvoda.iznos;
+						mp.izvodi.add(analitikaIzvoda);
+						medjubankarskiPrenosRepozitorijum.save(mp);
 					}
-					mp.izvodi.add(analitikaIzvoda);
 				}
 			}
 		}
 		analitikaIzvoda.vrstaPlacanja = vrstaPlacanjaRepozitorijum.findOne(idTipaPlacanja);
-		analitikaIzvoda.valuta = valutaRepozitorijum.findByZvanicnaSifra(sifraValute);
-		return new ResponseEntity<AnalitikaIzvoda>(analitikaIzvodaRepozitorijum.save(analitikaIzvoda),
-				HttpStatus.CREATED);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
 	@Override
@@ -168,88 +197,137 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 			Long idTipaPlacanja) {
 		Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
 		Banka banka = zaposleni.banka;
-		if (analitikaIzvoda.racunPovjerioca == null || analitikaIzvoda.racunDuznika == null)
+		analitikaIzvoda.smijer = SmijerTransakcije.NA_TERET;
+		
+		AnalitikaIzvoda izvodPovjerioca = new AnalitikaIzvoda();
+		izvodPovjerioca.racunDuznika = analitikaIzvoda.racunPovjerioca;
+		izvodPovjerioca.racunPovjerioca = analitikaIzvoda.racunDuznika;
+		izvodPovjerioca.datumPrimanja = analitikaIzvoda.datumPrimanja;
+		izvodPovjerioca.tipTransakcije = analitikaIzvoda.tipTransakcije;
+		if (analitikaIzvoda.datumValute != null)
+			izvodPovjerioca.datumValute = analitikaIzvoda.datumValute;
+		izvodPovjerioca.duznik = analitikaIzvoda.povjerilac;
+		izvodPovjerioca.povjerilac = analitikaIzvoda.duznik;
+		izvodPovjerioca.hitno = analitikaIzvoda.hitno;
+		izvodPovjerioca.iznos = analitikaIzvoda.iznos;
+		izvodPovjerioca.modelOdobrenja = analitikaIzvoda.modelZaduzenja;
+		izvodPovjerioca.modelZaduzenja = analitikaIzvoda.modelOdobrenja;
+		izvodPovjerioca.svrhaPlacanja = analitikaIzvoda.svrhaPlacanja;
+		izvodPovjerioca.pozivNaBrojOdobrenja = analitikaIzvoda.pozivNaBrojZaduzenja;
+		izvodPovjerioca.pozivNaBrojZaduzenja = analitikaIzvoda.pozivNaBrojOdobrenja;
+		izvodPovjerioca.smijer = SmijerTransakcije.NA_KORIST;
+		
+		if (analitikaIzvoda.racunPovjerioca == null || analitikaIzvoda.racunDuznika == null
+				|| valutaRepozitorijum.findByZvanicnaSifra(sifraValute) == null)
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		if (racunRepozitorijum.findByBrojRacuna(analitikaIzvoda.racunPovjerioca) == null
-				|| racunRepozitorijum.findByBrojRacuna(analitikaIzvoda.racunDuznika) == null
-				|| valutaRepozitorijum.findByZvanicnaSifra(sifraValute) == null) {
+				|| racunRepozitorijum.findByBrojRacuna(analitikaIzvoda.racunDuznika) == null) {
 			analitikaIzvoda.tipGreske = TipGreske.NEVALIDAN_RACUN;
+			izvodPovjerioca.tipGreske = TipGreske.NEVALIDAN_RACUN;
+			analitikaIzvodaRepozitorijum.save(analitikaIzvoda);
+			analitikaIzvodaRepozitorijum.save(izvodPovjerioca);
 		} else {
 			Racun duznik = racunRepozitorijum.findByBrojRacuna(analitikaIzvoda.racunDuznika);
 			Racun povjerilac = racunRepozitorijum.findByBrojRacuna(analitikaIzvoda.racunPovjerioca);
+			if (analitikaIzvoda.datumValute == null)
+				analitikaIzvoda.datumValute = new Date();
+			analitikaIzvoda.valuta = valutaRepozitorijum.findByZvanicnaSifra(sifraValute);
+			izvodPovjerioca.valuta = valutaRepozitorijum.findByZvanicnaSifra(sifraValute);
+			analitikaIzvoda.iznos = konvertujNovac(analitikaIzvoda.valuta, duznik.valuta, analitikaIzvoda.datumValute,
+					analitikaIzvoda.iznos, duznik.banka);
+			if (izvodPovjerioca.datumValute == null)
+				izvodPovjerioca.datumValute = new Date();
+			izvodPovjerioca.valuta = valutaRepozitorijum.findByZvanicnaSifra(sifraValute);
+			izvodPovjerioca.iznos = konvertujNovac(izvodPovjerioca.valuta, povjerilac.valuta,
+					izvodPovjerioca.datumValute, izvodPovjerioca.iznos, povjerilac.banka);
 			List<DnevnoStanjeRacuna> stanja = dnevnoStanjeRacunaRepozitorijum.findByRacun(duznik);
-			DnevnoStanjeRacuna dsrDuznika = stanja.get(stanja.size() - 1);
-			analitikaIzvoda.smijer = SmijerTransakcije.TRANSFER;
-			if (dsrDuznika.novoStanje < analitikaIzvoda.iznos) {
+			if (stanja.isEmpty()) {
 				analitikaIzvoda.tipGreske = TipGreske.NELIKVIDAN_KORISNIK;
+				izvodPovjerioca.tipGreske = TipGreske.NELIKVIDAN_NOSLIAC;
+				analitikaIzvodaRepozitorijum.save(analitikaIzvoda);
+				analitikaIzvodaRepozitorijum.save(izvodPovjerioca);
 
 			} else {
-				dsrDuznika = kreirajDnevnoStanje(analitikaIzvoda.racunDuznika, analitikaIzvoda.datumPrimanja);
-				analitikaIzvoda.dnevnoStanjeRacuna = dsrDuznika;
-				DnevnoStanjeRacuna dsrPovjerioca = kreirajDnevnoStanje(analitikaIzvoda.racunPovjerioca,
-						analitikaIzvoda.datumPrimanja);
-				analitikaIzvoda.dnevnoStanjeRacunaTransfer = dsrPovjerioca;
-				if (duznik.banka == povjerilac.banka && duznik.banka == banka) { // nije
-																					// medjubankarski
-					// uplacuje
-					analitikaIzvoda.dnevnoStanjeRacuna.prethodnoStanje = analitikaIzvoda.dnevnoStanjeRacuna.novoStanje;
-					analitikaIzvoda.dnevnoStanjeRacuna.novoStanje -= analitikaIzvoda.iznos;
-					analitikaIzvoda.dnevnoStanjeRacuna.prometNaTeret += analitikaIzvoda.iznos;
-					// prima
-					analitikaIzvoda.dnevnoStanjeRacunaTransfer.prethodnoStanje = analitikaIzvoda.dnevnoStanjeRacuna.novoStanje;
-					analitikaIzvoda.dnevnoStanjeRacunaTransfer.novoStanje += analitikaIzvoda.iznos;
-					analitikaIzvoda.dnevnoStanjeRacuna.prometNaKorist += analitikaIzvoda.iznos;
+				DnevnoStanjeRacuna dsrDuznika = stanja.get(stanja.size() - 1);
+				if (dsrDuznika.novoStanje < analitikaIzvoda.iznos) {
+					analitikaIzvoda.tipGreske = TipGreske.NELIKVIDAN_KORISNIK;
+					izvodPovjerioca.tipGreske = TipGreske.NELIKVIDAN_NOSLIAC;
+					analitikaIzvodaRepozitorijum.save(analitikaIzvoda);
+					analitikaIzvodaRepozitorijum.save(izvodPovjerioca);
 
-					analitikaIzvoda.tipGreske = TipGreske.PROCESIRAN;
-					dnevnoStanjeRacunaRepozitorijum.save(analitikaIzvoda.dnevnoStanjeRacuna);
-					dnevnoStanjeRacunaRepozitorijum.save(analitikaIzvoda.dnevnoStanjeRacunaTransfer);
 				} else {
-					MedjubankarskiPrenos mp = kreirajMedjubankarskiPrenos(duznik.banka, povjerilac.banka,
+					dsrDuznika = kreirajDnevnoStanje(analitikaIzvoda.racunDuznika, analitikaIzvoda.datumPrimanja);
+					analitikaIzvoda.dnevnoStanjeRacuna = dsrDuznika;
+					DnevnoStanjeRacuna dsrPovjerioca = kreirajDnevnoStanje(analitikaIzvoda.racunPovjerioca,
 							analitikaIzvoda.datumPrimanja);
-					if (analitikaIzvoda.iznos >= 250000 || analitikaIzvoda.hitno) {
-						// uplacuje
+					izvodPovjerioca.dnevnoStanjeRacuna = dsrPovjerioca;
+
+					izvodPovjerioca.valuta = povjerilac.valuta;
+					analitikaIzvoda.valuta = duznik.valuta;
+					if ((duznik.banka.id == povjerilac.banka.id && duznik.banka.id == banka.id)
+							|| analitikaIzvoda.iznos >= 250000 || analitikaIzvoda.hitno) { // odmah
+																							// procesira
 						analitikaIzvoda.dnevnoStanjeRacuna.prethodnoStanje = analitikaIzvoda.dnevnoStanjeRacuna.novoStanje;
 						analitikaIzvoda.dnevnoStanjeRacuna.novoStanje -= analitikaIzvoda.iznos;
 						analitikaIzvoda.dnevnoStanjeRacuna.prometNaTeret += analitikaIzvoda.iznos;
 						// prima
-						analitikaIzvoda.dnevnoStanjeRacunaTransfer.prethodnoStanje = analitikaIzvoda.dnevnoStanjeRacuna.novoStanje;
-						analitikaIzvoda.dnevnoStanjeRacunaTransfer.novoStanje += analitikaIzvoda.iznos;
-						analitikaIzvoda.dnevnoStanjeRacuna.prometNaKorist += analitikaIzvoda.iznos;
+						izvodPovjerioca.dnevnoStanjeRacuna.prethodnoStanje = izvodPovjerioca.dnevnoStanjeRacuna.novoStanje;
+						izvodPovjerioca.dnevnoStanjeRacuna.novoStanje += izvodPovjerioca.iznos;
+						izvodPovjerioca.dnevnoStanjeRacuna.prometNaKorist += izvodPovjerioca.iznos;
 
 						analitikaIzvoda.tipGreske = TipGreske.PROCESIRAN;
-						dnevnoStanjeRacunaRepozitorijum.save(analitikaIzvoda.dnevnoStanjeRacuna);
-						dnevnoStanjeRacunaRepozitorijum.save(analitikaIzvoda.dnevnoStanjeRacunaTransfer);
-						mp.tipPoruke = TipPoruke.MT103;
-						mp.iznos += analitikaIzvoda.iznos;
+						izvodPovjerioca.tipGreske = TipGreske.PROCESIRAN;
+
+						if (duznik.banka.id != povjerilac.banka.id) {
+							MedjubankarskiPrenos mp = kreirajMedjubankarskiPrenos(duznik.banka, povjerilac.banka,
+									analitikaIzvoda.datumPrimanja);
+							analitikaIzvoda.tipPoruke = TipPoruke.MT103;
+							izvodPovjerioca.tipPoruke = TipPoruke.MT102;
+							mp.iznos += analitikaIzvoda.iznos;
+							mp.izvodi.add(analitikaIzvoda);
+							mp.izvodi.add(izvodPovjerioca);
+							medjubankarskiPrenosRepozitorijum.save(mp);
+						} else {
+							analitikaIzvodaRepozitorijum.save(analitikaIzvoda);
+							analitikaIzvodaRepozitorijum.save(izvodPovjerioca);
+						}
 					} else {
-						mp.tipPoruke = TipPoruke.MT102;
-						analitikaIzvoda.tipGreske = TipGreske.NEPROCESIRAN;
+						MedjubankarskiPrenos mp = kreirajMedjubankarskiPrenos(duznik.banka, povjerilac.banka,
+								analitikaIzvoda.datumPrimanja);
+						analitikaIzvoda.tipPoruke = TipPoruke.MT102;
+						izvodPovjerioca.tipPoruke = TipPoruke.MT102;
+						izvodPovjerioca.tipGreske = TipGreske.NEPROCESIRAN;
 						mp.iznos += analitikaIzvoda.iznos;
-						if (duznik.banka == banka) { // ako je duznik u ovoj
-														// banci procesira
-														// njegov dio mislim da tako funkcionise, provjeriti
+						if (duznik.banka.id == banka.id) { // ako je duznik u
+															// ovoj
+															// banci procesira
+															// njegov dio mislim
+															// da
+															// tako funkcionise,
+															// provjeriti
+							analitikaIzvoda.tipGreske = TipGreske.PROCESIRAN;
 							analitikaIzvoda.dnevnoStanjeRacuna.prethodnoStanje = analitikaIzvoda.dnevnoStanjeRacuna.novoStanje;
 							analitikaIzvoda.dnevnoStanjeRacuna.novoStanje -= analitikaIzvoda.iznos;
 							analitikaIzvoda.dnevnoStanjeRacuna.prometNaTeret += analitikaIzvoda.iznos;
-							dnevnoStanjeRacunaRepozitorijum.save(analitikaIzvoda.dnevnoStanjeRacuna);
 						}
+						mp.izvodi.add(analitikaIzvoda);
+						mp.izvodi.add(izvodPovjerioca);
+						medjubankarskiPrenosRepozitorijum.save(mp);
 
 					}
-
 				}
 			}
 		}
 		analitikaIzvoda.vrstaPlacanja = vrstaPlacanjaRepozitorijum.findOne(idTipaPlacanja);
-		analitikaIzvoda.valuta = valutaRepozitorijum.findByZvanicnaSifra(sifraValute);
-		return new ResponseEntity<AnalitikaIzvoda>(analitikaIzvodaRepozitorijum.save(analitikaIzvoda),
-				HttpStatus.CREATED);
+		izvodPovjerioca.vrstaPlacanja = analitikaIzvoda.vrstaPlacanja;
+		return new ResponseEntity<>(HttpStatus.CREATED);
 
 	}
 
 	@Override
 	public ResponseEntity<List<AnalitikaIzvoda>> sveAnalitikeIzvoda() {
-		//Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
-		//Banka b = z.banka;
+		// Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
+		// Banka b = z.banka;
 		return new ResponseEntity<List<AnalitikaIzvoda>>(analitikaIzvodaRepozitorijum.findAll(), HttpStatus.OK);
 	}
 
@@ -338,6 +416,7 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 			dsr = new DnevnoStanjeRacuna();
 			dsr.racun = racunRepozitorijum.findByBrojRacuna(brojRacuna);
 			dsr.prethodnoStanje = (double) 0;
+			dsr.novoStanje = (double) 0;
 			dsr.prometNaKorist = (double) 0;
 			dsr.prometNaTeret = (double) 0;
 			dsr.datumPrometa = datum;
@@ -349,15 +428,48 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 
 	public MedjubankarskiPrenos kreirajMedjubankarskiPrenos(Banka b1, Banka b2, Date datum) {
 		if (medjubankarskiPrenosRepozitorijum.findByBankaPosiljalacAndBankaPrimalac(b1, b2) != null) {
+			MedjubankarskiPrenos mp = medjubankarskiPrenosRepozitorijum.findByBankaPosiljalacAndBankaPrimalac(b1, b2);
+			if (mp.izvodi != null)
+				if (mp.izvodi.size() > 8) { // osam izvoda po prenosu
+					mp = new MedjubankarskiPrenos();
+					mp.bankaPosiljalac = b1;
+					mp.bankaPrimalac = b2;
+					mp.datum = new Timestamp(datum.getTime());
+					mp.iznos = (double) 0;
+					return mp;
+				}
 			return medjubankarskiPrenosRepozitorijum.findByBankaPosiljalacAndBankaPrimalac(b1, b2);
 		} else {
 			MedjubankarskiPrenos mp = new MedjubankarskiPrenos();
 			mp.bankaPosiljalac = b1;
 			mp.bankaPrimalac = b2;
-			mp.datum = (Timestamp) datum;
+			mp.datum = new Timestamp(datum.getTime());
 			mp.iznos = (double) 0;
 			return mp;
 		}
+	}
+
+	private Double konvertujNovac(Valuta izValute, Valuta uValutu, Date datumValute, Double iznos, Banka banka) {
+		List<KursnaLista> kl = kursnaListaRepozitorijum.findByBanka(banka);
+		double praviIznos = 0;
+		KursUValuti kuv = null;
+		for (int i = 0; i < kl.size(); i++) {
+			// System.out.println(datumValute.before(kl.get(i).datum) + " aaaa "
+			// + datumValute.after(kl.get(i).primjenjujeSeOd) + " bbbb " +
+			// datumValute.equals(kl.get(i).primjenjujeSeOd) + " ccc " +
+			// datumValute.equals(kl.get(i).datum));
+			if ((datumValute.before(kl.get(i).datum) && datumValute.after(kl.get(i).primjenjujeSeOd))
+					|| datumValute.equals(kl.get(i).primjenjujeSeOd) || datumValute.equals(kl.get(i).datum))
+				kuv = kursUValutiRepozitorijum.findByOsnovnaValutaAndPremaValutiAndKursnaLista(izValute, uValutu,
+						kl.get(i));
+			if (kuv != null) {
+				praviIznos = iznos * kuv.kupovni;
+				break;
+			}
+		}
+		if (kuv == null)
+			praviIznos = iznos;
+		return praviIznos;
 	}
 
 }

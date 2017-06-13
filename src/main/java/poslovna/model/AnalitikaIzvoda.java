@@ -48,8 +48,8 @@ public class AnalitikaIzvoda {
 	
 	public Integer modelOdobrenja;
 	
-	@Column(columnDefinition = "boolean default true", insertable = true)
-	public Boolean hitno = true;
+	@Column(columnDefinition = "boolean default false", insertable = true)
+	public Boolean hitno = false;
 	
 	public Double iznos;
 
@@ -66,9 +66,6 @@ public class AnalitikaIzvoda {
 	public DnevnoStanjeRacuna dnevnoStanjeRacuna;
 	
 	@ManyToOne
-	public DnevnoStanjeRacuna dnevnoStanjeRacunaTransfer;
-	
-	@ManyToOne
 	public VrstaPlacanja vrstaPlacanja;
 	
 	@ManyToOne(cascade=CascadeType.ALL)
@@ -79,6 +76,9 @@ public class AnalitikaIzvoda {
 	
 	@ManyToOne
 	public NaseljenoMjesto mestoPlacanja;
+	
+	@Enumerated(EnumType.STRING)
+	public TipPoruke tipPoruke;
 
 	public AnalitikaIzvoda() {
 		super();

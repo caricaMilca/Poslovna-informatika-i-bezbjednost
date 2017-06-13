@@ -13,6 +13,7 @@ app
 								analitikaIzvodaService) {
 				
 							$scope.mode = 'Pregled';
+							$scope.nalog = null;
 
 							if ($rootScope.kojeAnalitike == 'valute') {
 								analitikaIzvodaService
@@ -77,28 +78,6 @@ app
 															$scope.valute = response.data;
 															$scope.noviIzvod = null;
 															$scope.show = null;
-														}
-													});
-								} else if ($scope.mode == 'Izmena') {
-									analitikaIzvodaService
-											.izmeniAnalitiku($scope.noviIzvod,
-													$scope.valutaIzvoda.id,$scope.vrstaPlacanjaIzvoda)
-											.then(
-													function(response) {
-														if (response.data) {
-															ngNotify
-																	.set(
-																			'Uspesna izmena',
-																			{
-																				type : 'success'
-																			});
-
-															var index = $scope.sviIzvodi
-																	.indexOf($scope.selectedIzvod);
-															$scope.sviIzvodi[index] = response.data;
-															$scope.noviIzvod = response.data;
-															$scope.izvod.id = response.data.id;
-															$scope.mode = 'Pregled';
 														}
 													});
 								}
@@ -204,12 +183,17 @@ app
 							
 							
 							$scope.kreiraj = function(){
+								$scope.nalog.tipTransakcije = $scope.tipTransakcije;
 								analitikaIzvodaService.kreiraj($scope.nalog).then(function(response) {
-									if (response.data) {
-										ngNotify.set('Uspesno dodavanje', {
+									if (response.status == 201) {
+										ngNotify.set('Uspjesno izvrsena transakcija', {
 											type : 'success'
 										});
-										$scope.izvodi.push(response.data);
+										$scope.nalog = null;
+									} else {
+										ngNotify.set('Provjerite unos', {
+											type : 'error'
+										});
 									}
 								});
 							}

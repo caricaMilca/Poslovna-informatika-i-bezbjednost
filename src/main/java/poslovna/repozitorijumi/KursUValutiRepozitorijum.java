@@ -29,4 +29,7 @@ public interface KursUValutiRepozitorijum extends JpaRepository<KursUValuti, Lon
 	@Query("select k from KursUValuti k inner join k.kursnaLista as r where r.banka=?1")
 	List<KursUValuti> uBanci(Banka banka);
 
+	KursUValuti findByOsnovnaValutaAndPremaValutiAndKursnaLista(Valuta izValute, Valuta uValutu,
+			KursnaLista kursnaLista);
+
 }

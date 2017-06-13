@@ -8,7 +8,7 @@
 				<tr>
 					<div class="btn-group">
 						<button type="button" class="btn btn-default"
-							ng-click="changeMode('Pregled')">
+							ng-click="changeMode('Pretraga')">
 							<img class="dugmici" src="images/search.gif" />
 						</button>
 						<button type="button" class="btn btn-default"
@@ -127,68 +127,68 @@
 						ng-disabled="kojiRacuni == 'valuta'">Izaberi</button>
 				</div>
 			</div>
-			<div ng-if="mode == 'Pretraga'">
+			<div class="form-group">
+				<label for="ime" class="col-sm-3 control-label">Broj racuna</label>
+				<div class="col-sm-9">
+					<input type="text" ng-disabled="mode != 'Pretraga'" id="ime"
+						class="form-control" placeholder="Unesi broj racuna" name="ime"
+						ng-Model="noviRacun.brojRacuna" autofocus>
+				</div>
+			</div>
+			<div role="alert" style="color: red">
+				<span class="error" ng-show="myForm.ime.$error.pattern">
+					Primjer : "123456789012345678" !</span>
+			</div>
+			<div class="form-group">
+				<label for="prezime" class="col-sm-3 control-label">Datum
+					otvaranja</label>
+				<div class="col-sm-9">
+					<input type="date" ng-disabled="mode != 'Pretraga'"
+						ng-Model="noviRacun.datumOtvaranja"
+						value="{{date | date:yyyy-MM-dd}}" validatedateformat min="todays"
+						class="form-control" placeholder="Unesite datum otvaranja racuna" />
+				</div>
+			</div>
+			<!-- /.form-group -->
+			<div class="form-group">
+				<label for="ime2" class="col-sm-3 control-label">Racun
+					prenosa</label>
+				<div class="col-sm-9">
+					<input type="text" id="ime2" ng-disabled="mode != 'Pretraga'"
+						class="form-control" placeholder="Unesi broj racuna prenosa"
+						name="ime2" ng-Model="noviRacun.racunPrenosa" autofocus>
+				</div>
+			</div>
+			<div role="alert" style="color: red">
+				<span class="error" ng-show="myForm.ime2.$error.pattern">
+					Primjer : "123456789012345678" !</span>
+			</div>
+			<div class="form-group">
+				<label for="prezimef" class="col-sm-3 control-label">Datum
+					zatvaranja</label>
+				<div class="col-sm-9">
+					<input type="date" ng-disabled="mode != 'Pretraga'"
+						ng-Model="noviRacun.datumZatvaranja"
+						value="{{date | date:yyyy-MM-dd}}" validatedateformat min="todays"
+						class="form-control" placeholder="Unesite datum zatvaranja racuna" />
+				</div>
+			</div>
+			<div class="form-group">
 				<div class="form-group">
-					<label for="ime" class="col-sm-3 control-label">Broj racuna</label>
-					<div class="col-sm-9">
-						<input type="text" id="ime" class="form-control"
-							placeholder="Unesi broj racuna" name="ime"
-							ng-Model="noviRacun.brojRacuna" autofocus>
-					</div>
-				</div>
-				<div role="alert" style="color: red">
-					<span class="error" ng-show="myForm.ime.$error.pattern">
-						Primjer : "123456789012345678" !</span>
-				</div>
-				<div class="form-group">
-					<label for="prezime" class="col-sm-3 control-label">Datum
-						otvaranja</label>
-					<div class="col-sm-9">
-						<input type="date" ng-Model="noviRacun.datumOtvaranja"
-							value="{{date | date:yyyy-MM-dd}}" validatedateformat
-							min="todays" class="form-control"
-							placeholder="Unesite datum otvaranja racuna" />
-					</div>
-				</div>
-				<!-- /.form-group -->
-				<div class="form-group">
-					<label for="ime2" class="col-sm-3 control-label">Racun
-						prenosa</label>
-					<div class="col-sm-9">
-						<input type="text" id="ime2" class="form-control"
-							placeholder="Unesi broj racuna prenosa" name="ime2"
-							ng-Model="noviRacun.racunPrenosa" autofocus>
-					</div>
-				</div>
-				<div role="alert" style="color: red">
-					<span class="error" ng-show="myForm.ime2.$error.pattern">
-						Primjer : "123456789012345678" !</span>
-				</div>
-				<div class="form-group">
-					<label for="prezimef" class="col-sm-3 control-label">Datum
-						zatvaranja</label>
-					<div class="col-sm-9">
-						<input type="date" ng-Model="noviRacun.datumZatvaranja"
-							value="{{date | date:yyyy-MM-dd}}" validatedateformat
-							min="todays" class="form-control"
-							placeholder="Unesite datum zatvaranja racuna" />
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="form-group">
-						<label class="control-label col-sm-3">Vazeci</label>
-						<div class="col-sm-6">
-							<div class="row">
-								<div class="col-sm-6">
-									<label class="radio-inline"> <input type="radio"
-										id="fizickoRadio" ng-value="true" ng-Model="noviRacun.vazeci">DA
-									</label>
-								</div>
-								<div class="col-sm-6">
-									<label class="radio-inline"> <input type="radio"
-										id="fizickoRadio" ng-value="false" ng-Model="noviRacun.vazeci">NE
-									</label>
-								</div>
+					<label class="control-label col-sm-3">Vazeci</label>
+					<div class="col-sm-6">
+						<div class="row">
+							<div class="col-sm-6">
+								<label class="radio-inline"> <input type="radio"
+									id="fizickoRadio" ng-disabled="mode != 'Pretraga'"
+									ng-value="true" ng-Model="noviRacun.vazeci">DA
+								</label>
+							</div>
+							<div class="col-sm-6">
+								<label class="radio-inline"> <input type="radio"
+									id="fizickoRadio" ng-disabled="mode != 'Pretraga'"
+									ng-value="false" ng-Model="noviRacun.vazeci">NE
+								</label>
 							</div>
 						</div>
 					</div>
@@ -317,7 +317,8 @@
 						</div>
 						<div class="col-sm-9 col-sm-offset-3">
 							<button type="submit" ng-Click="zatvoriRacun()"
-								class="btn btn-primary btn-block" ng-disabled="myFormClose.$invalid">Zatvori</button>
+								class="btn btn-primary btn-block"
+								ng-disabled="myFormClose.$invalid">Zatvori</button>
 						</div>
 					</form>
 				</div>

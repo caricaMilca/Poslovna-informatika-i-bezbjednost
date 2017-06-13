@@ -18,4 +18,6 @@ public interface KursnaListaRepozitorijum extends JpaRepository<KursnaLista, Lon
 
 	List<KursnaLista> findByPrimjenjujeSeOd(Date primjenjujeSeOd);
 
+	List<KursnaLista> findByBankaAndDatum(Banka banka, Date datumValute);
+
 }

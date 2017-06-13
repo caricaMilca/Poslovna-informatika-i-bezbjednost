@@ -1,11 +1,13 @@
 package poslovna.kontroleri;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,8 +36,9 @@ public class AnalitikaIzvodaKontroler {
 	@PostMapping(path = "/transakcija/{sifraValute}/{idTipaPlacanja}")
 	public ResponseEntity<AnalitikaIzvoda> transakcija(@Valid @RequestBody AnalitikaIzvoda analitikaIzvoda,
 			@PathVariable("sifraValute") String sifraValute, @PathVariable("idTipaPlacanja") Long idTipaPlacanja) {
-		
-		System.out.println(analitikaIzvoda.tipTransakcije);
+		if(analitikaIzvoda.datumPrimanja.before(new Date()) && !(analitikaIzvoda.datumPrimanja.equals(new Date()))) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} 
 		if (analitikaIzvoda.tipTransakcije == TipTransakcije.UPLATA)
 			return analitikaIzvodaServis.uplataNaRacun(analitikaIzvoda, sifraValute, idTipaPlacanja);
 		else if (analitikaIzvoda.tipTransakcije == TipTransakcije.ISPLATA)

@@ -71,6 +71,8 @@
 						<th>Racun poverenika</th>
 						<th>Iznos</th>
 						<th>Tip transakcije</th>
+						<th>Tip greske/poruke</th>
+						<th>Smijer transakcije</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -80,8 +82,10 @@
 						<td>{{izvod.datumPrimanja}}</td>
 						<td>{{izvod.racunDuznika}}</td>
 						<td>{{izvod.racunPovjerioca}}</td>
-						<td>{{izvod.iznos}}</td>
+						<td>{{izvod.iznos}} {{izvod.valuta.zvanicnaSifra}}</td>
 						<td>{{izvod.tipTransakcije}}</td>
+						<td>{{izvod.tipGreske}} {{izvod.tipPoruke}}</td>
+						<td>{{izvod.smijer}}</td>
 					</tr>
 				</tbody>
 			</table>
