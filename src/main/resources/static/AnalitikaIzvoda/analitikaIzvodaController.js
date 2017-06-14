@@ -28,11 +28,18 @@ app
 														$scope.nmDrzave = $rootScope.nextFormValuta;
 													}
 												});
+							}else if($rootScope.kojeAnalitike == 'racun'){
+								analitikaIzvodaService
+								.sveAnalitikeRacuna(
+										$rootScope.nextFormRacun.id)
+								.then(
+										function(response) {
+												$scope.sviIzvodi = response.data;
+										});
 							} else {
 								analitikaIzvodaService.sveAnalitike().then(function(response) {
 									if (response.data) {
-										$scope.sviIzvodi = response.data;
-										
+										$scope.sviIzvodi = response.data;									
 									}
 								});
 							}

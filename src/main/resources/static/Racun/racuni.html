@@ -55,7 +55,7 @@
 					</div>
 					<div class="btn-group">
 						<button type="button" ng-disabled="!selectedRacun"
-							class="btn btn-default" ng-click="prikaziAnalitike()" data-toggle="modal" data-target="#prikaziAnalitike">
+							class="btn btn-default" data-toggle="modal" data-target="#izaberiNextFormu">
 							<img class="dugmici" src="images/nextform.gif" />
 						</button>
 						</p>
@@ -329,39 +329,29 @@
 
 
 
-	<div id="prikaziAnalitike" class="modal fade" role="dialog"
+	<div id="izaberiNextFormu" class="modal fade" role="dialog"
 		style="color: black;">
 		<div class="modal-dialog">
 			<!-- Modal content-->
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Izaberite formu koju zelite da
+						prikazete</h4>
 				</div>
 				<div class="modal-body">
 					<table class="table">
-						<thead>
-							<tr>
-								<th>Datum primanja</th>
-								<th>Racun duznika</th>
-								<th>Racun poverenika</th>
-								<th>Iznos</th>
-								<th>Tip transakcije</th>
-							</tr>
-						</thead>
 						<tbody>
-							<tr ng-repeat="analitika in sveAnalitike"
-								ng-click="setSelectedIzvod(izvod)"
-								ng-class="{'info' : selectedAnalitika.id === analitika.id}">
-								<td>{{analitika.datumPrimanja}}</td>
-								<td>{{analitika.racunDuznika}}</td>
-								<td>{{analitika.racunPovjerioca}}</td>
-								<td>{{analitika.iznos}} {{analitika.valuta.zvanicnaSifra}}</td>
-								<td>{{analitika.tipTransakcije}}</td>
+							<tr ng-click="prikaziDnevnaStanja(selectedV)">
+								<td>Dnevna stanja racuna</td>
+							</tr>
+							<tr ng-click="prikaziAnalitike(selectedV)">
+								<td>Analitike racuna</td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
 			</div>
+
 		</div>
 	</div>
-</div>

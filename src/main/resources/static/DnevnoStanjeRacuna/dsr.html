@@ -7,7 +7,7 @@
 				<tr>
 					<div class="btn-group">
 						<button type="button" class="btn btn-default"
-							ng-click="changeMode('filter')">
+							ng-click="changeMode('Pretraga')">
 							<img class="dugmici" src="images/search.gif" />
 						</button>
 						<button type="button" class="btn btn-default"
@@ -31,11 +31,11 @@
 						<button type="button" class="btn btn-default" ng-click="first()">
 							<img class="dugmici" src="images/first.gif" />
 						</button>
-						<button type="button" ng-disabled="!selectedDrzava"
+						<button type="button" ng-disabled="!selectedDSR"
 							class="btn btn-default" ng-click="prev()">
 							<img class="dugmici" src="images/prev.gif" />
 						</button>
-						<button type="button" ng-disabled="!selectedDrzava"
+						<button type="button" ng-disabled="!selectedDSR"
 							class="btn btn-default" ng-click="next()">
 							<img class="dugmici" src="images/next.gif" />
 						</button>
@@ -44,19 +44,19 @@
 						</button>
 					</div>
 					<div class="btn-group">
-						<button type="button" class="btn btn-default"
-							ng-click="changeMode('add')">
+						<button type="button" class="btn btn-default" ng-disabled="true"
+							ng-click="changeMode('Dodavanje')">
 							<img class="dugmici" src="images/add.gif" />
 						</button>
 						<button type="button" class="btn btn-default"
-							ng-disabled="!selectedDrzava" ng-click="izbrisiDrzavu()"
+							ng-disabled="true" ng-click="izbrisiDrzavu()"
 							ng-confirm-click="Da li zelite da izbrisete selektovanu drzavu? Potvrda brisanja nosi sve podatke zavisne od njega.">
 							<img class="dugmici" src="images/remove.gif" />
 						</button>
 					</div>
 					<div class="btn-group">
-						<button type="button" class="btn btn-default"
-							ng-click="nextForm()" ng-disabled="!selectedDrzava">
+						<button type="button" class="btn btn-default" 
+							ng-click="nextForm()" ng-disabled="true">
 							<img class="dugmici" src="images/nextform.gif" />
 						</button>
 
@@ -93,7 +93,7 @@
 	<div class="container" id="razmak">
 		<form class="form-horizontal" role="blabla" name="myForm" novalidate>
 
-			<div class="form-group" mode=='filter'">
+			<div class="form-group" mode=='Pretraga'">
 				<label for="brojRacuna" class="col-sm-3 control-label">Broj
 					racuna</label>
 				<div class="col-sm-6">
@@ -103,7 +103,7 @@
 					</select>
 				</div>
 				<div>
-					<button type="button" id="izaberi" ng-disabled="mode == 'nulto'"
+					<button type="button" id="izaberi" ng-disabled="mode == 'Pregled'"
 						class="btn btn-default" data-toggle="modal"
 						data-target="#izaberiRacun">Izaberi</button>
 				</div>
@@ -115,7 +115,7 @@
 				<div class="col-sm-9">
 					<input type="text" id="prethodnoStanje" class="form-control"
 						placeholder="Unesi prethodno stanje" name="prethodnoStanje"
-						ng-Model="novoDSR.prethodnoStanje" ng-disabled="mode == 'nulto'"
+						ng-Model="novoDSR.prethodnoStanje" ng-disabled="mode == 'Pregled'"
 						autofocus>
 				</div>
 			</div>
@@ -126,7 +126,7 @@
 				<div class="col-sm-9">
 					<input type="text" id="novoStanje" class="form-control"
 						placeholder="Unesi novo stanje" name="novoStanje"
-						ng-Model="novoDSR.novoStanje" ng-disabled="mode == 'nulto'">
+						ng-Model="novoDSR.novoStanje" ng-disabled="mode == 'Pregled'">
 				</div>
 			</div>
 
@@ -136,7 +136,7 @@
 				<div class="col-sm-9">
 					<input type="text" id="prometNaTeret" class="form-control"
 						placeholder="Unesi promet na teret" name="prometNaTeret"
-						ng-Model="novoDSR.prometNaTeret" ng-disabled="mode == 'nulto'">
+						ng-Model="novoDSR.prometNaTeret" ng-disabled="mode == 'Pregled'">
 				</div>
 			</div>
 
@@ -146,7 +146,7 @@
 				<div class="col-sm-9">
 					<input type="text" id="prometNaKorist" class="form-control"
 						placeholder="Unesi promet na korist" name="prometNaKorist"
-						ng-Model="novoDSR.prometNaKorist" ng-disabled="mode == 'nulto'">
+						ng-Model="novoDSR.prometNaKorist" ng-disabled="mode == 'Pregled'">
 				</div>
 			</div>
 
@@ -156,7 +156,7 @@
 				<div class="col-sm-9">
 					<input type="date" id="datumPrometa"
 						ng-Model="novoDSR.datumPrometa" class="form-control"
-						ng-disabled="mode == 'nulto'" autofocus>
+						ng-disabled="mode == 'Pregled'" autofocus>
 				</div>
 			</div>
 

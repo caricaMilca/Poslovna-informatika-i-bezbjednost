@@ -309,19 +309,20 @@ app
 								$scope.mode = 'Pregled';
 								$scope.selectedRacun = null;
 								$scope.noviRacun = null;
+							}			
+							
+							$scope.prikaziDnevnaStanja= function() {
+								$('#izaberiNextFormu').modal('hide');
+								$rootScope.kojaStanja = 'racun';
+								$rootScope.nextFormRacun = $scope.selectedRacun;
+								$location.path('/DnevnoStanjeRacuna/dnevnaStanjaRacuna')
 							}
-
+							
 							$scope.prikaziAnalitike = function() {
-								racunService
-										.sveAnalitikeRacuna(
-												$scope.selectedRacun.id)
-										.then(
-												function(response) {
-													if (response.data) {
-														$scope.sveAnalitike = response.data;
-													}
-												});
-
+								$('#izaberiNextFormu').modal('hide');
+								$rootScope.kojeAnalitike = 'racun';
+								$rootScope.nextFormRacun = $scope.selectedRacun;
+								$location.path('/AnalitikaIzvoda/analitike')
 							}
 
 						} ]);
