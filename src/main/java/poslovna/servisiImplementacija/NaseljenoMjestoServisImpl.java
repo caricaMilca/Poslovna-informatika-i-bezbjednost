@@ -5,12 +5,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import poslovna.model.Korisnik;
 import poslovna.model.NaseljenoMjesto;
 import poslovna.repozitorijumi.DrzavaRepozitorijum;
 import poslovna.repozitorijumi.NaseljenoMjestoRepozitorijum;
@@ -26,11 +30,20 @@ public class NaseljenoMjestoServisImpl implements NaseljenoMjestoServis {
 	@Autowired
 	DrzavaRepozitorijum drzavaRepozitorijum;
 
+	@Autowired
+	HttpSession sesija;
+
+	final static Logger logger = Logger.getLogger(NaseljenoMjestoServisImpl.class);
+
 	@Override
 	public ResponseEntity<NaseljenoMjesto> registracijaNaseljenogMjesta(NaseljenoMjesto nm, Long idDrzave) {
-		if (naseljenoMjestoRepozitorijum.findByPttOznaka(nm.pttOznaka).size() != 0)
+		Korisnik k = (Korisnik) sesija.getAttribute("korisnik");
+		if (naseljenoMjestoRepozitorijum.findByPttOznaka(nm.pttOznaka).size() != 0) {
+			logger.info("Korisnik " + k.korisnickoIme + " neuspesno pokusao da registruje naseljeno mesto.");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 		nm.drzava = drzavaRepozitorijum.findOne(idDrzave);
+		logger.info("Korisnik " + k.korisnickoIme + " uspesno registrovao naseljeno mesto " + nm.naziv + ".");
 		return new ResponseEntity<NaseljenoMjesto>(naseljenoMjestoRepozitorijum.save(nm), HttpStatus.OK);
 	}
 
@@ -86,6 +99,8 @@ public class NaseljenoMjestoServisImpl implements NaseljenoMjestoServis {
 			naseljenoMesto.pttOznaka = nm.pttOznaka;
 		if (idDrzave != -1)
 			naseljenoMesto.drzava = drzavaRepozitorijum.findOne(idDrzave);
+		Korisnik k = (Korisnik) sesija.getAttribute("korisnik");
+		logger.info("Korisnik " + k.korisnickoIme + " uspesno izmenio polja naseljenog mesta " + naseljenoMesto.naziv + ".");
 		return new ResponseEntity<NaseljenoMjesto>(naseljenoMjestoRepozitorijum.save(naseljenoMesto), HttpStatus.OK);
 	}
 
@@ -93,6 +108,8 @@ public class NaseljenoMjestoServisImpl implements NaseljenoMjestoServis {
 	public ResponseEntity<?> izbrisiNM(Long idNM) {
 		// TODO Auto-generated method stub
 		naseljenoMjestoRepozitorijum.delete(idNM);
+		Korisnik k = (Korisnik) sesija.getAttribute("korisnik");
+		logger.info("Korisnik " + k.korisnickoIme + " uspesno izbrisao naseljeno mesto " + naseljenoMjestoRepozitorijum.findOne(idNM).naziv + ".");
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 

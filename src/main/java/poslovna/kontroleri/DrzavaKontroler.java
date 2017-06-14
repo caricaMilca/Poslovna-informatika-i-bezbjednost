@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,13 +29,14 @@ public class DrzavaKontroler {
 
 	@Autowired
 	DrzavaServis drzavaServis;
-
+	
+	final static Logger logger = Logger.getLogger(DrzavaKontroler.class);
+	
 	@AutorizacijaAnnotation(imeMetode = "registracijaDrzave")
 	@PostMapping(path = "/registracijaDrzave/{idValute}")
 	public ResponseEntity<Drzava> registracijaDrzave(@Valid @RequestBody Drzava drzava,
 			@PathVariable("idValute") Long idValute) {
 		return drzavaServis.registracijaDrzave(drzava, idValute);
-
 	}
 
 	@AutorizacijaAnnotation(imeMetode = "sveDrzave")

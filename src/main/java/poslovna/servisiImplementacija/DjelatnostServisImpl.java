@@ -2,6 +2,9 @@ package poslovna.servisiImplementacija;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import poslovna.model.Djelatnost;
+import poslovna.model.Korisnik;
 import poslovna.repozitorijumi.DjelatnostRepozitorijum;
 import poslovna.servisi.DjelatnostServis;
 
@@ -19,13 +23,23 @@ public class DjelatnostServisImpl implements DjelatnostServis {
 	@Autowired
 	DjelatnostRepozitorijum djelatnostRepozitorijum;
 
+	@Autowired
+	HttpSession sesija;
+	
+	final static Logger logger = Logger.getLogger(DjelatnostServis.class);
+	
+	
 	@Override
 	public ResponseEntity<Djelatnost> registracijaDjelatnosti(Djelatnost djelatnost) {
-		if (djelatnostRepozitorijum.findBySifra(djelatnost.sifra) != null)
+		Korisnik k = (Korisnik) sesija.getAttribute("korisnik");
+		if (djelatnostRepozitorijum.findBySifra(djelatnost.sifra) != null){
+			logger.info("Korisnik " + k.korisnickoIme + " neuspesno pokusao da registruje djelatnost.");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		else
+		}
+		else{
+			logger.info("Korisnik " + k.korisnickoIme + " uspesno registrovao delatnost " + djelatnost.naziv + ".");
 			return new ResponseEntity<Djelatnost>(djelatnostRepozitorijum.save(djelatnost), HttpStatus.CREATED);
-
+		}
 	}
 
 	@Override
@@ -55,6 +69,8 @@ public class DjelatnostServisImpl implements DjelatnostServis {
 	@Override
 	public ResponseEntity<?> izbrisiDjelatnost(Long idDjelatnosti) {
 		djelatnostRepozitorijum.delete(idDjelatnosti);
+		Korisnik k = (Korisnik) sesija.getAttribute("korisnik");
+		logger.info("Korisnik " + k.korisnickoIme + " uspesno izbrisao delatnost " + djelatnostRepozitorijum.findOne(idDjelatnosti).naziv + ".");
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
@@ -67,6 +83,8 @@ public class DjelatnostServisImpl implements DjelatnostServis {
 			d.sifra = dje.sifra;
 		if (dje.naziv != null)
 			d.naziv = dje.naziv;
+		Korisnik k = (Korisnik) sesija.getAttribute("korisnik");
+		logger.info("Korisnik " + k.korisnickoIme + " uspesno izmenio polja delatnosti " + dje.naziv + ".");
 		return new ResponseEntity<Djelatnost>(djelatnostRepozitorijum.save(dje), HttpStatus.OK);
 	}
 
