@@ -36,9 +36,9 @@ public class AnalitikaIzvodaKontroler {
 	@PostMapping(path = "/transakcija/{sifraValute}/{idTipaPlacanja}")
 	public ResponseEntity<AnalitikaIzvoda> transakcija(@Valid @RequestBody AnalitikaIzvoda analitikaIzvoda,
 			@PathVariable("sifraValute") String sifraValute, @PathVariable("idTipaPlacanja") Long idTipaPlacanja) {
-		if(analitikaIzvoda.datumPrimanja.before(new Date()) && !(analitikaIzvoda.datumPrimanja.equals(new Date()))) {
+		if (analitikaIzvoda.datumPrimanja.before(new Date()) && !(analitikaIzvoda.datumPrimanja.equals(new Date()))) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		} 
+		}
 		if (analitikaIzvoda.tipTransakcije == TipTransakcije.UPLATA)
 			return analitikaIzvodaServis.uplataNaRacun(analitikaIzvoda, sifraValute, idTipaPlacanja);
 		else if (analitikaIzvoda.tipTransakcije == TipTransakcije.ISPLATA)
@@ -74,13 +74,9 @@ public class AnalitikaIzvodaKontroler {
 	}
 
 	@AutorizacijaAnnotation(imeMetode = "pretraziAnalitikeIzvoda")
-	@PutMapping(path = "/pretraziAnalitikeIzvoda/{idDnevnogStanjaRacuna}/{idValute}/{idTipaPlacanja}")
+	@PutMapping(path = "/pretraziAnalitikeIzvoda")
 	public ResponseEntity<List<AnalitikaIzvoda>> pretraziAnalitikeIzvoda(
-			@Valid @RequestBody(required = false) AnalitikaIzvoda analitikaIzvoda,
-			@PathVariable("idDnevnogStanjaRacuna") Long idDnevnogStanjaRacuna, @PathVariable("idValute") Long idValute,
-			@PathVariable("idTipaPlacanja") Long idTipaPlacanja) {
-		return analitikaIzvodaServis.pretraziAnalitikeIzvoda(analitikaIzvoda, idDnevnogStanjaRacuna, idValute,
-				idTipaPlacanja);
-
+			@Valid @RequestBody(required = false) AnalitikaIzvoda analitikaIzvoda) {
+		return analitikaIzvodaServis.pretraziAnalitikeIzvoda(analitikaIzvoda);
 	}
 }

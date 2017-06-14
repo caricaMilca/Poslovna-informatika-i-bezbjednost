@@ -32,6 +32,7 @@ app
 								analitikaIzvodaService.sveAnalitike().then(function(response) {
 									if (response.data) {
 										$scope.sviIzvodi = response.data;
+										
 									}
 								});
 							}
@@ -65,7 +66,7 @@ app
 								
 								if ($scope.mode == 'Pretraga') {
 									analitikaIzvodaService
-											.pretraziAnalitike($scope.noviIzvod, id,id2)
+											.pretraziAnalitike($scope.noviIzvod)
 											.then(
 													function(response) {
 														if (response.data) {
@@ -75,7 +76,7 @@ app
 																			{
 																				type : 'success'
 																			});
-															$scope.valute = response.data;
+															$scope.sviIzvodi= response.data;
 															$scope.noviIzvod = null;
 															$scope.show = null;
 														}
@@ -93,12 +94,14 @@ app
 							}
 
 							$scope.setSelectedIzvod = function(selected) {
+								$scope.mode == 'Pretraga'
 								$scope.selectedIzvod = selected;
 								$scope.show = 10;
 								$scope.noviIzvod = angular.copy(selected);
-								$scope.mode = 'Izmena';
 								$scope.valutaIzvoda.naziv = selected.valuta.naziv;
 								$scope.vrstaPlacanjaIzvoda.naziv = selected.vrstaPlacanja.naziv;
+								document.getElementById("datumPrimanja").value = selected.datumPrimanja;
+								document.getElementById("datumValute").value = selected.datumValute;
 							}
 
 							$scope.changeMode = function(tab) {
@@ -112,14 +115,14 @@ app
 
 						
 							$scope.first = function() {
-								$scope.mode = 'Izmena';
+								$scope.mode == 'Pretraga'
 								$scope.selectedIzvod = $scope.izvodi[0];
 								$scope.izvod = $scope.selectedIzvod;
 								$scope.noviIzvod = $scope.selectedIzvod;
 							}
 
 							$scope.last = function() {
-								$scope.mode = 'Izmena';
+								$scope.mode == 'Pretraga'
 								var i = $scope.izvodi.length - 1;
 								$scope.selectedIzvod = $scope.izvodi[i];
 								$scope.izvod = $scope.selectedIzvod;
@@ -127,7 +130,7 @@ app
 							}
 
 							$scope.next = function() {
-								$scope.mode = 'Izmena';
+								$scope.mode == 'Pretraga'
 								var i = $scope.izvodi.indexOf($scope.selectedIzvod);
 								if (i + 1 > $scope.izvodi.length - 1)
 									$scope.selectedIzvod = $scope.izvodi[0];
@@ -138,7 +141,7 @@ app
 							}
 
 							$scope.prev = function() {
-								$scope.mode = 'Izmena';
+								$scope.mode == 'Pretraga'
 								var i = $scope.izvodi.indexOf($scope.selectedIzvod);
 								if (i == 0)
 									$scope.selectedIzvod = $scope.izvodi[$scope.izvodi.length - 1];
@@ -152,10 +155,14 @@ app
 								$rootScope.kojeAnalitike = 'sve';
 								analitikaIzvodaService.sveAnalitike().then(function(response) {
 									if (response.data) {
-										$scope.izvodi = response.data;
+										$scope.sviIzvodi = response.data;
 										$scope.noviIzvod = null;
 										$scope.mode = 'Pregled';
 										$scope.selectedIzvod = null;
+										//$scope.noviIzvod.datumPrimanja = null;
+										//$scope.noviIzvod.datumValute = null;
+										document.getElementById("datumPrimanja").value = "";
+										document.getElementById("datumValute").value = "";
 									}
 								});
 							}
@@ -163,10 +170,12 @@ app
 							function refresh() {
 								analitikaIzvodaService.sveAnalitike().then(function(response) {
 									if (response.data) {
-										$scope.izvodi = response.data;
+									$scope.izvodi = response.data;
 										$scope.noviIzvod = null;
 										$scope.mode = 'Pregled';
 										$scope.selectedIzvod = null;
+										document.getElementById("datumPrimanja").value = "";
+										document.getElementById("datumValute").value = "";
 									}
 								});
 							}

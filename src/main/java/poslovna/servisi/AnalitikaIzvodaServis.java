@@ -16,8 +16,7 @@ public interface AnalitikaIzvodaServis {
 
 	ResponseEntity<List<AnalitikaIzvoda>> sveAnalitikeIzvodaTipaPlacanja(Long idTipaPlacanja);
 
-	ResponseEntity<List<AnalitikaIzvoda>> pretraziAnalitikeIzvoda(AnalitikaIzvoda analitikaIzvoda, Long idDnevnogStanjaRacuna,
-			Long idValute, Long idTipaPlacanja);
+	ResponseEntity<List<AnalitikaIzvoda>> pretraziAnalitikeIzvoda(AnalitikaIzvoda analitikaIzvoda);
 
 	ResponseEntity<AnalitikaIzvoda> uplataNaRacun(AnalitikaIzvoda analitikaIzvoda, String sifraValute,
 			Long idTipaPlacanja);

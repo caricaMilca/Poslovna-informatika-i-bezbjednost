@@ -33,7 +33,7 @@ public interface AnalitikaIzvodaRepozitorijum extends JpaRepository<AnalitikaIzv
 	@Query("select k from AnalitikaIzvoda k inner join k.dnevnoStanjeRacuna dn inner join dn.racun r where r.banka=?2 and k.datumValute = ?1")
 	List<AnalitikaIzvoda> findByDatumValute(Date datumValute, Banka b);
 
-	@Query("select k from AnalitikaIzvoda k inner join k.dnevnoStanjeRacuna dn inner join dn.racun r where r.banka=?2 and k.duznik = ?1")
+	@Query("select k from AnalitikaIzvoda k inner join k.dnevnoStanjeRacuna dn inner join dn.racun r where r.banka=?2 and lower(k.duznik) like %?1%")
 	List<AnalitikaIzvoda> findByDuznik(String duznik, Banka b);
 
 	@Query("select k from AnalitikaIzvoda k inner join k.dnevnoStanjeRacuna dn inner join dn.racun r where r.banka=?2 and k.iznos = ?1")
@@ -45,7 +45,7 @@ public interface AnalitikaIzvodaRepozitorijum extends JpaRepository<AnalitikaIzv
 	@Query("select k from AnalitikaIzvoda k inner join k.dnevnoStanjeRacuna dn inner join dn.racun r where r.banka=?2 and k.modelZaduzenja = ?1")
 	List<AnalitikaIzvoda> findByModelZaduzenja(Integer modelZaduzenja, Banka b);
 
-	@Query("select k from AnalitikaIzvoda k inner join k.dnevnoStanjeRacuna dn inner join dn.racun r where r.banka=?2 and k.povjerilac = ?1")
+	@Query("select k from AnalitikaIzvoda k inner join k.dnevnoStanjeRacuna dn inner join dn.racun r where r.banka=?2 and lower(k.povjerilac) like %?1%")
 	List<AnalitikaIzvoda> findByPovjerilac(String povjerilac, Banka b);
 
 	@Query("select k from AnalitikaIzvoda k inner join k.dnevnoStanjeRacuna dn inner join dn.racun r where r.banka=?2 and k.pozivNaBrojZaduzenja = ?1")

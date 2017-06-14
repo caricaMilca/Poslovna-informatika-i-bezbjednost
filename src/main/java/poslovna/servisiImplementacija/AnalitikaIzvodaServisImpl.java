@@ -359,56 +359,60 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 	}
 
 	@Override
-	public ResponseEntity<List<AnalitikaIzvoda>> pretraziAnalitikeIzvoda(AnalitikaIzvoda analitikaIzvoda,
-			Long idDnevnogStanjaRacuna, Long idValute, Long idTipaPlacanja) {
+	public ResponseEntity<List<AnalitikaIzvoda>> pretraziAnalitikeIzvoda(AnalitikaIzvoda analitikaIzvoda) {
 		Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
 		// ko bude sredjivao pretragu nek doda i za tip uplate
 		Banka b = z.banka;
+		List<AnalitikaIzvoda> hitno = new ArrayList<AnalitikaIzvoda>();
+		List<AnalitikaIzvoda> datumPrimanja = new ArrayList<AnalitikaIzvoda>();
+		List<AnalitikaIzvoda> duznik = new ArrayList<AnalitikaIzvoda>();
+		List<AnalitikaIzvoda> povjerilac = new ArrayList<AnalitikaIzvoda>();
+		List<AnalitikaIzvoda> iznos = new ArrayList<AnalitikaIzvoda>();
+		List<AnalitikaIzvoda> racunDuznika = new ArrayList<AnalitikaIzvoda>();
+		List<AnalitikaIzvoda> racunPovjerioca = new ArrayList<AnalitikaIzvoda>();
+
 		List<AnalitikaIzvoda> lista = new ArrayList<AnalitikaIzvoda>();
+		List<AnalitikaIzvoda> ai = analitikaIzvodaRepozitorijum.findAll();
+		if (analitikaIzvoda == null)
+			return new ResponseEntity<List<AnalitikaIzvoda>>(lista, HttpStatus.OK);
 		if (analitikaIzvoda != null) {
-			if (analitikaIzvoda.hitno != null)
-				lista.addAll(analitikaIzvodaRepozitorijum.findByHitno(analitikaIzvoda.hitno, b));
-			if (analitikaIzvoda.datumPrimanja != null)
-				lista.addAll(analitikaIzvodaRepozitorijum.findByDatumPrimanja(analitikaIzvoda.datumPrimanja, b));
-			if (analitikaIzvoda.datumValute != null)
-				lista.addAll(analitikaIzvodaRepozitorijum.findByDatumValute(analitikaIzvoda.datumValute, b));
-			if (analitikaIzvoda.duznik != null)
-				lista.addAll(analitikaIzvodaRepozitorijum.findByDuznik(analitikaIzvoda.duznik, b));
-			if (analitikaIzvoda.iznos != null)
-				lista.addAll(analitikaIzvodaRepozitorijum.findByIznos(analitikaIzvoda.iznos, b));
-			if (analitikaIzvoda.modelOdobrenja != null)
-				lista.addAll(analitikaIzvodaRepozitorijum.findByModelOdobrenja(analitikaIzvoda.modelOdobrenja, b));
-			if (analitikaIzvoda.modelZaduzenja != null)
-				lista.addAll(analitikaIzvodaRepozitorijum.findByModelZaduzenja(analitikaIzvoda.modelZaduzenja, b));
-			if (analitikaIzvoda.povjerilac != null)
-				lista.addAll(analitikaIzvodaRepozitorijum.findByPovjerilac(analitikaIzvoda.povjerilac, b));
-			if (analitikaIzvoda.pozivNaBrojOdobrenja != null)
-				lista.addAll(analitikaIzvodaRepozitorijum
-						.findByPozivNaBrojOdobrenja(analitikaIzvoda.pozivNaBrojOdobrenja, b));
-			if (analitikaIzvoda.pozivNaBrojZaduzenja != null)
-				lista.addAll(analitikaIzvodaRepozitorijum
-						.findByPozivNaBrojZaduzenja(analitikaIzvoda.pozivNaBrojZaduzenja, b));
-			if (analitikaIzvoda.racunDuznika != null)
-				lista.addAll(analitikaIzvodaRepozitorijum.findByRacunDuznika(analitikaIzvoda.racunDuznika, b));
-			if (analitikaIzvoda.racunPovjerioca != null)
-				lista.addAll(analitikaIzvodaRepozitorijum.findByRacunPovjerioca(analitikaIzvoda.racunPovjerioca, b));
-			if (analitikaIzvoda.svrhaPlacanja != null)
-				lista.addAll(analitikaIzvodaRepozitorijum.findBySvrhaPlacanja(analitikaIzvoda.svrhaPlacanja, b));
-			if (analitikaIzvoda.tipGreske != null)
-				lista.addAll(analitikaIzvodaRepozitorijum.findByTipGreske(analitikaIzvoda.tipGreske, b));
+			if (analitikaIzvoda.hitno != null) {
+				hitno.addAll(analitikaIzvodaRepozitorijum.findByHitno(analitikaIzvoda.hitno, b));
+				ai.retainAll(hitno);
+			}
+			if (analitikaIzvoda.datumPrimanja != null) {
+				datumPrimanja
+						.addAll(analitikaIzvodaRepozitorijum.findByDatumPrimanja(analitikaIzvoda.datumPrimanja, b));
+				ai.retainAll(datumPrimanja);
+			}
+			if (analitikaIzvoda.duznik != null) {
+				duznik.addAll(analitikaIzvodaRepozitorijum.findByDuznik(analitikaIzvoda.duznik, b));
+				ai.retainAll(duznik);
+			}
+			if (analitikaIzvoda.iznos != null) {
+				iznos.addAll(analitikaIzvodaRepozitorijum.findByIznos(analitikaIzvoda.iznos, b));
+				ai.retainAll(iznos);
+			}
+			if (analitikaIzvoda.povjerilac != null) {
+				povjerilac.addAll(analitikaIzvodaRepozitorijum.findByPovjerilac(analitikaIzvoda.povjerilac, b));
+				ai.retainAll(povjerilac);
+			}
+			if (analitikaIzvoda.racunDuznika != null) {
+				racunDuznika.addAll(analitikaIzvodaRepozitorijum.findByRacunDuznika(analitikaIzvoda.racunDuznika, b));
+				ai.retainAll(racunDuznika);
+			}
+			if (analitikaIzvoda.racunPovjerioca != null) {
+				racunPovjerioca
+						.addAll(analitikaIzvodaRepozitorijum.findByRacunPovjerioca(analitikaIzvoda.racunPovjerioca, b));
+				ai.retainAll(racunPovjerioca);
+			}
 		}
-		if (idDnevnogStanjaRacuna != -1)
-			lista.addAll(analitikaIzvodaRepozitorijum.findByDnevnoStanjeRacuna(idDnevnogStanjaRacuna, b));
-		if (idValute != -1)
-			lista.addAll(analitikaIzvodaRepozitorijum.findByValuta(idValute, b));
-		if (idTipaPlacanja != -1)
-			lista.addAll(analitikaIzvodaRepozitorijum.findByVrstaPlacanja(idTipaPlacanja, b));
 
 		Set<AnalitikaIzvoda> set = new HashSet<AnalitikaIzvoda>();
-		set.addAll(lista);
-		lista.clear();
-		lista.addAll(set);
-		return new ResponseEntity<List<AnalitikaIzvoda>>(lista, HttpStatus.OK);
+		set.addAll(ai);
+		ai.clear();
+		ai.addAll(set);
+		return new ResponseEntity<List<AnalitikaIzvoda>>(ai, HttpStatus.OK);
 	}
 
 	public DnevnoStanjeRacuna kreirajDnevnoStanje(String brojRacuna, Date datum) {
