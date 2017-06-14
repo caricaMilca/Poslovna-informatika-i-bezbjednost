@@ -1,6 +1,6 @@
-insert into Banka(sifra, pib, adresa, naziv, email, web, telefon, fax, obracunski_racun, banka_3kod) values (21, 213,'bankaAdresa', 'BankaA', 'banka@gmail.com','banka.com', '0650650650', 'banka.fax', '1321321', '123');
-insert into Banka(sifra, pib, adresa, naziv, email, web, telefon, fax, obracunski_racun, banka_3kod) values (21, 215,'bankaAdresa', 'BankaB', 'banka@gmail.com','banka.com', '0650650650', 'banka.fax', '1321381', '126');
-insert into Banka(sifra, pib, adresa, naziv, email, web, telefon, fax, obracunski_racun, banka_3kod) values (21, 654,'bankaAdresa', 'BankaC', 'banka@gmail.com','banka.com', '0650650650', 'banka.fax', '1321881', '120');
+insert into Banka(sifra, pib, adresa, naziv, email, web, telefon, fax, obracunski_racun, banka3kod) values (21, 213,'bankaAdresa', 'BankaA', 'banka@gmail.com','banka.com', '0650650650', 'banka.fax', '1321321', '123');
+insert into Banka(sifra, pib, adresa, naziv, email, web, telefon, fax, obracunski_racun, banka3kod) values (21, 215,'bankaAdresa', 'BankaB', 'banka@gmail.com','banka.com', '0650650650', 'banka.fax', '1321381', '126');
+insert into Banka(sifra, pib, adresa, naziv, email, web, telefon, fax, obracunski_racun, banka3kod) values (21, 654,'bankaAdresa', 'BankaC', 'banka@gmail.com','banka.com', '0650650650', 'banka.fax', '1321881', '120');
 
 
 insert into Korisnik(korisnicko_ime, lozinka, uloga, banka_id) values ('ceks', 'ceks', 'Zaposleni', 1);

@@ -195,15 +195,21 @@ app
 								$scope.nalog.tipTransakcije = $scope.tipTransakcije;
 								analitikaIzvodaService.kreiraj($scope.nalog).then(function(response) {
 									if (response.status == 201) {
-										ngNotify.set('Uspjesno izvrsena transakcija', {
+										ngNotify.set('Prosla transakcija', {
 											type : 'success'
 										});
 										$scope.nalog = null;
-									} else {
-										ngNotify.set('Provjerite unos', {
-											type : 'error'
+									} else if(response.status == 202){
+										ngNotify.set('Ne postoje sredstva na racunu duznika za izvrsenje transakcije.', {
+											type : 'info'
 										});
 									}
-								});
+								}).catch(function(response) {
+									ngNotify.set('Valuta ne postoji, ili brojRacuna nije validan ' , {
+										type : 'error',
+									    sticky: true
+									});
+									console.error('Gists error', response.status, response.data)
+								  });
 							}
 						} ]);

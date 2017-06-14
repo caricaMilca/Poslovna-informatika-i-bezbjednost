@@ -48,4 +48,14 @@ public class DnevnoStanjeRacuna {
 		super();
 	}
 
+	public DnevnoStanjeRacuna(Double prethodnoStanje, Double prometNaTeret, Double prometNaKorist, Double novoStanje,
+			Date datumPrometa) {
+		super();
+		this.prethodnoStanje = prethodnoStanje;
+		this.prometNaTeret = prometNaTeret;
+		this.prometNaKorist = prometNaKorist;
+		this.novoStanje = novoStanje;
+		this.datumPrometa = datumPrometa;
+	}
+
 }

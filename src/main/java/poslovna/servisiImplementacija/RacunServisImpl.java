@@ -21,12 +21,13 @@ import poslovna.model.AnalitikaIzvoda;
 import poslovna.model.Banka;
 import poslovna.model.DnevnoStanjeRacuna;
 import poslovna.model.Racun;
+import poslovna.model.TipTransakcije;
 import poslovna.model.Zaposleni;
+import poslovna.repozitorijumi.DnevnoStanjeRacunaRepozitorijum;
 import poslovna.repozitorijumi.KlijentRepozitorijum;
 import poslovna.repozitorijumi.RacunRepozitorijum;
 import poslovna.repozitorijumi.ValutaRepozitorijum;
 import poslovna.repozitorijumi.VrstaPlacanjaRepozitorijum;
-import poslovna.servisi.AnalitikaIzvodaServis;
 import poslovna.servisi.RacunServis;
 
 @Service
@@ -49,7 +50,10 @@ public class RacunServisImpl implements RacunServis {
 	RacunRepozitorijum racunRepozitorijum;
 	
 	@Autowired
-	AnalitikaIzvodaServis analitikaIzvodaServis;
+	AnalitikaIzvodaServisImpl analitikaIzvodaServisImpl;
+	
+	@Autowired
+	DnevnoStanjeRacunaRepozitorijum dnevnoStanjeRacunaRepozitorijum;
 
 	
 	@Override
@@ -72,12 +76,12 @@ public class RacunServisImpl implements RacunServis {
 		}
 		String racunGlavniDio = bilder.toString();
 		
-		BigInteger bigInt = new BigInteger(b.banka_3kod + racunGlavniDio);
+		BigInteger bigInt = new BigInteger(b.banka3kod + racunGlavniDio);
 
 		BigInteger checksum = new BigInteger("98")
 				.subtract(bigInt.multiply(new BigInteger("100")).remainder(new BigInteger("97")));
 	
-		racun.brojRacuna = b.banka_3kod + "-" + racunGlavniDio + "-" + checksum ;
+		racun.brojRacuna = b.banka3kod + "-" + racunGlavniDio + "-" + checksum ;
 		if(racunRepozitorijum.findByBrojRacuna(racun.brojRacuna) != null)
 			return new ResponseEntity<>(HttpStatus.OK);
 		return new ResponseEntity<Racun>(racunRepozitorijum.save(racun), HttpStatus.CREATED);
@@ -186,14 +190,30 @@ public class RacunServisImpl implements RacunServis {
 	public ResponseEntity<Racun> zatvoriRacun(Racun racun) {
 		Racun r = racunRepozitorijum.findOne(racun.id);
 		r.datumZatvaranja = new Date();
-		r.vazeci = false;
-		r.racunPrenosa = racun.racunPrenosa.substring(0, 3) + "-" + racun.racunPrenosa.substring(3, 16) + "-" + racun.racunPrenosa.substring(16);
+		r.racunPrenosa = racun.racunPrenosa.substring(0, 3) + "-" + racun.racunPrenosa.substring(3, 15) + "-" + racun.racunPrenosa.substring(15);
 		AnalitikaIzvoda ai = new AnalitikaIzvoda();
 		ai.datumPrimanja = r.datumZatvaranja;
 		ai.datumValute = r.datumZatvaranja;
 		ai.racunDuznika = r.brojRacuna;
 		ai.racunPovjerioca = r.racunPrenosa;
-		analitikaIzvodaServis.transferSredstava(ai, r.valuta.zvanicnaSifra, (long) 1); 
+		ai.tipTransakcije = TipTransakcije.TRANSFER;
+		ai.hitno = true;
+		ai.svrhaPlacanja = "Zatvaranje racuna";
+		ai.duznik = r.klijent.korisnickoIme;
+		
+		List<DnevnoStanjeRacuna> stanja = dnevnoStanjeRacunaRepozitorijum.findByRacun(r);
+		if (stanja.isEmpty()) {
+			ai.iznos = (double) 0;
+			DnevnoStanjeRacuna dsr = new DnevnoStanjeRacuna(0.0, 0.0, 0.0, 0.0, new Date());
+			dsr.racun = r;
+			dnevnoStanjeRacunaRepozitorijum.save(dsr);
+			
+		} else {
+			DnevnoStanjeRacuna dsrDuznika = stanja.get(stanja.size() - 1);
+			ai.iznos = dsrDuznika.novoStanje;
+			}
+		analitikaIzvodaServisImpl.transferSredstava(ai, r.valuta.zvanicnaSifra, (long) 1);
+		r.vazeci = false;
 		return new ResponseEntity<Racun>(racunRepozitorijum.save(r), HttpStatus.OK);
 	}
 

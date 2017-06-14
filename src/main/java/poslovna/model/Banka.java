@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -22,8 +23,9 @@ public class Banka {
 	public Integer sifra;
 
 	public Integer pib;
-	
-	public String banka_3kod;
+
+	@Column(unique = true, nullable = false)
+	public String banka3kod;
 
 	public String adresa;
 
@@ -46,11 +48,11 @@ public class Banka {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "banka", cascade = CascadeType.ALL)
 	@JsonIgnore
 	public Set<Racun> racuni = new HashSet<Racun>();
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "banka", cascade = CascadeType.ALL)
 	@JsonIgnore
 	public Set<Korisnik> korisnici = new HashSet<Korisnik>();
-	
+
 	public Banka() {
 		super();
 		// TODO Auto-generated constructor stub
