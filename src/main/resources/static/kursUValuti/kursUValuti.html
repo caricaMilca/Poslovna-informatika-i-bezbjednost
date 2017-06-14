@@ -97,36 +97,36 @@
 				<div class="col-sm-9">
 					<input type="text" id="kupovni" class="form-control"
 						placeholder="kupovni" name="sifra" ng-Model="novaV.kupovni"
-						ng-disabled="mode == 'Pregled'" pattern="[0-9]*" autofocus>
+						ng-disabled="mode == 'Pregled'" pattern="[0-9]*\.?[0-9]+" autofocus>
 				</div>
 			</div>
 			<div role="alert" style="color: red">
 				<span class="error" ng-show="myForm.sifra.$error.pattern">
-					Decimalni broj zaokruzen na dve decimale !</span>
+					Decimalni broj !</span>
 			</div>
 			<div class="form-group">
 				<label for="srednji" class="col-sm-3 control-label">Srednji</label>
 				<div class="col-sm-9">
 					<input type="text" id="srednji" class="form-control"
 						placeholder="srednji" name="naziv" ng-Model="novaV.srednji"
-						ng-disabled="mode == 'Pregled'" pattern="[0-9]*">
+						ng-disabled="mode == 'Pregled'" pattern="[0-9]*\.?[0-9]+">
 				</div>
 			</div>
 			<div role="alert" style="color: red">
 				<span class="error" ng-show="myForm.naziv.$error.pattern">
-					Decimalni broj zaokruzen na dve decimale !</span>
+					Decimalni booj !</span>
 			</div>
 			<div class="form-group">
 				<label for="prodajni" class="col-sm-3 control-label">Prodajni</label>
 				<div class="col-sm-9">
 					<input type="text" id="prodajni" class="form-control"
-						placeholder="prodajni" name="naziv" ng-Model="novaV.prodajni"
-						ng-disabled="mode == 'Pregled'" pattern="[0-9]*">
+						placeholder="prodajni" name="nesto" ng-Model="novaV.prodajni"
+						ng-disabled="mode == 'Pregled'" pattern="[0-9]*\.?[0-9]+">
 				</div>
 			</div>
 			<div role="alert" style="color: red">
-				<span class="error" ng-show="myForm.naziv.$error.pattern">
-					Decimalni broj zaokruzen na dve decimale !</span>
+				<span class="error" ng-show="myForm.nesto.$error.pattern">
+					Decimalni broj !</span>
 			</div>
 
 			<div class="form-group">

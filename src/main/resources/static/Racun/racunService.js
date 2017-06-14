@@ -10,10 +10,6 @@ app.factory('RacunService', function racunService($http) {
 		return $http.get("/racun/sviRacuniKlijenta/" + id);
 	}
 	
-	racunService.sveAnalitikeRacuna = function(id){
-		return $http.get("/racun/sveAnalitikeRacuna/" + id);
-	}
-	
 	racunService.sviRacuniValute = function(id){
 		return $http.get("/racun/sviRacuniValute/" + id);
 	}

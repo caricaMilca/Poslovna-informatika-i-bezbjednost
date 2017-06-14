@@ -50,7 +50,7 @@ public class DnevnoStanjeRacunaKontroler {
 	}
 
 	@AutorizacijaAnnotation(imeMetode = "pretraziDnevnaStanjeRacuna")
-	@PutMapping(path = "/pretraziDnevnaStanjeRacuna/{idRacuna}")
+	@GetMapping(path = "/pretraziDnevnaStanjeRacuna/{idRacuna}")
 	public ResponseEntity<List<DnevnoStanjeRacuna>> pretraziDnevnaStanjeRacuna(
 			@RequestBody(required = false) DnevnoStanjeRacuna dnevnoStanjeRacuna, @PathVariable("idRacuna") Long idRacuna) {
 		return dnevnoStanjeRacunaServis.pretraziDnevnaStanjeRacuna(dnevnoStanjeRacuna, idRacuna);
