@@ -12,6 +12,8 @@ app
 						function($rootScope, $scope, $location, ngNotify,
 								dsrService) {
 
+							$scope.mode = 'Pregled';
+							
 							if ($rootScope.kojaStanja == 'racun') {
 								dsrService
 										.svaDSRacuna(
@@ -61,7 +63,7 @@ app
 								$scope.show = 10;
 								$scope.novoDSR = angular.copy(selected);
 								$scope.mode = 'Izmena';
-								$scope.drzavaNM.sifra = selected.drzava.sifra;
+								$scope.racunDSR.brojRacuna = selected.racunDSR.brojRacuna;
 							}
 
 							$scope.changeMode = function(tab) {

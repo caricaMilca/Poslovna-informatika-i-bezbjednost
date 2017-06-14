@@ -97,7 +97,7 @@
 				<label for="brojRacuna" class="col-sm-3 control-label">Broj
 					racuna</label>
 				<div class="col-sm-6">
-					<select id="brojRacuna" disabled ng-model="racunaDSR"
+					<select id="brojRacuna" disabled ng-model="racunDSR"
 						ng-options="racun as racun.brojRacuna for racun in racuni"
 						class="form-control">
 					</select>
@@ -115,7 +115,7 @@
 				<div class="col-sm-9">
 					<input type="text" id="prethodnoStanje" class="form-control"
 						placeholder="Unesi prethodno stanje" name="prethodnoStanje"
-						ng-Model="novoDSR.prethodnoStanje" ng-disabled="mode == 'Pregled'"
+						ng-Model="novoDSR.prethodnoStanje" ng-disabled="mode == 'Pregled' || mode == 'Pretraga'"
 						autofocus>
 				</div>
 			</div>
@@ -126,7 +126,7 @@
 				<div class="col-sm-9">
 					<input type="text" id="novoStanje" class="form-control"
 						placeholder="Unesi novo stanje" name="novoStanje"
-						ng-Model="novoDSR.novoStanje" ng-disabled="mode == 'Pregled'">
+						ng-Model="novoDSR.novoStanje" ng-disabled="mode == 'Pregled' || mode == 'Pretraga'">
 				</div>
 			</div>
 
@@ -136,7 +136,7 @@
 				<div class="col-sm-9">
 					<input type="text" id="prometNaTeret" class="form-control"
 						placeholder="Unesi promet na teret" name="prometNaTeret"
-						ng-Model="novoDSR.prometNaTeret" ng-disabled="mode == 'Pregled'">
+						ng-Model="novoDSR.prometNaTeret" ng-disabled="mode == 'Pregled' || mode == 'Pretraga'">
 				</div>
 			</div>
 
@@ -146,7 +146,7 @@
 				<div class="col-sm-9">
 					<input type="text" id="prometNaKorist" class="form-control"
 						placeholder="Unesi promet na korist" name="prometNaKorist"
-						ng-Model="novoDSR.prometNaKorist" ng-disabled="mode == 'Pregled'">
+						ng-Model="novoDSR.prometNaKorist" ng-disabled="mode == 'Pregled' || mode == 'Pretraga'">
 				</div>
 			</div>
 
