@@ -15,6 +15,7 @@ app
 							$scope.mode = 'Pregled';
 							$scope.nalog = null;
 
+							
 							if ($rootScope.kojeAnalitike == 'valute') {
 								analitikaIzvodaService
 										.sveAnalitikeValute(
@@ -218,5 +219,33 @@ app
 									});
 									console.error('Gists error', response.status, response.data)
 								  });
+							}
+							
+							$scope.ucitajFajl = function() {
+								 var file = document.getElementById("imeFajla").files[0]
+								 if(file != null || file != undefined) {	
+									 analitikaIzvodaService.ucitajTransakcije(file.name).then(function(response) {
+											if (response.status == 200) {
+												ngNotify
+												.set(
+														'Uspjesno ucitavanje transakcija',
+														{
+															type : 'success'
+														});
+												analitikaIzvodaService.sveAnalitike().then(function(response) {
+													if (response.data) {
+														$scope.sviIzvodi = response.data;									
+													}
+												});
+											} else {
+												ngNotify
+												.set(
+														'Doslo je do greske prilikom ucitavanja fajla',
+														{
+															type : 'error'
+														});
+											}
+										});
+								 }
 							}
 						} ]);

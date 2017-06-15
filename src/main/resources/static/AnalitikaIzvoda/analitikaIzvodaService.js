@@ -11,6 +11,10 @@ app.factory('analitikaIzvodaService', function analitikaIzvodaService($http) {
 		return $http.get("/analitikaIzvoda/sveAnalitikeIzvodaValute/" + id);
 	}
 	
+	analitikaIzvodaService.ucitajTransakcije = function(imeFajla){
+		return $http.get("/importExportStavkiPlacanja/ucitajFajl/" + imeFajla);
+	}
+	
 	analitikaIzvodaService.sveValute = function(){
 		return $http.get("/valuta/sveValute");
 	}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StavkePlacanja>
+	<analitikaIzvoda>
+		<duznik>Neko</duznik>
+		<povjerilac>Nekic</povjerilac>
+		<svrhaPlacanja>Opklada</svrhaPlacanja>
+		<datumPrimanja>2017-05-27T00:25:03</datumPrimanja>
+		<racunPovjerioca>123-123123123123-123</racunPovjerioca>
+		<hitno>false</hitno>
+		<iznos>400</iznos>
+		<tipTransakcije>UPLATA</tipTransakcije>
+		<valuta>
+			<zvanicnaSifra>rsd</zvanicnaSifra>
+		</valuta>
+		
+	</analitikaIzvoda>
+	<analitikaIzvoda>
+		<duznik>Neko</duznik>
+		<povjerilac>Nekic</povjerilac>
+		<svrhaPlacanja>Opklada</svrhaPlacanja>
+		<datumPrimanja>2017-05-27T00:25:03</datumPrimanja>
+		<racunPovjerioca>123-123123123123-123</racunPovjerioca>
+		<hitno>false</hitno>
+		<iznos>400</iznos>
+			<tipTransakcije>UPLATA</tipTransakcije>
+		<valuta>
+			<zvanicnaSifra>rsd</zvanicnaSifra>
+		</valuta>
+	</analitikaIzvoda>
+</StavkePlacanja>

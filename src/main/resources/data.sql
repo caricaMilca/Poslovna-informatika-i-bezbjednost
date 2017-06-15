@@ -137,6 +137,7 @@ insert into Privilege(name) values ('izmeniValutu');--63
 insert into Privilege(name) values ('izbrisiValutu');--64
 insert into Privilege(name) values ('izmeniKursUValuti');--65
 insert into Privilege(name) values ('izbrisiKursUValuti');--66
+insert into Privilege(name) values ('ucitajFajl');--67
 
  
 insert into Role(name) values ('klijentRole');--1
@@ -224,6 +225,7 @@ insert into Roles_privileges(role_id, privilege_id) values (6, 1);
 insert into Roles_privileges(role_id, privilege_id) values (6, 24);
 insert into Roles_privileges(role_id, privilege_id) values (6, 25);
 insert into Roles_privileges(role_id, privilege_id) values (6, 58);
+insert into Roles_privileges(role_id, privilege_id) values (6, 67);
 
 
 
