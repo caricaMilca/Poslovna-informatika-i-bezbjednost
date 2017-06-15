@@ -15,6 +15,10 @@ app.factory('KlijentService', function klijentService($http) {
 		return $http.get("/klijent/sviKlijenti");
 	}
 	
+	klijentService.exportAnalitikeKlijenta = function(id){
+		return $http.get("/importExportStavkiPlacanja/exportAnalitikaKlijenta/" + id);
+	}
+	
 	klijentService.sviKlijentiDjelatnosti = function(id){
 		return $http.get("/klijent/sviKlijentiDjelatnosti/" + id);
 	}

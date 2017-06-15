@@ -31,6 +31,7 @@ import poslovna.model.Zaposleni;
 import poslovna.repozitorijumi.AnalitikaIzvodaRepozitorijum;
 import poslovna.repozitorijumi.BankaRepozitorijum;
 import poslovna.repozitorijumi.DnevnoStanjeRacunaRepozitorijum;
+import poslovna.repozitorijumi.KlijentRepozitorijum;
 import poslovna.repozitorijumi.KursUValutiRepozitorijum;
 import poslovna.repozitorijumi.KursnaListaRepozitorijum;
 import poslovna.repozitorijumi.MedjubankarskiPrenosRepozitorijum;
@@ -53,6 +54,9 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 
 	@Autowired
 	ValutaRepozitorijum valutaRepozitorijum;
+	
+	@Autowired
+	KlijentRepozitorijum klijentRepozitorijum;
 
 	@Autowired
 	VrstaPlacanjaRepozitorijum vrstaPlacanjaRepozitorijum;
@@ -509,6 +513,11 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 		if (kuv == null)
 			praviIznos = iznos;
 		return praviIznos;
+	}
+
+	@Override
+	public List<AnalitikaIzvoda> preuzmiAnalitikeKlijenta(Long id) {
+		return analitikaIzvodaRepozitorijum.sveAnalitikeKlijenta(klijentRepozitorijum.findOne(id));
 	}
 
 }

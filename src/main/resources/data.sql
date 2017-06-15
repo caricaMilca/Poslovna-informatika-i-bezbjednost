@@ -138,7 +138,8 @@ insert into Privilege(name) values ('izbrisiValutu');--64
 insert into Privilege(name) values ('izmeniKursUValuti');--65
 insert into Privilege(name) values ('izbrisiKursUValuti');--66
 insert into Privilege(name) values ('ucitajFajl');--67
-
+insert into Privilege(name) values ('exportMedjubankarskogPrenosa');--68
+insert into Privilege(name) values ('exportAnalitikaKlijenta');--69
  
 insert into Role(name) values ('klijentRole');--1
 insert into Role(name) values ('adminRole');--2
@@ -219,13 +220,15 @@ insert into Roles_privileges(role_id, privilege_id) values (5, 51);
 insert into Roles_privileges(role_id, privilege_id) values (5, 52);
 insert into Roles_privileges(role_id, privilege_id) values (5, 53);
 insert into Roles_privileges(role_id, privilege_id) values (5, 54);
+insert into Roles_privileges(role_id, privilege_id) values (5, 67);
+insert into Roles_privileges(role_id, privilege_id) values (5, 68);
+insert into Roles_privileges(role_id, privilege_id) values (5, 69);
 
 
 insert into Roles_privileges(role_id, privilege_id) values (6, 1);
 insert into Roles_privileges(role_id, privilege_id) values (6, 24);
 insert into Roles_privileges(role_id, privilege_id) values (6, 25);
 insert into Roles_privileges(role_id, privilege_id) values (6, 58);
-insert into Roles_privileges(role_id, privilege_id) values (6, 67);
 
 
 

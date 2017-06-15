@@ -27,4 +27,6 @@ public interface AnalitikaIzvodaServis {
 	ResponseEntity<AnalitikaIzvoda> transferSredstava(AnalitikaIzvoda analitikaIzvoda, String sifraValute,
 			Long idTipaPlacanja);
 
+	List<AnalitikaIzvoda> preuzmiAnalitikeKlijenta(Long id);
+
 }

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import poslovna.model.AnalitikaIzvoda;
 import poslovna.model.Banka;
+import poslovna.model.Klijent;
 import poslovna.model.TipGreske;
 
 public interface AnalitikaIzvodaRepozitorijum extends JpaRepository<AnalitikaIzvoda, Long> {
@@ -65,5 +66,8 @@ public interface AnalitikaIzvodaRepozitorijum extends JpaRepository<AnalitikaIzv
 
 	@Query("select k from AnalitikaIzvoda k inner join k.dnevnoStanjeRacuna dn inner join dn.racun r where r.banka=?2 and k.svrhaPlacanja = ?1")
 	List<AnalitikaIzvoda> findBySvrhaPlacanja(String svrhaPlacanja, Banka b);
+
+	@Query("select k from AnalitikaIzvoda k inner join k.dnevnoStanjeRacuna dn inner join dn.racun r where r.klijent=?1")
+	List<AnalitikaIzvoda> sveAnalitikeKlijenta(Klijent findOne);
 
 }

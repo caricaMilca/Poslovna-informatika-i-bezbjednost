@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<StavkePlacanja>
+    <analitikaIzvoda>
+        <datumPrimanja>2017-06-16T00:00:00+02:00</datumPrimanja>
+        <datumValute>2017-06-15T00:00:00+02:00</datumValute>
+        <racunPovjerioca>123-333444555334-312</racunPovjerioca>
+        <hitno>false</hitno>
+        <iznos>120.0</iznos>
+        <tipTransakcije>UPLATA</tipTransakcije>
+        <smijer>NA_KORIST</smijer>
+        <vrstaPlacanja>
+            <id>1</id>
+            <naziv>karticom</naziv>
+        </vrstaPlacanja>
+        <valuta>
+            <zvanicnaSifra>rsd</zvanicnaSifra>
+            <naziv>Dinar</naziv>
+            <domicilna>true</domicilna>
+        </valuta>
+    </analitikaIzvoda>
+    <analitikaIzvoda>
+        <datumPrimanja>2017-06-16T00:00:00+02:00</datumPrimanja>
+        <datumValute>2017-06-15T00:00:00+02:00</datumValute>
+        <racunPovjerioca>123-333444555334-312</racunPovjerioca>
+        <hitno>false</hitno>
+        <iznos>398.0</iznos>
+        <tipTransakcije>UPLATA</tipTransakcije>
+        <smijer>NA_KORIST</smijer>
+        <vrstaPlacanja>
+            <id>1</id>
+            <naziv>karticom</naziv>
+        </vrstaPlacanja>
+        <valuta>
+            <zvanicnaSifra>rsd</zvanicnaSifra>
+            <naziv>Dinar</naziv>
+            <domicilna>true</domicilna>
+        </valuta>
+    </analitikaIzvoda>
+</StavkePlacanja>

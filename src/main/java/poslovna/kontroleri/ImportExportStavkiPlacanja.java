@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import poslovna.autorizacija.AutorizacijaAnnotation;
 import poslovna.model.AnalitikaIzvoda;
+import poslovna.model.Klijent;
 import poslovna.model.MedjubankarskiPrenos;
 import poslovna.model.StavkePlacanja;
 import poslovna.model.TipTransakcije;
 import poslovna.servisi.AnalitikaIzvodaServis;
+import poslovna.servisi.KlijentServis;
 import poslovna.servisi.MedjubankarskiPrenosServis;
 
 @RestController
@@ -37,6 +39,9 @@ public class ImportExportStavkiPlacanja {
 	
 	@Autowired
 	MedjubankarskiPrenosServis medjubankarskiPrenosServis;
+	
+	@Autowired
+	KlijentServis klijentServis;
 	
 	@AutorizacijaAnnotation(imeMetode = "ucitajFajl")
 	@GetMapping(path = "/ucitajFajl/{fajlIme:.+}")
@@ -67,6 +72,22 @@ public class ImportExportStavkiPlacanja {
 		Marshaller marshaller = context.createMarshaller();
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		marshaller.marshal(mp, fajl);
+		return new ResponseEntity<>(HttpStatus.OK);
+	
+	}
+	
+	@AutorizacijaAnnotation(imeMetode = "exportAnalitikaKlijenta")
+	@GetMapping(path = "/exportAnalitikaKlijenta/{id}")
+	public ResponseEntity<?> exportAnalitikaKlijenta(@PathVariable("id") Long id) throws JAXBException {
+		StavkePlacanja sp = new StavkePlacanja();
+		List<AnalitikaIzvoda> ai = analitikaIzvodaServis.preuzmiAnalitikeKlijenta(id);
+		sp.analitikaIzvoda = ai;
+		Klijent k = klijentServis.preuzmiKlijenta(id);
+		File fajl = new File("./files/exportovaneAnalitikeKlijenta"+k.id.toString()+".xml");
+		JAXBContext context = JAXBContext.newInstance(StavkePlacanja.class);
+		Marshaller marshaller = context.createMarshaller();
+		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		marshaller.marshal(sp, fajl);
 		return new ResponseEntity<>(HttpStatus.OK);
 	
 	}

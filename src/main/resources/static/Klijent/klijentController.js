@@ -266,5 +266,18 @@ app
 								$rootScope.nextFormKlijent = $scope.selectedKlijent;
 								$location.path('/Racun/racuni')
 							}
+							
+							$scope.exportAnalitikeKlijenta = function() {
+								 klijentService.exportAnalitikeKlijenta(5).then(function(response) {
+										if (response.status == 200) {
+											ngNotify
+											.set(
+													'Uspjesno exportovane analitike klijenta',
+													{
+														type : 'success'
+													});
+										}
+								 });
+							}
 
 						} ]);
