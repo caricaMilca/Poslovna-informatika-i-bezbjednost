@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,17 +43,24 @@ public class KlijentServisImpl implements KlijentServis {
 	@Autowired
 	HttpSession sesija;
 
+	final static Logger logger = Logger.getLogger(KlijentServisImpl.class);
+
 	@Override
 	public ResponseEntity<Klijent> registracijaKlijenta(Klijent k, Long idDjelatnosti) {
 		if (k.ulogaK == UlogaKlijenta.POSLOVNO)
 			k.djelatnost = djelatnostRepozitorijum.findOne(idDjelatnosti);
 		Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
 		k.banka = zaposleni.banka;
-		if (klijentRepozitorijum.findByKorisnickoIme(k.korisnickoIme) != null)
+		if (klijentRepozitorijum.findByKorisnickoIme(k.korisnickoIme) != null) {
+			logger.info("Zaposleni " + zaposleni.korisnickoIme + " neuspesno pokusao registraciju novog korisnika "
+					+ k.korisnickoIme + ".");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 		k.uloga = UlogaKorisnika.Klijent;
 		k.roles.add(roleServis.findOne(Long.valueOf(1)));
 		k.roles.add(roleServis.findOne(Long.valueOf(6)));
+		logger.info("Zaposleni " + zaposleni.korisnickoIme + " uspesno registrovao novog korisnika " + k.korisnickoIme
+				+ ".");
 		return new ResponseEntity<Klijent>(klijentRepozitorijum.save(k), HttpStatus.CREATED);
 	}
 
@@ -88,21 +96,21 @@ public class KlijentServisImpl implements KlijentServis {
 		List<Klijent> ime = new ArrayList<Klijent>();
 		List<Klijent> prezime = new ArrayList<Klijent>();
 		List<Klijent> korisnickoIme = new ArrayList<Klijent>();
-		if(klijent == null && idDjelatnosti == -1)
+		if (klijent == null && idDjelatnosti == -1)
 			return new ResponseEntity<List<Klijent>>(lista, HttpStatus.OK);
 
 		List<Klijent> djelatnost = new ArrayList<Klijent>();
 		List<Klijent> uloga = new ArrayList<Klijent>();
 		if (klijent != null) {
-			if(klijent.korisnickoIme != null){
+			if (klijent.korisnickoIme != null) {
 				korisnickoIme = klijentRepozitorijum.findByKorisnickoImeLike(klijent.korisnickoIme);
 				k.retainAll(korisnickoIme);
 			}
-			if(klijent.prezime != null){
+			if (klijent.prezime != null) {
 				prezime = klijentRepozitorijum.findByPrezime(klijent.prezime);
 				k.retainAll(prezime);
-				}
-			if(klijent.ime != null){
+			}
+			if (klijent.ime != null) {
 				ime = klijentRepozitorijum.findByIme(klijent.ime);
 				k.retainAll(ime);
 			}
@@ -125,8 +133,13 @@ public class KlijentServisImpl implements KlijentServis {
 	@Override
 	public ResponseEntity<Klijent> izmjeniKlijenta(Klijent klijent, Long idDjelatnosti) {
 		Klijent k = klijentRepozitorijum.findOne(klijent.id);
-		if (klijentRepozitorijum.findByKorisnickoIme(klijent.korisnickoIme) != null && !klijent.korisnickoIme.equals(k.korisnickoIme))
+		Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
+		if (klijentRepozitorijum.findByKorisnickoIme(klijent.korisnickoIme) != null
+				&& !klijent.korisnickoIme.equals(k.korisnickoIme)) {
+			logger.info("Zaposleni " + zaposleni.korisnickoIme + " neuspesno pokusao izmenu polja korisnika "
+					+ k.korisnickoIme + ".");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 		if (k.ulogaK == UlogaKlijenta.POSLOVNO && idDjelatnosti != -1)
 			k.djelatnost = djelatnostRepozitorijum.findOne(idDjelatnosti);
 		if (klijent.ime != null)
@@ -135,12 +148,18 @@ public class KlijentServisImpl implements KlijentServis {
 			k.prezime = klijent.prezime;
 		if (klijent.korisnickoIme != null)
 			k.korisnickoIme = klijent.korisnickoIme;
+		logger.info("Zaposleni " + zaposleni.korisnickoIme + " uspesno izvrsio izmenu polja korisnika "
+				+ k.korisnickoIme + ".");
+
 		return new ResponseEntity<Klijent>(klijentRepozitorijum.save(k), HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<?> izbrisiKlijenta(Long idKlijenta) {
 		klijentRepozitorijum.delete(idKlijenta);
+		Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
+		logger.info("Zaposleni " + zaposleni.korisnickoIme + " uspesno izbrisao korisnika "
+				+ klijentRepozitorijum.getOne(idKlijenta).korisnickoIme + ".");
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

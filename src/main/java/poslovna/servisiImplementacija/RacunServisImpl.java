@@ -11,6 +11,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +38,8 @@ public class RacunServisImpl implements RacunServis {
 	@Autowired
 	HttpSession sesija;
 
+	final static Logger logger = Logger.getLogger(RacunServisImpl.class);
+	
 	@Autowired
 	KlijentRepozitorijum klijentRepozitorijum;
 	
@@ -84,6 +87,7 @@ public class RacunServisImpl implements RacunServis {
 		racun.brojRacuna = b.banka3kod + "-" + racunGlavniDio + "-" + checksum ;
 		if(racunRepozitorijum.findByBrojRacuna(racun.brojRacuna) != null)
 			return new ResponseEntity<>(HttpStatus.OK);
+		logger.info("Korisnik " + z.korisnickoIme + " uspesno otvorio racun klijentu " + racun.klijent.korisnickoIme + ".");
 		return new ResponseEntity<Racun>(racunRepozitorijum.save(racun), HttpStatus.CREATED);
 	}
 
@@ -188,6 +192,7 @@ public class RacunServisImpl implements RacunServis {
 
 	@Override
 	public ResponseEntity<Racun> zatvoriRacun(Racun racun) {
+		Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
 		Racun r = racunRepozitorijum.findOne(racun.id);
 		r.datumZatvaranja = new Date();
 		r.racunPrenosa = racun.racunPrenosa.substring(0, 3) + "-" + racun.racunPrenosa.substring(3, 15) + "-" + racun.racunPrenosa.substring(15);
@@ -214,6 +219,7 @@ public class RacunServisImpl implements RacunServis {
 			}
 		analitikaIzvodaServisImpl.transferSredstava(ai, r.valuta.zvanicnaSifra, (long) 1);
 		r.vazeci = false;
+		logger.info("Zaposleni " + z.korisnickoIme + " uspesno zatvorio racun korisnika " + r.klijent.korisnickoIme + "." );
 		return new ResponseEntity<Racun>(racunRepozitorijum.save(r), HttpStatus.OK);
 	}
 

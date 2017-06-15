@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import poslovna.model.Drzava;
+import poslovna.model.Korisnik;
 import poslovna.repozitorijumi.DrzavaRepozitorijum;
 import poslovna.repozitorijumi.ValutaRepozitorijum;
 import poslovna.servisi.DrzavaServis;
@@ -20,6 +24,12 @@ import poslovna.servisi.DrzavaServis;
 @Transactional
 public class DrzavaServisImpl implements DrzavaServis {
 
+	
+	final static Logger logger = Logger.getLogger(DrzavaServisImpl.class);
+	
+	@Autowired
+	HttpSession sesija;
+	
 	@Autowired
 	DrzavaRepozitorijum drzavaRepozitorijum;
 
@@ -28,9 +38,13 @@ public class DrzavaServisImpl implements DrzavaServis {
 
 	@Override
 	public ResponseEntity<Drzava> registracijaDrzave(Drzava drzava, Long idValute) {
-		if (drzavaRepozitorijum.findBySifra(drzava.sifra).size() != 0)
+		Korisnik k = (Korisnik) sesija.getAttribute("korisnik");
+		if (drzavaRepozitorijum.findBySifra(drzava.sifra).size() != 0){
+			logger.info("Korisnik " + k.korisnickoIme + " neuspesno pokusao da registruje drzavu.");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 		drzava.valuta = valutaRepozitorijum.findOne(idValute);
+		logger.info("Korisnik " + k.korisnickoIme + " uspesno registrovao drzavu " + drzava.naziv + ".");
 		return new ResponseEntity<Drzava>(drzavaRepozitorijum.save(drzava), HttpStatus.CREATED);
 	}
 
@@ -78,6 +92,8 @@ public class DrzavaServisImpl implements DrzavaServis {
 	@Override
 	public ResponseEntity<?> izbrisiDrzavu(Long idDrzavu) {
 		drzavaRepozitorijum.delete(idDrzavu);
+		Korisnik k = (Korisnik) sesija.getAttribute("korisnik");
+		logger.info("Korisnik " + k.korisnickoIme + " uspesno izbrisao drzavu " + drzavaRepozitorijum.findOne(idDrzavu).naziv + ".");
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
@@ -92,6 +108,10 @@ public class DrzavaServisImpl implements DrzavaServis {
 			d.sifra = drzava.sifra;
 		if (idValute != -1)
 			d.valuta = valutaRepozitorijum.findOne(idValute);
+		
+		Korisnik k = (Korisnik) sesija.getAttribute("korisnik");
+		logger.info("Korisnik " + k.korisnickoIme + " uspesno izmenio polja drzave " + drzava.naziv + ".");
+		
 		return new ResponseEntity<Drzava>(drzavaRepozitorijum.save(d), HttpStatus.OK);
 }
 	

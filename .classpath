@@ -27,6 +27,10 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="spring-webmvc-4.3.3.RELEASE.jar"/>
+=======
+	<classpathentry kind="lib" path="D:/Users/Milos/Downloads/log4j-1.2.17/apache-log4j-1.2.17/log4j-1.2.17.jar"/>
+>>>>>>> beea2dea5a39c63b8f01315cc750e76e78384ccd
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
