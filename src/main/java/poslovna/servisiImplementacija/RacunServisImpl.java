@@ -85,6 +85,9 @@ public class RacunServisImpl implements RacunServis {
 				.subtract(bigInt.multiply(new BigInteger("100")).remainder(new BigInteger("97")));
 	
 		racun.brojRacuna = b.banka3kod + "-" + racunGlavniDio + "-" + checksum ;
+		DnevnoStanjeRacuna dsr = new DnevnoStanjeRacuna(0.0, 0.0, 0.0, 0.0, new Date());
+		dsr.racun = racun;
+		racun.dnevnaStanja.add(dsr);
 		if(racunRepozitorijum.findByBrojRacuna(racun.brojRacuna) != null)
 			return new ResponseEntity<>(HttpStatus.OK);
 		logger.info("Korisnik " + z.korisnickoIme + " uspesno otvorio racun klijentu " + racun.klijent.korisnickoIme + ".");

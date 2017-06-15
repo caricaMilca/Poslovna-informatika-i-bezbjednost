@@ -122,6 +122,7 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 
 			mp.iznos += analitikaIzvoda.iznos;
 			mp.izvodi.add(analitikaIzvoda);
+			analitikaIzvoda.medjubankarskiPrenos = mp;
 			medjubankarskiPrenosRepozitorijum.save(mp);
 		}
 		return new ResponseEntity<>(HttpStatus.CREATED);
@@ -188,6 +189,7 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 			analitikaIzvoda.tipGreske = TipGreske.NEPROCESIRAN;
 			mp.iznos += analitikaIzvoda.iznos;
 			mp.izvodi.add(analitikaIzvoda);
+			analitikaIzvoda.medjubankarskiPrenos = mp;
 			medjubankarskiPrenosRepozitorijum.save(mp);
 		}
 
@@ -207,23 +209,7 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 				analitikaIzvoda.pozivNaBrojZaduzenja, analitikaIzvoda.pozivNaBrojOdobrenja,
 				analitikaIzvoda.modelOdobrenja, analitikaIzvoda.hitno, analitikaIzvoda.iznos,
 				analitikaIzvoda.tipTransakcije, SmijerTransakcije.NA_KORIST);
-		/*
-		 * izvodPovjerioca.racunDuznika = analitikaIzvoda.racunDuznika;
-		 * izvodPovjerioca.racunPovjerioca = analitikaIzvoda.racunPovjerioca;
-		 * izvodPovjerioca.datumPrimanja = analitikaIzvoda.datumPrimanja;
-		 * izvodPovjerioca.tipTransakcije = analitikaIzvoda.tipTransakcije;
-		 * izvodPovjerioca.duznik = analitikaIzvoda.povjerilac;
-		 * izvodPovjerioca.povjerilac = analitikaIzvoda.duznik;
-		 * izvodPovjerioca.hitno = analitikaIzvoda.hitno; izvodPovjerioca.iznos
-		 * = analitikaIzvoda.iznos; izvodPovjerioca.modelOdobrenja =
-		 * analitikaIzvoda.modelZaduzenja; izvodPovjerioca.modelZaduzenja =
-		 * analitikaIzvoda.modelOdobrenja; izvodPovjerioca.svrhaPlacanja =
-		 * analitikaIzvoda.svrhaPlacanja; izvodPovjerioca.pozivNaBrojOdobrenja =
-		 * analitikaIzvoda.pozivNaBrojZaduzenja;
-		 * izvodPovjerioca.pozivNaBrojZaduzenja =
-		 * analitikaIzvoda.pozivNaBrojOdobrenja; izvodPovjerioca.smijer =
-		 * SmijerTransakcije.NA_KORIST;
-		 */
+
 		analitikaIzvoda.vrstaPlacanja = vrstaPlacanjaRepozitorijum.findOne(idTipaPlacanja);
 		izvodPovjerioca.vrstaPlacanja = analitikaIzvoda.vrstaPlacanja;
 		if (analitikaIzvoda.racunPovjerioca == null || analitikaIzvoda.racunDuznika == null
@@ -334,6 +320,7 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 				mp.iznos += analitikaIzvoda.iznos;
 				analitikaIzvoda.tipGreske = TipGreske.NEPROCESIRAN;
 				mp.izvodi.add(analitikaIzvoda);
+				analitikaIzvoda.medjubankarskiPrenos = mp;
 			}
 
 			if (povjerilac != null) {
@@ -357,6 +344,7 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 				izvodPovjerioca.tipGreske = TipGreske.NEPROCESIRAN;
 				mp.iznos += izvodPovjerioca.iznos;
 				mp.izvodi.add(izvodPovjerioca);
+				izvodPovjerioca.medjubankarskiPrenos = mp;
 			}
 
 			medjubankarskiPrenosRepozitorijum.save(mp);
@@ -485,7 +473,8 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 			MedjubankarskiPrenos mp = new MedjubankarskiPrenos();
 			mp.bankaPosiljalac = b1;
 			mp.bankaPrimalac = b2;
-			mp.datum = new Timestamp(datum.getTime());
+	//		mp.datum = new Timestamp(datum.getTime());
+			mp.datum = datum;
 			mp.iznos = (double) 0;
 			return mp;
 		}

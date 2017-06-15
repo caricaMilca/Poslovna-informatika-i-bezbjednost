@@ -56,11 +56,16 @@
 							ng-click="changeMode(13)" ng-disabled="!selectedIzvod">
 							<img class="dugmici" src="images/nextform.gif" />
 						</button>
-						</p>
+					</div>
+					<div class="btn-group">
 						<button type="button" class="btn btn-default" data-toggle="modal"
 							data-target="#izaberiFajl">
 							<img class="dugmici" src="images/import.png" />
 						</button>
+						<button type="button" class="btn btn-default" ng-click="exportMedjubankarskiPrenos()">
+							<img class="dugmici" src="images/import.png" />
+						</button>
+					</div>
 					</div>
 					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
 					Trenutni mod : {{mode}}
@@ -425,13 +430,13 @@
 					<h4 class="modal-title">Izaberi fajl cije stavke zelis da
 						ucitas</h4>
 				</div>
-					<div class="modal-body">
-						<input type="file" id="imeFajla" />
-						<button ng-click="ucitajFajl()">Upload</button>
-					</div>
+				<div class="modal-body">
+					<input type="file" id="imeFajla" />
+					<button ng-click="ucitajFajl()">Upload</button>
 				</div>
 			</div>
-
 		</div>
+
 	</div>
+</div>
 </div>

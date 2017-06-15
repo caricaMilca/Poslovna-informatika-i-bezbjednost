@@ -15,6 +15,10 @@ app.factory('analitikaIzvodaService', function analitikaIzvodaService($http) {
 		return $http.get("/importExportStavkiPlacanja/ucitajFajl/" + imeFajla);
 	}
 	
+	analitikaIzvodaService.exportMedjubankarskogPrenosa = function(id){
+		return $http.get("/importExportStavkiPlacanja/exportMedjubankarskogPrenosa/" + id);
+	}
+	
 	analitikaIzvodaService.sveValute = function(){
 		return $http.get("/valuta/sveValute");
 	}

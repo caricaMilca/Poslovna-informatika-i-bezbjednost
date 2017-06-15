@@ -38,7 +38,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 	    "hitno",
 	    "iznos",
 	    "tipTransakcije",
-	    "valuta"
+	    "smijer",
+	    "tipPoruke",
+	    "vrstaPlacanja",
+	    "valuta",
+	    "mestoPlacanja"
 	})
 @XmlRootElement(name = "analitikaIzvoda")
 @Entity
@@ -103,11 +107,11 @@ public class AnalitikaIzvoda {
 	@Enumerated(EnumType.STRING)
 	public TipTransakcije tipTransakcije;
 
-	@XmlTransient
+	@XmlElement
 	@Enumerated(EnumType.STRING)
 	public SmijerTransakcije smijer;
 
-	@XmlTransient
+	@XmlElement
 	@Enumerated(EnumType.STRING)
 	public TipPoruke tipPoruke;
 
@@ -116,7 +120,7 @@ public class AnalitikaIzvoda {
 	@ManyToOne(cascade = CascadeType.ALL)
 	public DnevnoStanjeRacuna dnevnoStanjeRacuna;
 
-	@XmlTransient
+	@XmlElement
 	@ManyToOne
 	public VrstaPlacanja vrstaPlacanja;
 
@@ -128,7 +132,7 @@ public class AnalitikaIzvoda {
 	@ManyToOne
 	public MedjubankarskiPrenos medjubankarskiPrenos;
 
-	@XmlTransient
+	@XmlElement
 	@ManyToOne
 	public NaseljenoMjesto mestoPlacanja;
 

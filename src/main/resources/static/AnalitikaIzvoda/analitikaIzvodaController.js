@@ -167,8 +167,9 @@ app
 										$scope.noviIzvod = null;
 										$scope.mode = 'Pregled';
 										$scope.selectedIzvod = null;
-										//$scope.noviIzvod.datumPrimanja = null;
-										//$scope.noviIzvod.datumValute = null;
+										// $scope.noviIzvod.datumPrimanja =
+										// null;
+										// $scope.noviIzvod.datumValute = null;
 										document.getElementById("datumPrimanja").value = "";
 										document.getElementById("datumValute").value = "";
 									}
@@ -247,5 +248,18 @@ app
 											}
 										});
 								 }
+							}
+							
+							$scope.exportMedjubankarskiPrenos = function() {
+								 analitikaIzvodaService.exportMedjubankarskogPrenosa(1).then(function(response) {
+										if (response.status == 200) {
+											ngNotify
+											.set(
+													'Uspjesno exportovan medjubankarski prenos',
+													{
+														type : 'success'
+													});
+										}
+								 });
 							}
 						} ]);
