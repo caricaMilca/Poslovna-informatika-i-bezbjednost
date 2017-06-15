@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpSession;
 
@@ -14,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import poslovna.hesiranje.Password;
 import poslovna.model.Klijent;
 import poslovna.model.UlogaKlijenta;
 import poslovna.model.UlogaKorisnika;
@@ -56,12 +59,18 @@ public class KlijentServisImpl implements KlijentServis {
 					+ k.korisnickoIme + ".");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		k.uloga = UlogaKorisnika.Klijent;
-		k.roles.add(roleServis.findOne(Long.valueOf(1)));
-		k.roles.add(roleServis.findOne(Long.valueOf(6)));
-		logger.info("Zaposleni " + zaposleni.korisnickoIme + " uspesno registrovao novog korisnika " + k.korisnickoIme
-				+ ".");
-		return new ResponseEntity<Klijent>(klijentRepozitorijum.save(k), HttpStatus.CREATED);
+		Pattern p = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$");
+		Matcher m = p.matcher(k.lozinka);
+		if (m.matches()) {
+			k.lozinka = Password.hashPassword(k.lozinka);
+			k.uloga = UlogaKorisnika.Klijent;
+			k.roles.add(roleServis.findOne(Long.valueOf(1)));
+			k.roles.add(roleServis.findOne(Long.valueOf(6)));
+			logger.info("Zaposleni " + zaposleni.korisnickoIme + " uspesno registrovao novog korisnika "
+					+ k.korisnickoIme + ".");
+			return new ResponseEntity<Klijent>(klijentRepozitorijum.save(k), HttpStatus.CREATED);
+		} else
+			return new ResponseEntity<Klijent>(HttpStatus.BAD_REQUEST);
 	}
 
 	@Override

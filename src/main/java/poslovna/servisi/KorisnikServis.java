@@ -4,11 +4,11 @@ import poslovna.model.Korisnik;
 
 public interface KorisnikServis {
 
-	Korisnik logovanje(String korisnickoIme, String lozinka);
+	Korisnik logovanje(String korisnickoIme);
 
 	Korisnik save(Korisnik k);
 	
-	void promenaLozinke(String l);
+	boolean promenaLozinke(String l);
 	
 	Korisnik preuzmiKorisnika(Long id);
 }

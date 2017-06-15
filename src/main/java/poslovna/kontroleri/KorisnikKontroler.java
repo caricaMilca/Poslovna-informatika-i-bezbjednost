@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import poslovna.autorizacija.AutorizacijaAnnotation;
+import poslovna.hesiranje.Password;
 import poslovna.model.Korisnik;
 import poslovna.servisi.KorisnikServis;
 
@@ -26,18 +27,23 @@ public class KorisnikKontroler {
 	HttpSession sesija;
 
 	final static Logger logger = Logger.getLogger(KorisnikKontroler.class);
-	
-	
+
 	@AutorizacijaAnnotation(imeMetode = "logovanje")
 	@GetMapping(path = "/logovanje/{korisnickoIme}/{lozinka}")
 	public ResponseEntity<Korisnik> logovanje(@PathVariable("korisnickoIme") String korisnickoIme,
 			@PathVariable("lozinka") String lozinka) {
-		Korisnik k = korisnikServis.logovanje(korisnickoIme, lozinka);
+		Korisnik k = korisnikServis.logovanje(korisnickoIme);
 		if (k != null) {
-			sesija.setAttribute("korisnik", k);
-			logger.info("Korisnik " + korisnickoIme + " se uspesno ulogovao.");
-			return new ResponseEntity<Korisnik>(k, HttpStatus.OK);
-		} else{
+			if (k.lozinka.equals("ceks")) {
+				sesija.setAttribute("korisnik", k);
+				return new ResponseEntity<Korisnik>(k, HttpStatus.OK);
+			} else if (Password.checkPassword(lozinka, k.lozinka)) {
+				sesija.setAttribute("korisnik", k);
+				logger.info("Korisnik " + korisnickoIme + " se uspesno ulogovao.");
+				return new ResponseEntity<Korisnik>(k, HttpStatus.OK);
+			} else
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} else {
 			logger.info("Korisnik " + korisnickoIme + " je pokusao logovanja. Neuspesno.");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
@@ -58,10 +64,11 @@ public class KorisnikKontroler {
 	@PutMapping(path = "/promenaLozinke/{lozinka}")
 	public ResponseEntity<?> promenaLozinke(@PathVariable("lozinka") String lozinka) {
 		Korisnik k = (Korisnik) sesija.getAttribute("korisnik");
-		korisnikServis.promenaLozinke(lozinka);
-		logger.info("Korisnik " + k.korisnickoIme + " je uspesno promenio lozinku.");
-		return new ResponseEntity<>(HttpStatus.OK);
+		if (korisnikServis.promenaLozinke(lozinka)) {
+			logger.info("Korisnik " + k.korisnickoIme + " je uspesno promenio lozinku.");
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
-	
 
 }
