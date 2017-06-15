@@ -35,6 +35,7 @@ public class KorisnikKontroler {
 		Korisnik k = korisnikServis.logovanje(korisnickoIme, lozinka);
 		if (k != null) {
 			sesija.setAttribute("korisnik", k);
+			logger.info("Korisnik " + korisnickoIme + " se uspesno ulogovao.");
 			return new ResponseEntity<Korisnik>(k, HttpStatus.OK);
 		} else{
 			logger.info("Korisnik " + korisnickoIme + " je pokusao logovanja. Neuspesno.");

@@ -9,6 +9,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +45,8 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 
 	@Autowired
 	HttpSession sesija;
+
+	final static Logger logger = Logger.getLogger(AnalitikaIzvodaServisImpl.class);
 
 	@Autowired
 	AnalitikaIzvodaRepozitorijum analitikaIzvodaRepozitorijum;
@@ -87,8 +90,6 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 		if (analitikaIzvoda.racunPovjerioca.substring(0, 3).equals(banka.banka3kod) && racun == null)
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-		
-
 		if (racun != null) { // nije medjubankarski
 			if (!racun.vazeci)
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -125,6 +126,10 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 			analitikaIzvoda.medjubankarskiPrenos = mp;
 			medjubankarskiPrenosRepozitorijum.save(mp);
 		}
+
+		logger.info("Uspesno izvrsena uplata na racun poverioca " + analitikaIzvoda.povjerilac + " u iznosu od "
+				+ analitikaIzvoda.iznos + sifraValute + ". Uplatu izvrsio/la zaposleni/a " + zaposleni.ime + " "
+				+ zaposleni.prezime + ".");
 		return new ResponseEntity<>(HttpStatus.CREATED);
 
 	}
@@ -143,7 +148,7 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 		if (duznik == null && analitikaIzvoda.racunDuznika.substring(0, 3).equals(banka.banka3kod)) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		
+
 		if (duznik != null) { // nije medjubankarski
 			if (!duznik.vazeci)
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -192,6 +197,9 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 			analitikaIzvoda.medjubankarskiPrenos = mp;
 			medjubankarskiPrenosRepozitorijum.save(mp);
 		}
+		logger.info("Uspesno izvrsena isplata sa racuna duznika " + analitikaIzvoda.duznik + " u iznosu od "
+				+ analitikaIzvoda.iznos + sifraValute + ". Uplatu izvrsio/la zaposleni/a " + zaposleni.ime + " "
+				+ zaposleni.prezime + ".");
 
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
@@ -285,7 +293,7 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 									// da
 									// tako funkcionise,
 									// provjeriti
-				if (!duznik.vazeci )
+				if (!duznik.vazeci)
 					return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
 				if (analitikaIzvoda.datumValute == null)
@@ -350,6 +358,10 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 			medjubankarskiPrenosRepozitorijum.save(mp);
 
 		}
+
+		logger.info("Uspesno izvrsena transfer novca sa racun duznika " + analitikaIzvoda.duznik
+				+ " na racun poverioca " + analitikaIzvoda.povjerilac + " u iznosu od " + analitikaIzvoda.iznos
+				+ sifraValute + ". Uplatu izvrsio/la zaposleni/a " + zaposleni.ime + " " + zaposleni.prezime + ".");
 
 		return new ResponseEntity<>(HttpStatus.CREATED);
 

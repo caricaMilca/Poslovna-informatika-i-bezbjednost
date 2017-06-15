@@ -248,6 +248,7 @@ app
 											}
 										});
 								 }
+								 $('#izaberiFajl').modal('hide');
 							}
 							
 							$scope.exportMedjubankarskiPrenos = function() {

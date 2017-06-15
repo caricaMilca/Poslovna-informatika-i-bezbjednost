@@ -90,7 +90,7 @@ public class RacunServisImpl implements RacunServis {
 		racun.dnevnaStanja.add(dsr);
 		if(racunRepozitorijum.findByBrojRacuna(racun.brojRacuna) != null)
 			return new ResponseEntity<>(HttpStatus.OK);
-		logger.info("Korisnik " + z.korisnickoIme + " uspesno otvorio racun klijentu " + racun.klijent.korisnickoIme + ".");
+		logger.info("Korisnik " + z.korisnickoIme + " uspesno otvorio racun klijentu " + racun.klijent.korisnickoIme + " u banci " + b.naziv + ".");
 		return new ResponseEntity<Racun>(racunRepozitorijum.save(racun), HttpStatus.CREATED);
 	}
 
@@ -222,7 +222,7 @@ public class RacunServisImpl implements RacunServis {
 			}
 		analitikaIzvodaServisImpl.transferSredstava(ai, r.valuta.zvanicnaSifra, (long) 1);
 		r.vazeci = false;
-		logger.info("Zaposleni " + z.korisnickoIme + " uspesno zatvorio racun korisnika " + r.klijent.korisnickoIme + "." );
+		logger.info("Zaposleni " + z.korisnickoIme + " uspesno zatvorio racun korisnika " + r.klijent.korisnickoIme + " u banci " + racun.banka.naziv +  "." );
 		return new ResponseEntity<Racun>(racunRepozitorijum.save(r), HttpStatus.OK);
 	}
 

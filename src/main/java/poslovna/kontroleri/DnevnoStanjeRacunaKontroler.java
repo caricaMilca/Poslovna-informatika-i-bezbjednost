@@ -24,14 +24,14 @@ public class DnevnoStanjeRacunaKontroler {
 
 	@Autowired
 	HttpSession sesija;
-	
+
 	@Autowired
 	DnevnoStanjeRacunaServis dnevnoStanjeRacunaServis;
-	
+
 	@AutorizacijaAnnotation(imeMetode = "registracijaDnevnogStanjaRacuna")
 	@PostMapping(path = "/registracijaDnevnogStanjaRacuna/{idRacuna}")
-	public ResponseEntity<DnevnoStanjeRacuna> registracijaDnevnogStanjaRacuna(@Valid @RequestBody DnevnoStanjeRacuna dnevnoStanjeRacuna,
-			@PathVariable("idRacuna") Long idRacuna) {
+	public ResponseEntity<DnevnoStanjeRacuna> registracijaDnevnogStanjaRacuna(
+			@Valid @RequestBody DnevnoStanjeRacuna dnevnoStanjeRacuna, @PathVariable("idRacuna") Long idRacuna) {
 		return dnevnoStanjeRacunaServis.registracijaDnevnogStanjaRacuna(dnevnoStanjeRacuna, idRacuna);
 
 	}
@@ -44,14 +44,16 @@ public class DnevnoStanjeRacunaKontroler {
 
 	@AutorizacijaAnnotation(imeMetode = "svaDnevnaStanjeRacunaDatog")
 	@GetMapping(path = "/svaDnevnaStanjeRacunaDatog/{idRacuna}")
-	public ResponseEntity<List<DnevnoStanjeRacuna>> svaDnevnaStanjaRacunaDatog(@PathVariable("idRacuna") Long idRacuna) {
+	public ResponseEntity<List<DnevnoStanjeRacuna>> svaDnevnaStanjaRacunaDatog(
+			@PathVariable("idRacuna") Long idRacuna) {
 		return dnevnoStanjeRacunaServis.svaDnevnaStanjeRacunaDatog(idRacuna);
 	}
 
 	@AutorizacijaAnnotation(imeMetode = "pretraziDnevnaStanjeRacuna")
 	@GetMapping(path = "/pretraziDnevnaStanjeRacuna/{idRacuna}")
 	public ResponseEntity<List<DnevnoStanjeRacuna>> pretraziDnevnaStanjeRacuna(
-			@RequestBody(required = false) DnevnoStanjeRacuna dnevnoStanjeRacuna, @PathVariable("idRacuna") Long idRacuna) {
+			@RequestBody(required = false) DnevnoStanjeRacuna dnevnoStanjeRacuna,
+			@PathVariable("idRacuna") Long idRacuna) {
 		return dnevnoStanjeRacunaServis.pretraziDnevnaStanjeRacuna(dnevnoStanjeRacuna, idRacuna);
 	}
 }
