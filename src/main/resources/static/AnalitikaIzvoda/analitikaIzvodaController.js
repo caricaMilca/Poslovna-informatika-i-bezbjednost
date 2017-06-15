@@ -247,5 +247,6 @@ app
 											}
 										});
 								 }
+								 $('#izaberiFajl').modal('hide');
 							}
 						} ]);
