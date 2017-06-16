@@ -18,7 +18,7 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import poslovna.autorizacija.AutorizacijaAnnotation;
-import poslovna.model.Korisnik;
+import poslovna.model.Zaposleni;
 
 @RestController
 @RequestMapping("/banka")
@@ -40,12 +40,11 @@ public class BankaKontroler {
 
 	}*/
 	
-	@SuppressWarnings("unchecked")
 	@AutorizacijaAnnotation(imeMetode = "izvestaj")
 	@GetMapping(path = "/izvestaj")
 	public void exportToPdf(){
 		System.out.println("aaaaaaaa");
-		Korisnik k = (Korisnik) sesija.getAttribute("korisnik");
+		Zaposleni k = (Zaposleni) sesija.getAttribute("korisnik");
 		Map<String,Object> parametersMap = new HashMap<>();  
 		parametersMap.put("idbanke",k.banka.id);
 		try {
