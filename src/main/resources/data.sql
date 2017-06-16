@@ -3,15 +3,19 @@ insert into Banka(sifra, pib, adresa, naziv, email, web, telefon, fax, obracunsk
 insert into Banka(sifra, pib, adresa, naziv, email, web, telefon, fax, obracunski_racun, banka3kod) values (21, 654,'bankaAdresa', 'BankaC', 'banka@gmail.com','banka.com', '0650650650', 'banka.fax', '1321881', '120');
 
 
-insert into Korisnik(korisnicko_ime, lozinka, uloga, banka_id) values ('ceks', 'ceks', 'Zaposleni', 1);
-insert into Korisnik(korisnicko_ime, lozinka, uloga, banka_id) values ('ceks1', 'ceks', 'Zaposleni', 1);
-insert into Korisnik(korisnicko_ime, lozinka, uloga, banka_id) values ('ceks2', 'ceks', 'Zaposleni', 1);
-insert into Korisnik(korisnicko_ime, lozinka, uloga, banka_id) values ('ceks3', 'ceks', 'Klijent', 1);
-insert into Korisnik(korisnicko_ime, lozinka, uloga, banka_id) values ('ceks4', 'ceks', 'Klijent', 1);
-insert into Korisnik(korisnicko_ime, lozinka, uloga, banka_id) values ('ceks5', 'ceks', 'Klijent', 1);
-insert into Korisnik(korisnicko_ime, lozinka, uloga, banka_id) values ('ceks6', 'ceks', 'Klijent', 2);
-insert into Korisnik(korisnicko_ime, lozinka, uloga, banka_id) values ('ceks7', 'ceks', 'Klijent', 3);
-insert into Korisnik(korisnicko_ime, lozinka, uloga, banka_id) values ('ceks8', 'ceks', 'Klijent', 2);
+insert into Korisnik(korisnicko_ime, lozinka, uloga) values ('ceks', 'ceks', 'Zaposleni');
+insert into Korisnik(korisnicko_ime, lozinka, uloga ) values ('ceks1', 'ceks', 'Zaposleni');
+insert into Korisnik(korisnicko_ime, lozinka, uloga ) values ('ceks2', 'ceks', 'Zaposleni');
+insert into Korisnik(korisnicko_ime, lozinka, uloga ) values ('ceks3', 'ceks', 'Klijent');
+insert into Korisnik(korisnicko_ime, lozinka, uloga ) values ('ceks4', 'ceks', 'Klijent');
+insert into Korisnik(korisnicko_ime, lozinka, uloga ) values ('ceks5', 'ceks', 'Klijent');
+insert into Korisnik(korisnicko_ime, lozinka, uloga ) values ('ceks6', 'ceks', 'Klijent');
+insert into Korisnik(korisnicko_ime, lozinka, uloga ) values ('ceks7', 'ceks', 'Klijent');
+insert into Korisnik(korisnicko_ime, lozinka, uloga ) values ('ceks8', 'ceks', 'Klijent');
+insert into Korisnik(korisnicko_ime, lozinka, uloga ) values ('ceks9', 'ceks', 'Zaposleni');
+insert into Korisnik(korisnicko_ime, lozinka, uloga ) values ('ceks10', 'ceks', 'Zaposleni');
+insert into Korisnik(korisnicko_ime, lozinka, uloga ) values ('ceks11', 'ceks', 'Zaposleni');
+insert into Korisnik(korisnicko_ime, lozinka, uloga ) values ('ceks12', 'ceks', 'Zaposleni');
 
 
 insert into Vrsta_placanja(naziv) values ('karticom');
@@ -43,9 +47,15 @@ insert into KursUValuti(kupovni, prodajni, srednji, osnovna_valuta_id, prema_val
 insert into Djelatnost(naziv, sifra) values ('Vodoinstalater', 'VVVV');
 insert into Djelatnost(naziv, sifra) values ('Elektricar', 'EEEE');
 
-insert into Zaposleni(id, ulogaZ) values (1, 'Salterusa');
-insert into Zaposleni(id, ulogaZ) values (2, 'Salterusa');
-insert into Zaposleni(id, ulogaZ) values (3, 'Administrator');
+insert into Zaposleni(id, ulogaZ, banka_id) values (1, 'Salterusa', 1);
+insert into Zaposleni(id, ulogaZ, banka_id) values (2, 'Salterusa', 1);
+insert into Zaposleni(id, ulogaZ, banka_id) values (3, 'Administrator', 1);
+insert into Zaposleni(id, ulogaZ, banka_id) values (10, 'Administrator', 2);
+insert into Zaposleni(id, ulogaZ, banka_id) values (11, 'Salterusa', 2);
+insert into Zaposleni(id, ulogaZ, banka_id) values (12, 'Salterusa', 3);
+insert into Zaposleni(id, ulogaZ, banka_id) values (13, 'Administrator', 3);
+
+
 insert into Klijent(id, ulogaK) values (4, 'FIZICKO');
 insert into Klijent(id, ulogaK, djelatnost_id) values (5, 'POSLOVNO', 1);
 insert into Klijent(id, ulogaK) values (6, 'FIZICKO');
@@ -140,6 +150,9 @@ insert into Privilege(name) values ('izbrisiKursUValuti');--66
 insert into Privilege(name) values ('ucitajFajl');--67
 insert into Privilege(name) values ('exportMedjubankarskogPrenosa');--68
 insert into Privilege(name) values ('exportAnalitikaKlijenta');--69
+insert into Privilege(name) values ('sviMedjubankarskiPrenosi');--70
+insert into Privilege(name) values ('sveAnalitikePrenosa');--71
+
  
 insert into Role(name) values ('klijentRole');--1
 insert into Role(name) values ('adminRole');--2
@@ -229,8 +242,8 @@ insert into Roles_privileges(role_id, privilege_id) values (6, 1);
 insert into Roles_privileges(role_id, privilege_id) values (6, 24);
 insert into Roles_privileges(role_id, privilege_id) values (6, 25);
 insert into Roles_privileges(role_id, privilege_id) values (6, 58);
-
-
+insert into Roles_privileges(role_id, privilege_id) values (6, 70);
+insert into Roles_privileges(role_id, privilege_id) values (6, 71);
 
 insert into Korisnicke_roles(korisnik_id, role_id) values (1, 5);
 insert into Korisnicke_roles(korisnik_id, role_id) values (1, 6);

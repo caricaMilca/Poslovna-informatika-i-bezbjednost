@@ -42,6 +42,8 @@ app
 							$rootScope.nextFormDjelatnost = null;
 							$rootScope.kojiRacuni = 'svi';
 							$rootScope.nextFormKlijent = null;
+							$rootScope.nextFormPrenos = null;
+							$rootScope.kojeAnalitike = 'sve';
 							
 							sessionService
 									.preuzmiKlijenta()

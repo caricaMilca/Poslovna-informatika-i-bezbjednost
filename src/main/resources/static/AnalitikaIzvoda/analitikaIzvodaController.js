@@ -37,7 +37,16 @@ app
 										function(response) {
 												$scope.sviIzvodi = response.data;
 										});
-							} else {
+							}else if($rootScope.kojeAnalitike == 'prenosa'){
+								analitikaIzvodaService
+								.sveAnalitikePrenosa(
+										$rootScope.nextFormPrenos.id)
+								.then(
+										function(response) {
+												$scope.sviIzvodi = response.data;
+										});
+							}
+							else {
 								analitikaIzvodaService.sveAnalitike().then(function(response) {
 									if (response.data) {
 										$scope.sviIzvodi = response.data;									

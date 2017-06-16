@@ -1,5 +1,6 @@
 package poslovna.kontroleri;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -36,7 +37,13 @@ public class AnalitikaIzvodaKontroler {
 	@PostMapping(path = "/transakcija/{sifraValute}/{idTipaPlacanja}")
 	public ResponseEntity<AnalitikaIzvoda> transakcija(@Valid @RequestBody AnalitikaIzvoda analitikaIzvoda,
 			@PathVariable("sifraValute") String sifraValute, @PathVariable("idTipaPlacanja") Long idTipaPlacanja) {
-		if (analitikaIzvoda.datumPrimanja.before(new Date()) && !(analitikaIzvoda.datumPrimanja.equals(new Date()))) {
+		Calendar c = Calendar.getInstance();
+		c.set(Calendar.HOUR_OF_DAY, 0);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
+		Date today = c.getTime();
+		if (analitikaIzvoda.datumPrimanja.before(new Date()) && !(analitikaIzvoda.datumPrimanja.equals(today))) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		if (analitikaIzvoda.tipTransakcije == TipTransakcije.UPLATA)
@@ -51,6 +58,12 @@ public class AnalitikaIzvodaKontroler {
 	@GetMapping(path = "/sveAnalitikeIzvoda")
 	public ResponseEntity<List<AnalitikaIzvoda>> sveAnalitikeIzvoda() {
 		return analitikaIzvodaServis.sveAnalitikeIzvoda();
+	}
+	
+	@AutorizacijaAnnotation(imeMetode = "sveAnalitikePrenosa")
+	@GetMapping(path = "/sveAnalitikePrenosa/{id}")
+	public ResponseEntity<List<AnalitikaIzvoda>> sveAnalitikePrenosa(@PathVariable("id") Long id) {
+		return analitikaIzvodaServis.sveAnalitikePrenosa(id);
 	}
 
 	@AutorizacijaAnnotation(imeMetode = "sveAnalitikeIzvodaDnevnog")

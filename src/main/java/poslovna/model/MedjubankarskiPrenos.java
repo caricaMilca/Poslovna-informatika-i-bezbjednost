@@ -11,11 +11,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlSeeAlso;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -39,6 +43,8 @@ public class MedjubankarskiPrenos {
 	@JsonIgnore
 	public Set<AnalitikaIzvoda> izvodi = new HashSet<AnalitikaIzvoda>();
 	
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "mm.dd.yyyy")
 	@XmlElement(name = "datum")
 	@XmlSchemaType(name = "datum")
 	public Date datum; 

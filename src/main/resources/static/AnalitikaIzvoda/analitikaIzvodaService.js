@@ -27,6 +27,10 @@ app.factory('analitikaIzvodaService', function analitikaIzvodaService($http) {
 		return $http.get("/racun/sveAnalitikeRacuna/" + id);
 	}
 	
+	analitikaIzvodaService.sveAnalitikePrenosa = function(id){
+		return $http.get("/analitikaIzvoda/sveAnalitikePrenosa/" + id);
+	}
+	
 	analitikaIzvodaService.sveVrstePlacanja = function(){
 		return $http.get("/vrstaPlacanja/sveVrstePlacanja");
 	}

@@ -5,10 +5,12 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.http.ResponseEntity;
 
 import poslovna.model.AnalitikaIzvoda;
 import poslovna.model.Banka;
 import poslovna.model.Klijent;
+import poslovna.model.MedjubankarskiPrenos;
 import poslovna.model.TipGreske;
 
 public interface AnalitikaIzvodaRepozitorijum extends JpaRepository<AnalitikaIzvoda, Long> {
@@ -69,5 +71,7 @@ public interface AnalitikaIzvodaRepozitorijum extends JpaRepository<AnalitikaIzv
 
 	@Query("select k from AnalitikaIzvoda k inner join k.dnevnoStanjeRacuna dn inner join dn.racun r where r.klijent=?1")
 	List<AnalitikaIzvoda> sveAnalitikeKlijenta(Klijent findOne);
+
+	ResponseEntity<List<AnalitikaIzvoda>> findByMedjubankarskiPrenos(MedjubankarskiPrenos findOne);
 
 }

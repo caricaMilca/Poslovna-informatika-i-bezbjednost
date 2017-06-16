@@ -520,4 +520,10 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 		return analitikaIzvodaRepozitorijum.sveAnalitikeKlijenta(klijentRepozitorijum.findOne(id));
 	}
 
+	@Override
+	public ResponseEntity<List<AnalitikaIzvoda>> sveAnalitikePrenosa(Long id) {
+		// TODO Auto-generated method stub
+		return analitikaIzvodaRepozitorijum.findByMedjubankarskiPrenos(medjubankarskiPrenosRepozitorijum.findOne(id));
+	}
+
 }

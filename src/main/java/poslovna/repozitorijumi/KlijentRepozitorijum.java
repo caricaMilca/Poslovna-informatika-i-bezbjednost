@@ -25,6 +25,7 @@ public interface KlijentRepozitorijum extends JpaRepository<Klijent, Long> {
 
 	List<Klijent> findByUlogaK(UlogaKlijenta ulogaK);
 
+	@Query("select k from Klijent k inner join k.racuni as r where r.banka = ?1")
 	List<Klijent> findByBanka(Banka banka);
 	
 	@Query("select k from Klijent k where lower(k.prezime) like %?1%")

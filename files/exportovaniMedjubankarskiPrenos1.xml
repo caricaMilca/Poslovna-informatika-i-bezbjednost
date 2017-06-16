@@ -29,10 +29,10 @@
     </bankaPrimalac>
     <sviIzvodi>
         <izvodi>
-            <datumPrimanja>2017-06-16T00:00:00+02:00</datumPrimanja>
-            <racunPovjerioca>126-432324324324-342</racunPovjerioca>
+            <datumPrimanja>2017-06-17T00:00:00+02:00</datumPrimanja>
+            <racunPovjerioca>126-123123132123-123</racunPovjerioca>
             <hitno>false</hitno>
-            <iznos>100.0</iznos>
+            <iznos>300.0</iznos>
             <tipTransakcije>UPLATA</tipTransakcije>
             <smijer>NA_KORIST</smijer>
             <tipPoruke>MT102</tipPoruke>
@@ -47,10 +47,10 @@
             </valuta>
         </izvodi>
         <izvodi>
-            <datumPrimanja>2017-06-16T00:00:00+02:00</datumPrimanja>
-            <racunPovjerioca>126-121212212212-212</racunPovjerioca>
+            <datumPrimanja>2017-06-17T00:00:00+02:00</datumPrimanja>
+            <racunPovjerioca>126-123123123123-123</racunPovjerioca>
             <hitno>false</hitno>
-            <iznos>100.0</iznos>
+            <iznos>400.0</iznos>
             <tipTransakcije>UPLATA</tipTransakcije>
             <smijer>NA_KORIST</smijer>
             <tipPoruke>MT102</tipPoruke>
@@ -65,6 +65,6 @@
             </valuta>
         </izvodi>
     </sviIzvodi>
-    <datum>2017-06-16T00:00:00+02:00</datum>
-    <iznos>200.0</iznos>
+    <datum>2017-06-17T00:00:00+02:00</datum>
+    <iznos>700.0</iznos>
 </medjubankarskiPrenos>

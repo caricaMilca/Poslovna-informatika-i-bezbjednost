@@ -29,4 +29,6 @@ public interface AnalitikaIzvodaServis {
 
 	List<AnalitikaIzvoda> preuzmiAnalitikeKlijenta(Long id);
 
+	ResponseEntity<List<AnalitikaIzvoda>> sveAnalitikePrenosa(Long id);
+
 }

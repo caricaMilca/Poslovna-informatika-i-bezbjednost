@@ -53,7 +53,6 @@ public class KlijentServisImpl implements KlijentServis {
 		if (k.ulogaK == UlogaKlijenta.POSLOVNO)
 			k.djelatnost = djelatnostRepozitorijum.findOne(idDjelatnosti);
 		Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
-		k.banka = zaposleni.banka;
 		if (klijentRepozitorijum.findByKorisnickoIme(k.korisnickoIme) != null) {
 			logger.info("Zaposleni " + zaposleni.korisnickoIme + " neuspesno pokusao registraciju novog korisnika "
 					+ k.korisnickoIme + ".");

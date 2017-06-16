@@ -54,5 +54,8 @@ app.config(function($routeProvider, $locationProvider) {
 	}).when('/AnalitikaIzvoda/transfer',{
 		templateUrl: 'AnalitikaIzvoda/transfer.html',
 		controller: 'analitikaIzvodaController'
+	}).when('/MedjubankarskiPrenos/medjubankarskiPrenos',{
+		templateUrl: 'MedjubankarskiPrenos/medjubankarskiPrenos.html',
+		controller: 'medjubankarskiPrenosController'
 	})
 });

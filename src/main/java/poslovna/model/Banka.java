@@ -57,7 +57,7 @@ public class Banka {
 	@XmlTransient
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "banka", cascade = CascadeType.ALL)
 	@JsonIgnore
-	public Set<Korisnik> korisnici = new HashSet<Korisnik>();
+	public Set<Zaposleni> korisnici = new HashSet<Zaposleni>();
 
 	public Banka() {
 		super();

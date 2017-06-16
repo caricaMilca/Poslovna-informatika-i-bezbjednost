@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import poslovna.model.Banka;
-import poslovna.model.Korisnik;
 import poslovna.model.MedjubankarskiPrenos;
+import poslovna.model.Zaposleni;
 import poslovna.repozitorijumi.MedjubankarskiPrenosRepozitorijum;
 import poslovna.servisi.MedjubankarskiPrenosServis;
 
@@ -33,8 +33,8 @@ public class MedjubankarskiPrenosServisImpl implements MedjubankarskiPrenosServi
 
 	@Override
 	public ResponseEntity<List<MedjubankarskiPrenos>> sviMedjubankarskiPrenosi() {
-	Korisnik k = (Korisnik) sesija.getAttribute("korisnik");
-	Banka b = k.banka;
+	Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
+	Banka b = z.banka;
 	return new ResponseEntity<List<MedjubankarskiPrenos>>(medjubankarskiPrenosRepozitorijum.findByBankaPosiljalac(b),HttpStatus.OK);
 	}
 

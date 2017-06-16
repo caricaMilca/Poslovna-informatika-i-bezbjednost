@@ -268,7 +268,7 @@ app
 							}
 							
 							$scope.exportAnalitikeKlijenta = function() {
-								 klijentService.exportAnalitikeKlijenta(5).then(function(response) {
+								 klijentService.exportAnalitikeKlijenta($scope.selectedKlijent.id).then(function(response) {
 										if (response.status == 200) {
 											ngNotify
 											.set(

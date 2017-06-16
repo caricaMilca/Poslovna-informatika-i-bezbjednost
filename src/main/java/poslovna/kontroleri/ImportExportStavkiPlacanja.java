@@ -67,6 +67,8 @@ public class ImportExportStavkiPlacanja {
 	@GetMapping(path = "/exportMedjubankarskogPrenosa/{idMP}")
 	public ResponseEntity<?> exportMedjubankarskogPrenosa(@PathVariable("idMP") Long id) throws JAXBException {
 		MedjubankarskiPrenos mp = medjubankarskiPrenosServis.preuzmiMedjubankarskiPrenos(id);
+		if(mp == null)
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		File fajl = new File("./files/exportovaniMedjubankarskiPrenos"+mp.id.toString()+".xml");
 		JAXBContext context = JAXBContext.newInstance(MedjubankarskiPrenos.class);
 		Marshaller marshaller = context.createMarshaller();
@@ -83,6 +85,8 @@ public class ImportExportStavkiPlacanja {
 		List<AnalitikaIzvoda> ai = analitikaIzvodaServis.preuzmiAnalitikeKlijenta(id);
 		sp.analitikaIzvoda = ai;
 		Klijent k = klijentServis.preuzmiKlijenta(id);
+		if(k == null)
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		File fajl = new File("./files/exportovaneAnalitikeKlijenta"+k.id.toString()+".xml");
 		JAXBContext context = JAXBContext.newInstance(StavkePlacanja.class);
 		Marshaller marshaller = context.createMarshaller();
