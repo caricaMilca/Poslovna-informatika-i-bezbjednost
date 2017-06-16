@@ -324,5 +324,11 @@ app
 								$rootScope.nextFormRacun = $scope.selectedRacun;
 								$location.path('/AnalitikaIzvoda/analitike')
 							}
+							
+							$scope.kreirajIzvestaj = function(){
+								racunService.kreirajIzvestaj().then(function(response){
+									
+								});
+							}
 
 						} ]);

@@ -34,5 +34,9 @@ app.factory('RacunService', function racunService($http) {
 		return $http.put("/racun/zatvoriRacun/", racun);
 	}
 	
+	racunService.kreirajIzvestaj = function(){
+		return $http.get("/banka/izvestaj");
+	}
+	
 	return racunService;
 });
