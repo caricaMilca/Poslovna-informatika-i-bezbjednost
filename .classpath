@@ -28,5 +28,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ja/Desktop/Poslovna-informatika-i-bezbjednost/js.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ja/Desktop/Poslovna-informatika-i-bezbjednost/js-14.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

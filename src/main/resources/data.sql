@@ -71,6 +71,9 @@ insert into Racun(broj_racuna, datum_otvaranja, vazeci, klijent_id, banka_id, va
 
 
 insert into Dnevno_stanje_racuna(prethodno_stanje, promet_na_teret, promet_na_korist, novo_stanje, datum_prometa, racun_id) values (0, 0, 0, 0, '11-11-11', 1);
+insert into Dnevno_stanje_racuna(prethodno_stanje, promet_na_teret, promet_na_korist, novo_stanje, datum_prometa, racun_id) values (0, 0, 300, 300, '11-11-12', 1);
+insert into Dnevno_stanje_racuna(prethodno_stanje, promet_na_teret, promet_na_korist, novo_stanje, datum_prometa, racun_id) values (0, 0, 0, 400, '11-11-13', 3);
+insert into Dnevno_stanje_racuna(prethodno_stanje, promet_na_teret, promet_na_korist, novo_stanje, datum_prometa, racun_id) values (0, 0, 0, 1100, '11-11-11', 2);
 
 insert into Analitika_izvoda(duznik, povjerilac, svrha_placanja, datum_primanja, datum_valute, racun_duznika, racun_povjerioca, model_zaduzenja, poziv_na_broj_zaduzenja,poziv_na_broj_odobrenja, model_odobrenja, hitno, iznos, tip_transakcije, dnevno_stanje_racuna_id, vrsta_placanja_id, valuta_id) values ('aa', 'aa', 'aa', '11-11-11', '11-11-11', '123-123123123123-123','123-333444555334-312',1,'aa','aa',2,false, 2, 'UPLATA', 1, 1, 1); 
 

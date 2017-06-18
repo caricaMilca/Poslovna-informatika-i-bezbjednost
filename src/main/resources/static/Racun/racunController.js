@@ -327,7 +327,12 @@ app
 							
 							$scope.kreirajIzvestaj = function(){
 								racunService.kreirajIzvestaj().then(function(response){
-									
+									ngNotify
+									.set(
+											'Kreiran je i preuzet izvestaj u PDF formatu.',
+											{
+												type : 'success'
+											});
 								});
 							}
 
