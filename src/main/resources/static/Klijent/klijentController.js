@@ -12,6 +12,8 @@ app
 						function($rootScope, $scope, $location, ngNotify,
 								klijentService) {
 
+							 $scope.izvestaj.datumKraja = null;
+						        $scope.izvestaj.datumPocetka = null;
 							$rootScope.kojiKursevi = '';
 							$rootScope.kojaNM = ''
 							$scope.mode = 'Pregled';
@@ -280,7 +282,6 @@ app
 								 });
 							}
 							
-							
 							$scope.kreirajIzvestaj = function(){
 								klijentService.kreirajIzvestaj($scope.izvestaj.datumPocetka,$scope.izvestaj.datumKraja,$scope.selectedKlijent.id).then(function(response){
 									ngNotify
@@ -291,5 +292,20 @@ app
 											});
 								});
 							}
+							
+							$scope.smsAll = function() {
+							     $('#kreirajIzvestaj').modal('hide')
+							     $scope.kreirajIzvestaj();
+							   }
+							
+							$("[data-modal-action=close]").click(function () {
+						        $("#kreirajIzvestaj").modal("hide");
+						        $scope.kreirajIzvestaj();
+						        $scope.izvestaj.datumKraja = null;
+						        $scope.izvestaj.datumPocetka = null;
+						    });
+							
+							
+							
 
 						} ]);

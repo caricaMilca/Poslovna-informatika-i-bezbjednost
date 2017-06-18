@@ -1,4 +1,4 @@
-<div ng-controller="klijentController">
+<div>
 	<h1 id="header" class="page-header">Svi klijenti banke
 		{{korisnik.banka.naziv}}</h1>
 	<p>
@@ -60,12 +60,18 @@
 							<img class="dugmici" src="images/nextform.gif" />
 						</button>
 						<button type="button" class="btn btn-default"
-							ng-click="exportAnalitikeKlijenta()" ng-disabled="!selectedKlijent">
+							ng-click="exportAnalitikeKlijenta()"
+							ng-disabled="!selectedKlijent">
 							<img class="dugmici" src="images/import.png" />
+						</button>
+						<button type="button" class="btn btn-default" data-toggle="modal"
+							data-target="#kreirajIzvestaj" ng-disabled="!selectedKlijent">
+							<img class="dugmici" src="images/pdfpng.png" />
 						</button>
 						</p>
 					</div>
-					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Trenutni mod : {{mode}}
+					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+					Trenutni mod : {{mode}}
 				</tr>
 				<thead>
 					<tr>
@@ -104,7 +110,8 @@
 				<div class="col-sm-9">
 					<input type="text" id="ime" class="form-control"
 						placeholder="Unesi ime" name="ime" ng-Model="noviKlijent.ime"
-						ng-disabled="mode == 'Pregled'" pattern="^[A-Z][a-z A-Z]*" autofocus>
+						ng-disabled="mode == 'Pregled'" pattern="^[A-Z][a-z A-Z]*"
+						autofocus>
 				</div>
 			</div>
 			<div role="alert" style="color: red">
@@ -130,8 +137,8 @@
 				<div class="col-sm-9">
 					<input type="text" id="korisnickoIme" class="form-control"
 						placeholder="Unesi korisnicko ime" name="korisnickoIme"
-						ng-Model="noviKlijent.korisnickoIme" ng-required="mode=='Dodavanje'"
-						ng-disabled="mode == 'Pregled'">
+						ng-Model="noviKlijent.korisnickoIme"
+						ng-required="mode=='Dodavanje'" ng-disabled="mode == 'Pregled'">
 				</div>
 			</div>
 			<div role="alert" style="color: red">
@@ -211,22 +218,23 @@
 		</form>
 		<!-- /form -->
 	</div>
-	
-	
+
+	<!--  
 	<div>
 		<form>
 			<div class="col-sm-9">
-					<input type="date" id="datumPrometa"
-						ng-Model="izvestaj.datumPocetka" class="form-control" autofocus>
-			</div>	
-			<div class="col-sm-9">
-					<input type="date" id="datumPrometa"
-						ng-Model="izvestaj.datumKraja" class="form-control" autofocus>
+				<input type="date" id="datumPrometa"
+					ng-Model="izvestaj.datumPocetka" class="form-control" autofocus>
 			</div>
-			<button type="submit" ng-disabled ="!selectedKlijent" ng-Click="kreirajIzvestaj()">Kreiraj izvestaj</button>
+			<div class="col-sm-9">
+				<input type="date" id="datumPrometa" ng-Model="izvestaj.datumKraja"
+					class="form-control" autofocus>
+			</div>
+			<button type="submit" ng-disabled="!selectedKlijent"
+				ng-Click="kreirajIzvestaj()">Kreiraj izvestaj</button>
 		</form>
-	</div>	
-	
+	</div>
+ -->
 	<!-- ./container -->
 	<div id="izaberiDjelatnost" class="modal fade" role="dialog"
 		style="color: black;">
@@ -257,5 +265,43 @@
 				</div>
 			</div>
 
+		</div>
+	</div>
+
+	<div id="kreirajIzvestaj" class="modal fade" role="dialog"
+		style="color: black;">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Kreiraj izvestaj</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="datumPrometa">Datum
+							pocetka</label>
+						<div class="col-sm-10">
+							<input type="date" class="form-control" id="datumPrometa"
+								ng-Model="izvestaj.datumPocetka" />
+						</div>
+					</div>
+					<br /> <br /> <br />
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="datumPrometa">Datum
+							kraja</label>
+						<div class="col-sm-10">
+							<input type="date" class="form-control" id="datumPrometa"
+								ng-Model="izvestaj.datumKraja" />
+						</div>
+					</div>
+					<br /> <br /> <br />
+					<div class="modal-footer" ng-controller="klijentController">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Odustani</button>
+						<button type="submit" data-modal-action="close"
+							class="btn btn-primary">Kreiraj izvestaj</button>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>

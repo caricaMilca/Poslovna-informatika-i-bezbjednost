@@ -55,15 +55,17 @@
 					</div>
 					<div class="btn-group">
 						<button type="button" ng-disabled="!selectedRacun"
-							class="btn btn-default" data-toggle="modal" data-target="#izaberiNextFormu">
+							class="btn btn-default" data-toggle="modal"
+							data-target="#izaberiNextFormu">
 							<img class="dugmici" src="images/nextform.gif" />
 						</button>
-						</p>
+						<button type="button" class="btn btn-default"
+							ng-click="kreirajIzvestaj()">
+							<img class="dugmici" src="images/pdfpng.png" />
+						</button>
 					</div>
 					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
 					Trenutni mod : {{mode}}
-					&emsp;&emsp;&emsp;
-					<button type="submit" ng-Click="kreirajIzvestaj()">Kreiraj izvestaj</button>
 				</tr>
 				<thead>
 					<tr>
@@ -354,6 +356,6 @@
 					</table>
 				</div>
 			</div>
-
 		</div>
 	</div>
+</div>
