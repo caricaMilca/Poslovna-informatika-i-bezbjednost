@@ -211,6 +211,22 @@
 		</form>
 		<!-- /form -->
 	</div>
+	
+	
+	<div>
+		<form>
+			<div class="col-sm-9">
+					<input type="date" id="datumPrometa"
+						ng-Model="izvestaj.datumPocetka" class="form-control" autofocus>
+			</div>	
+			<div class="col-sm-9">
+					<input type="date" id="datumPrometa"
+						ng-Model="izvestaj.datumKraja" class="form-control" autofocus>
+			</div>
+			<button type="submit" ng-disabled ="!selectedKlijent" ng-Click="kreirajIzvestaj()">Kreiraj izvestaj</button>
+		</form>
+	</div>	
+	
 	<!-- ./container -->
 	<div id="izaberiDjelatnost" class="modal fade" role="dialog"
 		style="color: black;">

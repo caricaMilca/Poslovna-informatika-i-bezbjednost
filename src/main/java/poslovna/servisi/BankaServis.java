@@ -1,6 +1,7 @@
 package poslovna.servisi;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,4 +15,6 @@ public interface BankaServis {
 	ResponseEntity<Banka> preuzmiBanku();
 	
 	 void exportToPDF(HttpServletResponse response) throws JRException, IOException;
+	 
+	 void exportToPDF2(HttpServletResponse response,Date datum,Date datum2, Long id) throws JRException, IOException;
 }

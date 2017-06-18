@@ -279,5 +279,17 @@ app
 										}
 								 });
 							}
+							
+							
+							$scope.kreirajIzvestaj = function(){
+								klijentService.kreirajIzvestaj($scope.izvestaj.datumPocetka,$scope.izvestaj.datumKraja,$scope.selectedKlijent.id).then(function(response){
+									ngNotify
+									.set(
+											'Kreiran je i preuzet izvestaj u PDF formatu.',
+											{
+												type : 'success'
+											});
+								});
+							}
 
 						} ]);

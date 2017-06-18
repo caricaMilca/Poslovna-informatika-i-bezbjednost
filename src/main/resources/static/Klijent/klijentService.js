@@ -35,5 +35,9 @@ app.factory('KlijentService', function klijentService($http) {
 		return $http.put("/klijent/izmjeniKlijenta/" + id, klijent);
 	}
 	
+	klijentService.kreirajIzvestaj = function(datumPocetka,datumKraja,id){
+		return $http.get("/banka/kreirajIzvestajZaKlijenta/"+datumPocetka+"/"+datumKraja+"/"+id);
+	}
+	
 	return klijentService;
 });
