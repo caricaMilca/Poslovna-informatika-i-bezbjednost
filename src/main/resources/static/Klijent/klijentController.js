@@ -12,8 +12,6 @@ app
 						function($rootScope, $scope, $location, ngNotify,
 								klijentService) {
 
-							 $scope.izvestaj.datumKraja = null;
-						        $scope.izvestaj.datumPocetka = null;
 							$rootScope.kojiKursevi = '';
 							$rootScope.kojaNM = ''
 							$scope.mode = 'Pregled';

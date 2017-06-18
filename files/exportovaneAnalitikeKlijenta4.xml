@@ -4,10 +4,9 @@
         <duznik>aa</duznik>
         <povjerilac>aa</povjerilac>
         <svrhaPlacanja>aa</svrhaPlacanja>
-        <datumPrimanja>2011-11-11T00:00:00+01:00</datumPrimanja>
+        <datumPrimanja>2017-06-18T00:00:00+02:00</datumPrimanja>
         <datumValute>2011-11-11T00:00:00+01:00</datumValute>
         <racunDuznika>123-123123123123-123</racunDuznika>
-        <racunPovjerioca>123-333444555334-312</racunPovjerioca>
         <modelZaduzenja>1</modelZaduzenja>
         <pozivNaBrojZaduzenja>aa</pozivNaBrojZaduzenja>
         <pozivNaBrojOdobrenja>aa</pozivNaBrojOdobrenja>
@@ -26,13 +25,43 @@
         </valuta>
     </analitikaIzvoda>
     <analitikaIzvoda>
-        <datumPrimanja>2017-06-16T00:00:00+02:00</datumPrimanja>
-        <datumValute>2017-06-16T00:00:00+02:00</datumValute>
+        <duznik>aa</duznik>
+        <povjerilac>aa</povjerilac>
+        <svrhaPlacanja>aa</svrhaPlacanja>
+        <datumPrimanja>2017-06-21T00:00:00+02:00</datumPrimanja>
+        <datumValute>2011-11-11T00:00:00+01:00</datumValute>
         <racunPovjerioca>123-123123123123-123</racunPovjerioca>
+        <modelZaduzenja>1</modelZaduzenja>
+        <pozivNaBrojZaduzenja>aa</pozivNaBrojZaduzenja>
+        <pozivNaBrojOdobrenja>aa</pozivNaBrojOdobrenja>
+        <modelOdobrenja>2</modelOdobrenja>
         <hitno>false</hitno>
-        <iznos>100.0</iznos>
-        <tipTransakcije>UPLATA</tipTransakcije>
-        <smijer>NA_KORIST</smijer>
+        <iznos>2.0</iznos>
+        <tipTransakcije>ISPLATA</tipTransakcije>
+        <vrstaPlacanja>
+            <id>1</id>
+            <naziv>karticom</naziv>
+        </vrstaPlacanja>
+        <valuta>
+            <zvanicnaSifra>eur</zvanicnaSifra>
+            <naziv>Euro</naziv>
+            <domicilna>true</domicilna>
+        </valuta>
+    </analitikaIzvoda>
+    <analitikaIzvoda>
+        <duznik>aa</duznik>
+        <povjerilac>aa</povjerilac>
+        <svrhaPlacanja>aa</svrhaPlacanja>
+        <datumPrimanja>2017-06-15T00:00:00+02:00</datumPrimanja>
+        <datumValute>2011-11-11T00:00:00+01:00</datumValute>
+        <racunPovjerioca>123-123123434332-123</racunPovjerioca>
+        <modelZaduzenja>1</modelZaduzenja>
+        <pozivNaBrojZaduzenja>aa</pozivNaBrojZaduzenja>
+        <pozivNaBrojOdobrenja>aa</pozivNaBrojOdobrenja>
+        <modelOdobrenja>2</modelOdobrenja>
+        <hitno>false</hitno>
+        <iznos>2.0</iznos>
+        <tipTransakcije>ISPLATA</tipTransakcije>
         <vrstaPlacanja>
             <id>1</id>
             <naziv>karticom</naziv>

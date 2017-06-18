@@ -64,7 +64,7 @@ public class BankaServisImpl implements BankaServis {
 		parametersMap.put("idbanke",k.banka.id);
 		JasperPrint jp;
 		try {
-			jp = JasperFillManager.fillReport(getClass().getResource("/jasper/Izvestaj.jasper").openStream(),parametersMap,dataSource.getConnection());			
+			jp = JasperFillManager.fillReport(getClass().getResource("/jasper/spisakRacuna.jasper").openStream(),parametersMap,dataSource.getConnection());			
 			//eksport
 			File file = new File(outputFile);
 			OutputStream outputStream = new FileOutputStream(file);
