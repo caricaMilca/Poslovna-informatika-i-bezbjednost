@@ -45,6 +45,7 @@ app
 							$rootScope.nextFormPrenos = null;
 							$rootScope.kojeAnalitike = 'sve';
 							
+							
 							sessionService
 									.preuzmiKlijenta()
 									.then(
@@ -65,6 +66,8 @@ app
 												$location.path('/Admin/registracijaSalteruse');
 										}
 									});
+							
+							
 							
 							if($rootScope.korisnik == undefined)
 								$location.path('/index');
@@ -139,9 +142,6 @@ app
 																						type : 'success'
 																					});
 																					$rootScope.korisnik = response.data;
-																					if(response.data.ulogaZ == 'Administrator')
-																						$location.path('/Admin/registracijaSalteruse');
-																					
 																				}
 																			});
 

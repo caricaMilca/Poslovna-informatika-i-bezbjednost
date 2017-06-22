@@ -100,16 +100,18 @@ public class NaseljenoMjestoServisImpl implements NaseljenoMjestoServis {
 		if (idDrzave != -1)
 			naseljenoMesto.drzava = drzavaRepozitorijum.findOne(idDrzave);
 		Korisnik k = (Korisnik) sesija.getAttribute("korisnik");
-		logger.info("Korisnik " + k.korisnickoIme + " uspesno izmenio polja naseljenog mesta " + naseljenoMesto.naziv + ".");
+		logger.info("Korisnik " + k.korisnickoIme + " uspesno izmenio polja naseljenog mesta " + naseljenoMesto.naziv
+				+ ".");
 		return new ResponseEntity<NaseljenoMjesto>(naseljenoMjestoRepozitorijum.save(naseljenoMesto), HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<?> izbrisiNM(Long idNM) {
 		// TODO Auto-generated method stub
-		naseljenoMjestoRepozitorijum.delete(idNM);
 		Korisnik k = (Korisnik) sesija.getAttribute("korisnik");
-		logger.info("Korisnik " + k.korisnickoIme + " uspesno izbrisao naseljeno mesto " + naseljenoMjestoRepozitorijum.findOne(idNM).naziv + ".");
+		logger.info("Korisnik " + k.korisnickoIme + " uspesno izbrisao naseljeno mesto "
+				+ naseljenoMjestoRepozitorijum.findOne(idNM).naziv + ".");
+		naseljenoMjestoRepozitorijum.delete(idNM);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 

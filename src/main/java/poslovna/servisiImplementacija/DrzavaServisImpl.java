@@ -91,9 +91,9 @@ public class DrzavaServisImpl implements DrzavaServis {
 
 	@Override
 	public ResponseEntity<?> izbrisiDrzavu(Long idDrzavu) {
-		drzavaRepozitorijum.delete(idDrzavu);
 		Korisnik k = (Korisnik) sesija.getAttribute("korisnik");
 		logger.info("Korisnik " + k.korisnickoIme + " uspesno izbrisao drzavu " + drzavaRepozitorijum.findOne(idDrzavu).naziv + ".");
+		drzavaRepozitorijum.delete(idDrzavu);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 

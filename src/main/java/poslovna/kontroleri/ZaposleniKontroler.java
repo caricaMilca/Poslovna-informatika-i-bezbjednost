@@ -39,7 +39,6 @@ public class ZaposleniKontroler {
 	public ResponseEntity<Klijent> registracijaKlijenta(@Valid @RequestBody Klijent klijent,
 			@PathVariable("idDjelatnosti") Long idDjelatnosti) {
 		return klijentServis.registracijaKlijenta(klijent, idDjelatnosti);
-
 	}
 
 	@AutorizacijaAnnotation(imeMetode = "registracijaSalteruse")
@@ -53,7 +52,7 @@ public class ZaposleniKontroler {
 	@GetMapping(path = "/preuzmiZaposlenog")
 	public ResponseEntity<Zaposleni> preuzmiZaposlenog() {
 		Korisnik k = (Korisnik) sesija.getAttribute("korisnik");
-		if(k == null)
+		if (k == null)
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		return new ResponseEntity<Zaposleni>(zaposleniServis.preuzmiZaposlenog(k.id), HttpStatus.OK);
 	}

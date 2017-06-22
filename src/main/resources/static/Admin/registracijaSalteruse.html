@@ -1,48 +1,64 @@
-
-<h2 class="page-header">Registracija salteruse (crvena polja se
-	moraju popuniti)</h2>
-<form name="myForm" novalidate>
-	<div class="form-group">
-		<label>Ime:</label> <input type="text" name="ime"
-			ng-Model="$parent.novi.ime" class="form-control"
-			placeholder="Unesi ime" pattern="^[A-Z][a-z A-Z]*" />
-	</div>
-	<div role="alert" style="color: red">
-		<span class="error" ng-show="myForm.ime.$error.pattern">
-			Primjer sa svim dozvoljenim slovima : "Sasa_da nekaNsda" !</span>
-	</div>
-	<div class="form-group">
-		<label>Prezime:</label> <input type="text" name="prezime"
-			ng-Model="$parent.novi.prezime" class="form-control"
-			placeholder="Unesi prezime" pattern="^[A-Z][a-z A-Z]*" />
-	</div>
-	<div role="alert" style="color: red">
-		<span class="error" ng-show="myForm.prezime.$error.pattern">
-			Primjer sa svim dozvoljenim slovima : "Sasa_da nekaNsda" !</span>
-	</div>
-	<div class="form-group">
-		<label>Korisnicko ime:</label> <input type="text" name="korisnickoIme"
-			ng-Model="$parent.novi.korisnickoIme" class="form-control"
-			placeholder="Unesi korisnickoIme" required />
-	</div>
-	<div role="alert" style="color: red">
-		<span class="error" ng-show="myForm.korisnickoIme.$error.pattern">
-			Primjer sa svim dozvoljenim slovima : "Sasa_da nekaNsda" !</span>
-	</div>
-	<div class="form-group">
-		<label>Lozinka:</label> <input type="password" name="lozinka"
-			ng-Model="$parent.novi.lozinka" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" class="form-control"
-			placeholder="Unesi lozinku" required />
-	</div>
-	<div role="alert" style="color: red">
-		<span class="error" ng-show="myForm.lozinka.$error.pattern">
-			Lozinka mora da sadrzi bar 8 karaktera, medju kojima bar jedan broj, jedno malo i veliko slovo!</span>
-	</div>
-	<div class="form-group">
-		<div class="col-sm-9 col-sm-offset-3">
-			<button type="submit" class="btn btn-primary btn-block"
-				ng-disabled="myForm.$invalid" ng-click="$parent.regSalterusu()">Registeruj
-				salterusu</button>
+<div class="container" id="razmak">
+	<form class="form-horizontal" role="blabla" name="myForm" novalidate>
+		<div class="form-group">
+			<label for="naziv" class="col-sm-3 control-label">Ime</label>
+			<div class="col-sm-9">
+				<input type="text" id="ime" class="form-control"
+					placeholder="Unesi ime" name="ime" ng-Model="$parent.novi.ime"
+					pattern="^[A-Z][a-z A-Z]*" autofocus>
+			</div>
 		</div>
-	</div>
-</form>
+		<div role="alert" style="color: red">
+			<span class="error" ng-show="myForm.ime.$error.pattern">
+				Primjer sa svim dozvoljenim slovima : "Sasa_da nekaNsda" !</span>
+		</div>
+		<div class="form-group">
+			<label for="prezime" class="col-sm-3 control-label">Prezime</label>
+			<div class="col-sm-9">
+				<input type="text" id="prezime" class="form-control"
+					placeholder="Unesi prezime" name="prezime"
+					ng-Model="$parent.novi.prezime" pattern="^[A-Z][a-z A-Z]*">
+			</div>
+		</div>
+		<div role="alert" style="color: red">
+			<span class="error" ng-show="myForm.prezime.$error.pattern">
+				Primjer sa svim dozvoljenim slovima : "Sasa_da nekaNsda" !</span>
+		</div>
+
+		<div class="form-group">
+			<label for="korisnickoIme" class="col-sm-3 control-label">Korisnicko
+				ime</label>
+			<div class="col-sm-9">
+				<input type="text" id="korisnickoIme" class="form-control"
+					placeholder="Unesi korisnicko ime" name="korisnickoIme"
+					ng-Model="$parent.novi.korisnickoIme" pattern="^[A-Z][a-z A-Z]*">
+			</div>
+		</div>
+		<div role="alert" style="color: red">
+			<span class="error" ng-show="myForm.korisnickoIme.$error.pattern">
+				Primjer sa svim dozvoljenim slovima : "Sasa_da nekaNsda" !</span>
+		</div>
+
+		<div class="form-group">
+			<label for="lozinka" class="col-sm-3 control-label">Lozinka</label>
+			<div class="col-sm-9">
+				<input type="password" id="lozinka" class="form-control"
+					placeholder="Unesi lozinka" name="lozinka"
+					ng-Model="$parent.novi.lozinka"
+					pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+			</div>
+		</div>
+		<div role="alert" style="color: red">
+			<span class="error" ng-show="myForm.lozinka.$error.pattern">
+				Lozinka mora da sadrzi bar 8 karaktera, medju kojima bar jedan broj,
+				jedno malo i veliko slovo!</span>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-9 col-sm-offset-3">
+				<button type="submit" ng-Click="$parent.regSalterusu()"
+					ng-disabled="myForm.$invalid" class="btn btn-primary btn-block">Potvrdi</button>
+			</div>
+		</div>
+	</form>
+</div>

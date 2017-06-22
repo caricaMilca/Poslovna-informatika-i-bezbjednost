@@ -132,3 +132,7 @@ body {
 fieldset{
 	background-color: #fcf8e3;
 }
+
+#valuta{
+	pointer-events:none;
+}

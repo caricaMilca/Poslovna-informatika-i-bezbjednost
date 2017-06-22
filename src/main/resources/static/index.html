@@ -72,6 +72,7 @@
 						id="bs-example-navbar-collapse-1">
 						<div ng-show="korisnik">
 							<ul class="nav navbar-nav">
+								<li ng-show="korisnik.ulogaZ == 'Administrator'"><a href="/#!/Admin/registracijaSalteruse">Registracija sluzbenika</a></li>
 								<li class="dropdown"><a href="" class="dropdown-toggle"
 									data-toggle="dropdown" role="button" aria-expanded="false">Tabele
 										<span class="caret"></span>
@@ -100,6 +101,7 @@
 										<li><a href="/#!/AnalitikaIzvoda/isplata" ng-click="tipTransakcije = 'ISPLATA'">Isplata</a></li>
 										<li><a href="/#!/AnalitikaIzvoda/transfer" ng-click="tipTransakcije = 'TRANSFER'">Transfer</a></li>
 									</ul></li>
+									
 							</ul>
 							<div id="signin" class="navbar-form navbar-right" role="form">
 								<a href="#!/changePassword">Podesavanja</a>

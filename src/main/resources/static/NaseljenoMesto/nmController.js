@@ -15,7 +15,8 @@ app.controller('nmController', [
 				nmService.svaNMDrzave($rootScope.nextFormDrzava.id).then(
 						function(response) {
 							if (response.data) {
-								document.getElementById("drzava").selected = $scope.nmDrzave;
+								//document.getElementById("drzava").selected = $rootScope.nextFormDrzava.zvanicnaSifra;
+								$scope.drzavaNM = $rootScope.nextFormDrzava;
 								$scope.svaNM = response.data;
 								$scope.nmDrzave = $rootScope.nextFormDrzava;
 							}

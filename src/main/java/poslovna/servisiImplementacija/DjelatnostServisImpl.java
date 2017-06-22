@@ -68,9 +68,9 @@ public class DjelatnostServisImpl implements DjelatnostServis {
 
 	@Override
 	public ResponseEntity<?> izbrisiDjelatnost(Long idDjelatnosti) {
-		djelatnostRepozitorijum.delete(idDjelatnosti);
 		Korisnik k = (Korisnik) sesija.getAttribute("korisnik");
 		logger.info("Korisnik " + k.korisnickoIme + " uspesno izbrisao delatnost " + djelatnostRepozitorijum.findOne(idDjelatnosti).naziv + ".");
+		djelatnostRepozitorijum.delete(idDjelatnosti);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 

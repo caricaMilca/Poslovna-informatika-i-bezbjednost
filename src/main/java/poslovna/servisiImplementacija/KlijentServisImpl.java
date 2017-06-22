@@ -164,10 +164,10 @@ public class KlijentServisImpl implements KlijentServis {
 
 	@Override
 	public ResponseEntity<?> izbrisiKlijenta(Long idKlijenta) {
-		klijentRepozitorijum.delete(idKlijenta);
 		Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
 		logger.info("Zaposleni " + zaposleni.korisnickoIme + " uspesno izbrisao korisnika "
 				+ klijentRepozitorijum.getOne(idKlijenta).korisnickoIme + ".");
+		klijentRepozitorijum.delete(idKlijenta);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

@@ -23,6 +23,7 @@ app
 												function(response) {
 													if (response.data) {
 														$scope.sveDrzave = response.data;
+														$scope.valutaDrzave = $rootScope.nextFormValuta;
 													}
 												});
 							} else {
