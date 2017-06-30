@@ -221,7 +221,8 @@ public class RacunServisImpl implements RacunServis {
 			DnevnoStanjeRacuna dsrDuznika = stanja.get(stanja.size() - 1);
 			ai.iznos = dsrDuznika.novoStanje;
 			}
-		analitikaIzvodaServisImpl.transferSredstava(ai, r.valuta.zvanicnaSifra, (long) 1);
+		if(!analitikaIzvodaServisImpl.transferSredstava(ai, r.valuta.zvanicnaSifra, (long) 1).getStatusCode().equals(HttpStatus.CREATED))
+			return new ResponseEntity<> (HttpStatus.BAD_REQUEST);
 		r.vazeci = false;
 		logger.info("Zaposleni " + z.korisnickoIme + " uspesno zatvorio racun korisnika " + r.klijent.korisnickoIme + " u banci " + racun.banka.naziv +  "." );
 		return new ResponseEntity<Racun>(racunRepozitorijum.save(r), HttpStatus.OK);

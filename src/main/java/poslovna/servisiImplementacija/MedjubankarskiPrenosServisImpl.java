@@ -35,7 +35,7 @@ public class MedjubankarskiPrenosServisImpl implements MedjubankarskiPrenosServi
 	public ResponseEntity<List<MedjubankarskiPrenos>> sviMedjubankarskiPrenosi() {
 	Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
 	Banka b = z.banka;
-	return new ResponseEntity<List<MedjubankarskiPrenos>>(medjubankarskiPrenosRepozitorijum.findByBankaPosiljalac(b),HttpStatus.OK);
+	return new ResponseEntity<List<MedjubankarskiPrenos>>(medjubankarskiPrenosRepozitorijum.findByBankaPosiljalacOrBankaPrimalac(b, b),HttpStatus.OK);
 	}
 
 }

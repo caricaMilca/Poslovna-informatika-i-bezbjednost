@@ -2,19 +2,6 @@
 <medjubankarskiPrenos>
     <id>1</id>
     <bankaPosiljalac>
-        <id>1</id>
-        <sifra>21</sifra>
-        <pib>213</pib>
-        <banka3kod>123</banka3kod>
-        <adresa>bankaAdresa</adresa>
-        <naziv>BankaA</naziv>
-        <email>banka@gmail.com</email>
-        <web>banka.com</web>
-        <telefon>0650650650</telefon>
-        <fax>banka.fax</fax>
-        <obracunskiRacun>1321321</obracunskiRacun>
-    </bankaPosiljalac>
-    <bankaPrimalac>
         <id>2</id>
         <sifra>21</sifra>
         <pib>215</pib>
@@ -26,33 +13,32 @@
         <telefon>0650650650</telefon>
         <fax>banka.fax</fax>
         <obracunskiRacun>1321381</obracunskiRacun>
+    </bankaPosiljalac>
+    <bankaPrimalac>
+        <id>1</id>
+        <sifra>21</sifra>
+        <pib>213</pib>
+        <banka3kod>123</banka3kod>
+        <adresa>bankaAdresa</adresa>
+        <naziv>BankaA</naziv>
+        <email>banka@gmail.com</email>
+        <web>banka.com</web>
+        <telefon>0650650650</telefon>
+        <fax>banka.fax</fax>
+        <obracunskiRacun>1321321</obracunskiRacun>
     </bankaPrimalac>
     <sviIzvodi>
         <izvodi>
-            <datumPrimanja>2017-06-17T00:00:00+02:00</datumPrimanja>
-            <racunPovjerioca>126-123123132123-123</racunPovjerioca>
+            <duznik>Neko</duznik>
+            <povjerilac>Nekic</povjerilac>
+            <svrhaPlacanja>Opklada</svrhaPlacanja>
+            <datumPrimanja>2017-05-27T00:00:00+02:00</datumPrimanja>
+            <racunDuznika>126-1231231231231-23</racunDuznika>
+            <racunPovjerioca>123-1231231231231-23</racunPovjerioca>
             <hitno>false</hitno>
-            <iznos>300.0</iznos>
-            <tipTransakcije>UPLATA</tipTransakcije>
-            <smijer>NA_KORIST</smijer>
-            <tipPoruke>MT102</tipPoruke>
-            <vrstaPlacanja>
-                <id>1</id>
-                <naziv>karticom</naziv>
-            </vrstaPlacanja>
-            <valuta>
-                <zvanicnaSifra>rsd</zvanicnaSifra>
-                <naziv>Dinar</naziv>
-                <domicilna>true</domicilna>
-            </valuta>
-        </izvodi>
-        <izvodi>
-            <datumPrimanja>2017-06-17T00:00:00+02:00</datumPrimanja>
-            <racunPovjerioca>126-123123123123-123</racunPovjerioca>
-            <hitno>false</hitno>
-            <iznos>400.0</iznos>
-            <tipTransakcije>UPLATA</tipTransakcije>
-            <smijer>NA_KORIST</smijer>
+            <iznos>0.2</iznos>
+            <tipTransakcije>TRANSFER</tipTransakcije>
+            <smijer>NA_TERET</smijer>
             <tipPoruke>MT102</tipPoruke>
             <vrstaPlacanja>
                 <id>1</id>
@@ -65,6 +51,6 @@
             </valuta>
         </izvodi>
     </sviIzvodi>
-    <datum>2017-06-17T00:00:00+02:00</datum>
-    <iznos>700.0</iznos>
+    <datum>2017-05-27T00:00:00+02:00</datum>
+    <iznos>0.2</iznos>
 </medjubankarskiPrenos>

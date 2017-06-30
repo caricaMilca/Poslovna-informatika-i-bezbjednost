@@ -13,4 +13,6 @@ public interface MedjubankarskiPrenosRepozitorijum extends JpaRepository<Medjuba
 
 	List<MedjubankarskiPrenos> findByBankaPosiljalac(Banka b);
 
+	List<MedjubankarskiPrenos> findByBankaPosiljalacOrBankaPrimalac(Banka b, Banka b2);
+
 }

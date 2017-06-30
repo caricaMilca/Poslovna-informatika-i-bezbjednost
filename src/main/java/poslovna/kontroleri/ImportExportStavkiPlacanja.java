@@ -33,51 +33,57 @@ public class ImportExportStavkiPlacanja {
 
 	@Autowired
 	HttpSession sesija;
-	
+
 	@Autowired
 	AnalitikaIzvodaServis analitikaIzvodaServis;
-	
+
 	@Autowired
 	MedjubankarskiPrenosServis medjubankarskiPrenosServis;
-	
+
 	@Autowired
 	KlijentServis klijentServis;
-	
+
 	@AutorizacijaAnnotation(imeMetode = "ucitajFajl")
 	@GetMapping(path = "/ucitajFajl/{fajlIme:.+}")
 	public ResponseEntity<?> ucitajFajl(@PathVariable("fajlIme") String fajlIme) throws JAXBException {
 		JAXBContext context = JAXBContext.newInstance("poslovna.model");
 		Unmarshaller unmarshaller = context.createUnmarshaller();
-		StavkePlacanja stavke = (StavkePlacanja) unmarshaller.unmarshal(new File("./files/"+ fajlIme));
+		StavkePlacanja stavke = (StavkePlacanja) unmarshaller.unmarshal(new File("./files/" + fajlIme));
 		List<AnalitikaIzvoda> ai = stavke.analitikaIzvoda;
-		for(int i = 0; i < ai.size(); i++) {
-			if(ai.get(i).tipTransakcije == TipTransakcije.TRANSFER) 
-				analitikaIzvodaServis.transferSredstava(ai.get(i), ai.get(i).valuta.zvanicnaSifra, (long) 1);
-			else if(ai.get(i).tipTransakcije == TipTransakcije.UPLATA) 
-				analitikaIzvodaServis.uplataNaRacun(ai.get(i), ai.get(i).valuta.zvanicnaSifra, (long) 1);
-			else 
-				analitikaIzvodaServis.isplataSaRacuna(ai.get(i), ai.get(i).valuta.zvanicnaSifra, (long) 1);
+		for (int i = 0; i < ai.size(); i++) {
+			if (ai.get(i).tipTransakcije == TipTransakcije.TRANSFER) {
+				if (!analitikaIzvodaServis.transferSredstava(ai.get(i), ai.get(i).valuta.zvanicnaSifra, (long) 1)
+						.getStatusCode().equals(HttpStatus.CREATED))
+					return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}else if (ai.get(i).tipTransakcije == TipTransakcije.UPLATA) {
+					if (!analitikaIzvodaServis.uplataNaRacun(ai.get(i), ai.get(i).valuta.zvanicnaSifra, (long) 1)
+							.getStatusCode().equals(HttpStatus.CREATED))
+						return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				} else {
+					if (!analitikaIzvodaServis.isplataSaRacuna(ai.get(i), ai.get(i).valuta.zvanicnaSifra, (long) 1)
+							.getStatusCode().equals(HttpStatus.CREATED))
+						return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				}
 		}
 		return new ResponseEntity<>(HttpStatus.OK);
-	
+
 	}
-	
-	
+
 	@AutorizacijaAnnotation(imeMetode = "exportMedjubankarskogPrenosa")
 	@GetMapping(path = "/exportMedjubankarskogPrenosa/{idMP}")
 	public ResponseEntity<?> exportMedjubankarskogPrenosa(@PathVariable("idMP") Long id) throws JAXBException {
 		MedjubankarskiPrenos mp = medjubankarskiPrenosServis.preuzmiMedjubankarskiPrenos(id);
-		if(mp == null)
+		if (mp == null)
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		File fajl = new File("./files/exportovaniMedjubankarskiPrenos"+mp.id.toString()+".xml");
+		File fajl = new File("./files/exportovaniMedjubankarskiPrenos" + mp.id.toString() + ".xml");
 		JAXBContext context = JAXBContext.newInstance(MedjubankarskiPrenos.class);
 		Marshaller marshaller = context.createMarshaller();
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		marshaller.marshal(mp, fajl);
 		return new ResponseEntity<>(HttpStatus.OK);
-	
+
 	}
-	
+
 	@AutorizacijaAnnotation(imeMetode = "exportAnalitikaKlijenta")
 	@GetMapping(path = "/exportAnalitikaKlijenta/{id}")
 	public ResponseEntity<?> exportAnalitikaKlijenta(@PathVariable("id") Long id) throws JAXBException {
@@ -85,15 +91,15 @@ public class ImportExportStavkiPlacanja {
 		List<AnalitikaIzvoda> ai = analitikaIzvodaServis.preuzmiAnalitikeKlijenta(id);
 		sp.analitikaIzvoda = ai;
 		Klijent k = klijentServis.preuzmiKlijenta(id);
-		if(k == null)
+		if (k == null)
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		File fajl = new File("./files/exportovaneAnalitikeKlijenta"+k.id.toString()+".xml");
+		File fajl = new File("./files/exportovaneAnalitikeKlijenta" + k.id.toString() + ".xml");
 		JAXBContext context = JAXBContext.newInstance(StavkePlacanja.class);
 		Marshaller marshaller = context.createMarshaller();
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		marshaller.marshal(sp, fajl);
 		return new ResponseEntity<>(HttpStatus.OK);
-	
+
 	}
-	
+
 }

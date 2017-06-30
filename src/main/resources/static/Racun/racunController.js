@@ -177,7 +177,13 @@ app
 														$scope.selectedRacun = null;
 													}
 
-												});
+												}).catch(function(response) {
+													ngNotify.set('Pokusavate da prebacite novac na zatvoreni racun, ili na ovaj isti.' , {
+														type : 'error',
+													    sticky: true
+													});
+													console.error('Gists error', response.status, response.data)
+												  });
 							}
 
 							$scope.setSelectedKlijent = function(selected) {

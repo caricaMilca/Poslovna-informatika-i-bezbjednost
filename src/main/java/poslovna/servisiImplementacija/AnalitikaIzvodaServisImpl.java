@@ -225,7 +225,7 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 		analitikaIzvoda.vrstaPlacanja = vrstaPlacanjaRepozitorijum.findOne(idTipaPlacanja);
 		izvodPovjerioca.vrstaPlacanja = analitikaIzvoda.vrstaPlacanja;
 		if (analitikaIzvoda.racunPovjerioca == null || analitikaIzvoda.racunDuznika == null
-				|| valutaRepozitorijum.findByZvanicnaSifra(sifraValute) == null)
+				|| valutaRepozitorijum.findByZvanicnaSifra(sifraValute) == null || analitikaIzvoda.racunDuznika.equals(analitikaIzvoda.racunPovjerioca))
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		analitikaIzvoda.valuta = valutaRepozitorijum.findByZvanicnaSifra(sifraValute);
 		izvodPovjerioca.valuta = valutaRepozitorijum.findByZvanicnaSifra(sifraValute);
