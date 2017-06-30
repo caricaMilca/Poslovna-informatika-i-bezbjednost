@@ -84,7 +84,8 @@ public class RacunServisImpl implements RacunServis {
 		BigInteger checksum = new BigInteger("98")
 				.subtract(bigInt.multiply(new BigInteger("100")).remainder(new BigInteger("97")));
 	
-		racun.brojRacuna = b.banka3kod + "-" + racunGlavniDio + "-" + checksum ;
+		String brojR = b.banka3kod + racunGlavniDio + checksum;
+		racun.brojRacuna = brojR.substring(0, 3) + "-" + brojR.substring(3, 16) + "-" + brojR.substring(15);
 		DnevnoStanjeRacuna dsr = new DnevnoStanjeRacuna(0.0, 0.0, 0.0, 0.0, new Date());
 		dsr.racun = racun;
 		racun.dnevnaStanja.add(dsr);
@@ -198,7 +199,7 @@ public class RacunServisImpl implements RacunServis {
 		Zaposleni z = (Zaposleni) sesija.getAttribute("korisnik");
 		Racun r = racunRepozitorijum.findOne(racun.id);
 		r.datumZatvaranja = new Date();
-		r.racunPrenosa = racun.racunPrenosa.substring(0, 3) + "-" + racun.racunPrenosa.substring(3, 15) + "-" + racun.racunPrenosa.substring(15);
+		r.racunPrenosa = racun.racunPrenosa.substring(0, 3) + "-" + racun.racunPrenosa.substring(3, 16) + "-" + racun.racunPrenosa.substring(16);
 		AnalitikaIzvoda ai = new AnalitikaIzvoda();
 		ai.datumPrimanja = r.datumZatvaranja;
 		ai.datumValute = r.datumZatvaranja;

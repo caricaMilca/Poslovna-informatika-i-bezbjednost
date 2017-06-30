@@ -237,9 +237,10 @@ public class AnalitikaIzvodaServisImpl implements AnalitikaIzvodaServis {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
 		if (duznik != null && povjerilac != null) { // nije medjubankarski
-			if (!duznik.vazeci || !povjerilac.vazeci)
+			if (!duznik.vazeci)
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
+			if( !povjerilac.vazeci)
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			if (analitikaIzvoda.datumValute == null)
 				analitikaIzvoda.datumValute = new Date();
 			analitikaIzvoda.iznos = konvertujNovac(analitikaIzvoda.valuta, duznik.valuta, analitikaIzvoda.datumValute,

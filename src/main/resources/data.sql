@@ -63,12 +63,12 @@ insert into Klijent(id, ulogaK, djelatnost_id) values (7, 'POSLOVNO', 2);
 insert into Klijent(id, ulogaK) values (8, 'FIZICKO');
 
 
-insert into Racun(broj_racuna, datum_otvaranja, vazeci, klijent_id, banka_id, valuta_id) values ('123-123123123123-123', '16-4-22', true, 4, 1, 1);
-insert into Racun(broj_racuna, datum_otvaranja, vazeci, klijent_id, banka_id, valuta_id) values ('123-123123434332-123', '17-3-17', true, 4, 1, 1);
-insert into Racun(broj_racuna, datum_otvaranja, vazeci, klijent_id, banka_id, valuta_id) values ('123-333444555334-312', '15-4-11', true, 5, 1, 2);
-insert into Racun(broj_racuna, datum_otvaranja, vazeci, klijent_id, banka_id, valuta_id) values ('123-545444555334-312', '16-8-3', true, 6, 1, 2);
-insert into Racun(broj_racuna, datum_otvaranja, vazeci, klijent_id, banka_id, valuta_id) values ('126-333444555334-312', '16-1-11', true, 7, 3, 2);
-insert into Racun(broj_racuna, datum_otvaranja, vazeci, klijent_id, banka_id, valuta_id) values ('120-333444555334-312', '17-2-11', true, 8, 2, 2);
+insert into Racun(broj_racuna, datum_otvaranja, vazeci, klijent_id, banka_id, valuta_id) values ('123-1231231231231-23', '16-4-22', true, 4, 1, 1);
+insert into Racun(broj_racuna, datum_otvaranja, vazeci, klijent_id, banka_id, valuta_id) values ('123-1231234343321-23', '17-3-17', true, 4, 1, 1);
+insert into Racun(broj_racuna, datum_otvaranja, vazeci, klijent_id, banka_id, valuta_id) values ('123-3334445553343-12', '15-4-11', true, 5, 1, 2);
+insert into Racun(broj_racuna, datum_otvaranja, vazeci, klijent_id, banka_id, valuta_id) values ('123-5454445553343-12', '16-8-3', true, 6, 1, 2);
+insert into Racun(broj_racuna, datum_otvaranja, vazeci, klijent_id, banka_id, valuta_id) values ('126-3334445553343-12', '16-1-11', true, 7, 3, 2);
+insert into Racun(broj_racuna, datum_otvaranja, vazeci, klijent_id, banka_id, valuta_id) values ('120-3334445553343-12', '17-2-11', true, 8, 2, 2);
 
 
 insert into Dnevno_stanje_racuna(prethodno_stanje, promet_na_teret, promet_na_korist, novo_stanje, datum_prometa, racun_id) values (0, 0, 0, 0, '11-11-11', 1);

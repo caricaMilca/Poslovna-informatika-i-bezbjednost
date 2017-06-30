@@ -79,8 +79,8 @@ public class KlijentServisImpl implements KlijentServis {
 
 	@Override
 	public ResponseEntity<List<Klijent>> sviKlijenti() {
-		Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
-		return new ResponseEntity<List<Klijent>>(klijentRepozitorijum.findByBanka(zaposleni.banka), HttpStatus.OK);
+		//Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
+		return new ResponseEntity<List<Klijent>>(klijentRepozitorijum.findAll(), HttpStatus.OK);
 	}
 
 	@Override
@@ -98,8 +98,8 @@ public class KlijentServisImpl implements KlijentServis {
 
 	@Override
 	public ResponseEntity<List<Klijent>> pretraziKlijente(Klijent klijent, Long idDjelatnosti) {
-		Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
-		List<Klijent> k = klijentRepozitorijum.findByBanka(zaposleni.banka);
+	//	Zaposleni zaposleni = (Zaposleni) sesija.getAttribute("korisnik");
+		List<Klijent> k = klijentRepozitorijum.findAll();
 		List<Klijent> lista = new ArrayList<Klijent>();
 		List<Klijent> ime = new ArrayList<Klijent>();
 		List<Klijent> prezime = new ArrayList<Klijent>();
